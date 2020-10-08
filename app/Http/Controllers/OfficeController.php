@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Office;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class OfficeController extends Controller
 {
@@ -12,9 +13,24 @@ class OfficeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return Inertia::render('Offices/Index', [
+            'filters' => $request->all('search', 'trashed'),
+            'offices' => Office::when($request->search ?? null, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('nick', 'like', '%' . $search . '%');
+                });
+            })->when($request->trashed ?? null, function ($query, $trashed) {
+                if ($trashed === 'with') {
+                    $query->withTrashed();
+                } elseif ($trashed === 'only') {
+                    $query->onlyTrashed();
+                }
+            })->paginate(10)
+        ]);
+
     }
 
     /**
@@ -24,7 +40,7 @@ class OfficeController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Offices/Create');
     }
 
     /**
@@ -61,7 +77,8 @@ class OfficeController extends Controller
      */
     public function edit(Office $office)
     {
-        //
+        return Inertia::render('Offices/Edit', ['office' => $office]);
+
     }
 
     /**

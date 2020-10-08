@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\IpController;
 use App\Http\Controllers\OfficeController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,4 +24,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia\Inertia::render('Dashboard');
 })->name('dashboard');
 
-Route::resource('offices', OfficeController::class);
+Route::resource('feedback', FeedbackController::class);
+
+Route::prefix('admin')->middleware(['auth:sanctum'])->group(function () {
+    Route::resource('offices', OfficeController::class);
+    Route::resource('ips', IpController::class);
+
+});
