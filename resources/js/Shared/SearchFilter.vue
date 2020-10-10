@@ -16,12 +16,13 @@
             <path d="M239.998 239.999L0 0h961.243L721.246 240c-131.999 132-240.28 240-240.624 239.999-.345-.001-108.625-108.001-240.624-240z" />
           </svg>
         </div>
+        
         <div
           slot="dropdown"
           class="w-screen px-4 py-6 mt-2 bg-white rounded shadow-xl"
           :style="{ maxWidth: `${maxWidth}px` }"
         >
-          <slot name="test" />
+          <slot />
         </div>
       </dropdown>
       <input
@@ -45,7 +46,7 @@
 </template>
 
 <script>
-import Dropdown from '~/Shared/Dropdown.vue';
+import Dropdown from '~/Shared/Dropdown';
 
 export default {
   components: {

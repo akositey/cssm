@@ -248,6 +248,12 @@
       name="modal"
       multiple
     />
+    
+    <!-- Dropdown Portal -->
+    <portal-target
+      name="dropdown"
+      slim
+    />
   </div>
 </template>
 
