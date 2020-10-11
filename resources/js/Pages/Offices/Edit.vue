@@ -14,8 +14,7 @@
             <text-input v-model="form.nick" :error="errors.nick" class="w-full pb-8 pr-6 lg:w-1/2" label="Abbreviation" />
             <select-input v-model="form.parent_id" :error="errors.parent_id" class="w-full pb-8 pr-6 lg:w-1/2" label="Parent Office">
               <option :value="null" />
-              <!-- todo: list offices here except self -->
-              <option v-for="row in aaa.data" :key="row.id" :value="row.id">
+              <option v-for="row in officesList" :key="row.id" :value="row.id">
                 {{ row.name }}
               </option>
             </select-input>
@@ -50,7 +49,7 @@ export default {
   props: {
     errors: { type: Object, default: ()=>{} },
     office: { type: Object, default: ()=>{} },
-    aaa: { type: Object, default: ()=>{} },
+    officesList: { type: Array, default: ()=>[] },
   },
   remember: 'form',
   data() {

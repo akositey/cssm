@@ -42,15 +42,18 @@
                 Action
               </th>
             </tr>
-            <tr v-for="office in offices.data" :key="office.id" class="border-t hover:bg-gray-100 focus-within:bg-gray-100">
+            <tr v-for="row in offices.data" :key="row.id" class="border-t hover:bg-gray-100 focus-within:bg-gray-100">
               <td class="p-3">
-                {{ office.name }}
+                {{ row.name }}
               </td>
               <td class="p-3">
-                {{ office.nick }}
+                {{ row.nick }}
               </td>
               <td class="p-3">
-                <inertia-link class="focus:text-indigo-500" :href="route('offices.edit', office.id)">
+                <inertia-link v-if="row.deleted_at" class="focus:text-indigo-500" :href="route('offices.restore', row.id)">
+                  restore
+                </inertia-link>
+                <inertia-link class="focus:text-indigo-500" :href="route('offices.edit', row.id)">
                   <icon name="cheveron-right" class="w-6 h-6 m-auto fill-gray-400" />
                 </inertia-link>
               </td>

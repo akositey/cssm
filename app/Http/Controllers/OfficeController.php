@@ -40,7 +40,7 @@ class OfficeController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Offices/Create');
+        return Inertia::render('Offices/Create', ['officesList' => Office::all()]);
     }
 
     /**
@@ -79,7 +79,7 @@ class OfficeController extends Controller
     {
         return Inertia::render('Offices/Edit', [
             'office' => $office,
-            'aaa' => Office::whereNotIn('id', [$office->id])
+            'officesList' => Office::whereNotIn('id', [$office->id])->get()
         ]);
 
     }
@@ -114,5 +114,14 @@ class OfficeController extends Controller
         $office->delete();
         return redirect(route('offices.index'))->with('success', 'Office Successfully Deleted');
 
+    }
+
+    /**
+     * @param Office $office
+     */
+    public function restore(Office $office)
+    {
+        $office->restore();
+        return redirect(route('offices.index'))->with('success', 'Office Successfully Restored');
     }
 }
