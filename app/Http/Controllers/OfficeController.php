@@ -77,7 +77,10 @@ class OfficeController extends Controller
      */
     public function edit(Office $office)
     {
-        return Inertia::render('Offices/Edit', ['office' => $office]);
+        return Inertia::render('Offices/Edit', [
+            'office' => $office,
+            'aaa' => Office::whereNotIn('id', [$office->id])
+        ]);
 
     }
 

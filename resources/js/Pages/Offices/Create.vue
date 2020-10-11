@@ -6,7 +6,7 @@
       </h2>
     </template>
     
-    <div class="py-12">
+    <div class="py-4">
       <div class="max-w-3xl m-auto overflow-hidden bg-white rounded shadow-xl">
         <form @submit.prevent="submit">
           <div class="flex flex-wrap p-8 -mb-8 -mr-6">

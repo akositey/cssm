@@ -6,7 +6,7 @@
       </h2>
     </template>
     
-    <div class="py-12">
+    <div class="py-4">
       <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
           <flash-messages />

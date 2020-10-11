@@ -6,7 +6,7 @@
       </h2>
     </template>
     
-    <div class="py-12">
+    <div class="py-4">
       <div class="self-center max-w-3xl m-auto overflow-hidden bg-white rounded shadow-xl">
         <form @submit.prevent="submit">
           <div class="flex flex-wrap p-8 -mb-8 -mr-6">
@@ -15,6 +15,9 @@
             <select-input v-model="form.parent_id" :error="errors.parent_id" class="w-full pb-8 pr-6 lg:w-1/2" label="Parent Office">
               <option :value="null" />
               <!-- todo: list offices here except self -->
+              <option v-for="row in aaa.data" :key="row.id" :value="row.id">
+                {{ row.name }}
+              </option>
             </select-input>
           </div>
           <div class="flex items-center justify-between px-8 py-4 bg-gray-100 border-t border-gray-200">
@@ -46,7 +49,8 @@ export default {
   },
   props: {
     errors: { type: Object, default: ()=>{} },
-    office: { type: Object, default: ()=>{} }
+    office: { type: Object, default: ()=>{} },
+    aaa: { type: Object, default: ()=>{} },
   },
   remember: 'form',
   data() {

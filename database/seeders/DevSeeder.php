@@ -15,10 +15,11 @@ class DevSeeder extends Seeder
     public function run()
     {
         \App\Models\User::factory()->create([
-            'name' => 'Chester Martinez',
+            'name' => 'Administrator',
+            'username' => 'admin',
             'email' => 'chestermartinez@gmail.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('Mark1230'), // password
+            'password' => bcrypt('@12345'), // password
             'remember_token' => Str::random(10)
         ]);
         \App\Models\Office::factory(30)->create();
