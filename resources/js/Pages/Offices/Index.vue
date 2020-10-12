@@ -30,6 +30,7 @@
               <span class="hidden md:inline">Office</span>
             </inertia-link>
           </div>
+          
           <table class="w-full whitespace-no-wrap">
             <tr class="font-bold text-left">
               <th class="p-4 text-center">
@@ -37,6 +38,9 @@
               </th>
               <th class="p-4 text-center">
                 Abbr.
+              </th>
+              <th class="p-4 text-center">
+                Parent Office
               </th>
               <th class="p-4 text-center">
                 Action
@@ -48,6 +52,9 @@
               </td>
               <td class="p-3">
                 {{ row.nick }}
+              </td>
+              <td class="p-3">
+                {{ row.parent_id ? offices.data.find(x=>x.id == row.parent_id).name :'' }}
               </td>
               <td class="p-3">
                 <inertia-link v-if="row.deleted_at" class="focus:text-indigo-500" :href="route('offices.restore', row.id)">
