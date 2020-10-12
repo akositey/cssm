@@ -24,7 +24,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::resource('feedback', FeedbackController::class);
 
-Route::prefix('admin')->middleware(['auth:sanctum'])->group(function () {
+Route::prefix('admin')->group(function () {
     Route::put('offices/{office}/restore', [OfficeController::class, 'restore'])->name('offices.restore');
     Route::resource('offices', OfficeController::class);
     Route::resource('ips', IpController::class);
