@@ -54,7 +54,7 @@ class OfficeController extends Controller
         Office::create($request->validate([
             'name' => 'required',
             'nick' => 'required',
-            'parent_id' => 'exists:offices,id'
+            'parent_id' => 'nullable|exists:offices,id'
         ]));
         return redirect(route('offices.index'))->with('success', 'Office Successfully Created');
     }
@@ -98,7 +98,7 @@ class OfficeController extends Controller
             $request->validate([
                 'name' => 'required',
                 'nick' => 'required',
-                'parent_id' => 'exists:offices,id'
+                'parent_id' => 'nullable|exists:offices,id'
             ])
         );
         return redirect(route('offices.index'))->with('success', 'Office Successfully Updated');
@@ -119,7 +119,8 @@ class OfficeController extends Controller
     }
 
     /**
-     * @param Office $office
+     * @param  Office                      $office
+     * @return \Illuminate\Http\Response
      */
     public function restore(Office $office)
     {
