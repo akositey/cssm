@@ -1,83 +1,71 @@
 <template>
   <app-layout>
     <template #header>
-      <h2 class="text-xl font-semibold leading-tight text-gray-800">
-        Offices
-      </h2>
+      Offices
     </template>
-    
-    <div class="py-4">
-      <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-        <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
-          <flash-messages />
 
-          <div class="flex justify-between m-6">
-            <search-filter v-model="filterForm.search" class="w-full max-w-md mr-4" @reset="reset">
-              <label class="block text-gray-700">Trashed:</label>
-              <select v-model="filterForm.trashed" class="w-full mt-1 form-select">
-                <option :value="null" />
-                <option value="with">
-                  With Trashed
-                </option>
-                <option value="only">
-                  Only Trashed
-                </option>
-              </select>
-            </search-filter>
-            
-            <inertia-link class="btn-indigo" :href="route('offices.create')">
-              <span>Create</span>
-              <span class="hidden md:inline">Office</span>
-            </inertia-link>
-          </div>
-          
-          <table class="w-full whitespace-no-wrap">
-            <tr class="font-bold text-left">
-              <th class="p-4 text-center">
-                Name
-              </th>
-              <th class="p-4 text-center">
-                Abbr.
-              </th>
-              <th class="p-4 text-center">
-                Parent Office
-              </th>
-              <th class="p-4 text-center">
-                Action
-              </th>
-            </tr>
-            <tr v-for="row in offices.data" :key="row.id" class="border-t hover:bg-gray-100 focus-within:bg-gray-100">
-              <td class="p-3">
-                {{ row.name }}
-              </td>
-              <td class="p-3">
-                {{ row.nick }}
-              </td>
-              <td class="p-3">
-                {{ row.parent_id ? offices.data.find(x=>x.id == row.parent_id).name :'' }}
-              </td>
-              <td class="p-3">
-                <inertia-link v-if="row.deleted_at" class="focus:text-indigo-500" :href="route('offices.restore', row.id)">
-                  restore
-                </inertia-link>
-                <inertia-link class="focus:text-indigo-500" :href="route('offices.edit', row.id)">
-                  <icon name="cheveron-right" class="w-6 h-6 m-auto fill-gray-400" />
-                </inertia-link>
-              </td>
-            </tr>
-            <tr v-if="offices.data.length === 0">
-              <td
-                class="px-6 py-4 border-t"
-                colspan="4"
-              >
-                No Offices found.
-              </td>
-            </tr>
-          </table>
-        </div>
-        <pagination :links="offices.links" />
-      </div>
+    <div class="flex justify-between">
+      <search-filter v-model="filterForm.search" class="w-full max-w-md mr-4" @reset="reset">
+        <label class="block text-gray-700">Trashed:</label>
+        <select v-model="filterForm.trashed" class="w-full mt-1 form-select">
+          <option :value="null" />
+          <option value="with">
+            With Trashed
+          </option>
+          <option value="only">
+            Only Trashed
+          </option>
+        </select>
+      </search-filter>
+      
+      <inertia-link class="btn-indigo" :href="route('offices.create')">
+        <span>Create</span>
+        <span class="hidden md:inline">Office</span>
+      </inertia-link>
     </div>
+
+    <table class="w-full my-4 whitespace-no-wrap bg-white">
+      <tr class="font-bold text-left">
+        <th class="p-4 text-center">
+          Name
+        </th>
+        <th class="p-4 text-center">
+          Abbr.
+        </th>
+        <th class="p-4 text-center">
+          Parent Office
+        </th>
+        <th class="p-4 text-center">
+          Action
+        </th>
+      </tr>
+      <tr v-for="row in offices.data" :key="row.id" class="border-t hover:bg-gray-100 focus-within:bg-gray-100">
+        <td class="p-3">
+          {{ row.name }}
+          <icon v-if="row.deleted_at" name="trash" class="inline w-3 h-3 ml-2 fill-red-400" />
+        </td>
+        <td class="p-3">
+          {{ row.nick }}
+        </td>
+        <td class="p-3">
+          {{ row.parent_id ? offices.data.find(x=>x.id===row.parent_id).name :'' }}
+        </td>
+        <td class="p-3">
+          <inertia-link class="focus:text-indigo-500" :href="route('offices.edit', row.id)" tabindex="-1">
+            <icon name="cheveron-right" class="w-6 h-6 m-auto fill-gray-400" />
+          </inertia-link>
+        </td>
+      </tr>
+      <tr v-if="offices.data.length === 0">
+        <td
+          class="px-6 py-4 border-t"
+          colspan="4"
+        >
+          No Offices found.
+        </td>
+      </tr>
+    </table>
+    <pagination :links="offices.links" />
   </app-layout>
 </template>
 
@@ -85,7 +73,6 @@
 import AppLayout from "./../../Layouts/AppLayout";
 import Icon from './../../Shared/Icon';
 import Pagination from './../../Shared/Pagination';
-import FlashMessages from './../../Shared/FlashMessages';
 import SearchFilter from './../../Shared/SearchFilter';
 import mapValues from 'lodash/mapValues';
 import pickBy from 'lodash/pickBy';
@@ -100,7 +87,6 @@ export default {
     AppLayout,
     Icon,
     Pagination,
-    FlashMessages,
     SearchFilter,
   },
   data() {
