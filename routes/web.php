@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\FeedbackController;
-use App\Http\Controllers\IpController;
 use App\Http\Controllers\OfficeController;
 use Illuminate\Support\Facades\Route;
 

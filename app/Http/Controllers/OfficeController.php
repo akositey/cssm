@@ -53,7 +53,8 @@ class OfficeController extends Controller
     {
         Office::create($request->validate([
             'name' => 'required',
-            'nick' => 'required'
+            'nick' => 'required',
+            'parent_id' => 'exists:offices,id'
         ]));
         return redirect(route('offices.index'))->with('success', 'Office Successfully Created');
     }
@@ -96,7 +97,8 @@ class OfficeController extends Controller
         $office->update(
             $request->validate([
                 'name' => 'required',
-                'nick' => 'required'
+                'nick' => 'required',
+                'parent_id' => 'exists:offices,id'
             ])
         );
         return redirect(route('offices.index'))->with('success', 'Office Successfully Updated');
