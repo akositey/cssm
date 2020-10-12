@@ -231,16 +231,19 @@
       </div>
     </nav>
 
-    <!-- Page Heading -->
-    <header class="bg-white shadow">
-      <div class="px-4 py-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <slot name="header" />
-      </div>
-    </header>
-
     <!-- Page Content -->
     <main>
-      <slot />
+      <div class="flex-1 max-w-6xl px-4 py-4 m-auto overflow-y-auto" scroll-region>
+        <!-- Page Heading -->
+        <header>
+          <h1 class="mb-4 text-3xl font-bold">
+            <slot name="header" />
+          </h1>
+        </header>
+
+        <flash-messages />
+        <slot />
+      </div>
     </main>
 
     <!-- Modal Portal -->
@@ -258,11 +261,12 @@
 </template>
 
 <script>
-import Logo from "./../Shared/PgomLogo";
-import JetDropdown from "./../Jetstream/Dropdown";
-import JetDropdownLink from "./../Jetstream/DropdownLink";
-import JetNavLink from "./../Jetstream/NavLink";
-import JetResponsiveNavLink from "./../Jetstream/ResponsiveNavLink";
+import Logo from "~/Shared/PgomLogo";
+import JetDropdown from "~/Jetstream/Dropdown";
+import JetDropdownLink from "~/Jetstream/DropdownLink";
+import JetNavLink from "~/Jetstream/NavLink";
+import JetResponsiveNavLink from "~/Jetstream/ResponsiveNavLink";
+import FlashMessages from '~/Shared/FlashMessages';
 
 export default {
   components: {
@@ -270,6 +274,7 @@ export default {
     JetDropdown,
     JetDropdownLink,
     JetNavLink,
+    FlashMessages,
     JetResponsiveNavLink,
   },
 
