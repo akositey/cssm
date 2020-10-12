@@ -17,6 +17,7 @@ class CreateIpsTable extends Migration
             $table->id();
             $table->string('ip', 15);
             $table->integer('office_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

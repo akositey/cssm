@@ -34,6 +34,7 @@ class CreateFeedbackTable extends Migration
             $table->tinyInteger('negative7')->nullable();
             $table->tinyInteger('negative8')->nullable();
             $table->string('suggestion')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

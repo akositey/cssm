@@ -24,8 +24,8 @@ class OfficeFactory extends Factory
         $company = "Office-" . $this->faker->company;
         return [
             'name' => $company,
-            'nick' => preg_replace('/\b(\w)|./', '$1', $company),
-            'parent_id' => $this->faker->numberBetween(1, 10),
+            'nick' => preg_replace('/\b(\w)|./', '$1', $company)
+            // 'parent_id' => $this->faker->numberBetween(1, 10),
         ];
     }
 }
