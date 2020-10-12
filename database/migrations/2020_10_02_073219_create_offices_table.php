@@ -18,6 +18,7 @@ class CreateOfficesTable extends Migration
             $table->string('name');
             $table->string('nick', 20);
             $table->integer('parent_id')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

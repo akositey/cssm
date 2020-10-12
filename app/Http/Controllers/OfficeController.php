@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Office;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class OfficeController extends Controller
 {
@@ -12,26 +13,55 @@ class OfficeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return Inertia::render('Offices/Index', [
+            'filters' => $request->all('search', 'trashed'),
+            'offices' => Office::when($request->search ?? null, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('nick', 'like', '%' . $search . '%');
+                });
+            })->when($request->trashed ?? null, function ($query, $trashed) {
+                if ($trashed === 'with') {
+                    $query->withTrashed();
+                } elseif ($trashed === 'only') {
+                    $query->onlyTrashed();
+                }
+            })->paginate(10)
+        ]);
+
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return Inertia::render('Offices/Create', ['officesList' => Office::all()]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request    $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        Office::create($request->validate([
+            'name' => 'required',
+            'nick' => 'required'
+        ]));
+        return redirect(route('offices.index'))->with('success', 'Office Successfully Created');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Office  $office
+     * @param  \App\Models\Office          $office
      * @return \Illuminate\Http\Response
      */
     public function show(Office $office)
@@ -40,25 +70,58 @@ class OfficeController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Office          $office
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Office $office)
+    {
+        return Inertia::render('Offices/Edit', [
+            'office' => $office,
+            'officesList' => Office::whereNotIn('id', [$office->id])->get()
+        ]);
+
+    }
+
+    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Office  $office
+     * @param  \Illuminate\Http\Request    $request
+     * @param  \App\Models\Office          $office
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Office $office)
     {
-        //
+        $office->update(
+            $request->validate([
+                'name' => 'required',
+                'nick' => 'required'
+            ])
+        );
+        return redirect(route('offices.index'))->with('success', 'Office Successfully Updated');
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Office  $office
+     * @param  \App\Models\Office          $office
      * @return \Illuminate\Http\Response
      */
     public function destroy(Office $office)
     {
-        //
+        $office->delete();
+        return redirect(route('offices.index'))->with('success', 'Office Successfully Deleted');
+
+    }
+
+    /**
+     * @param Office $office
+     */
+    public function restore(Office $office)
+    {
+        $office->restore();
+        return redirect(route('offices.index'))->with('success', 'Office Successfully Restored');
     }
 }
