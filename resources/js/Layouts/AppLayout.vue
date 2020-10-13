@@ -233,7 +233,10 @@
 
     <!-- Page Content -->
     <main>
-      <div class="flex-1 max-w-6xl px-4 py-4 m-auto overflow-y-auto" scroll-region>
+      <div
+        class="flex-1 max-w-6xl px-4 py-4 m-auto overflow-y-auto"
+        scroll-region
+      >
         <!-- Page Heading -->
         <header>
           <h1 class="mb-4 text-3xl font-bold">
@@ -251,7 +254,7 @@
       name="modal"
       multiple
     />
-    
+
     <!-- Dropdown Portal -->
     <portal-target
       name="dropdown"
@@ -266,7 +269,7 @@ import JetDropdown from "~/Jetstream/Dropdown";
 import JetDropdownLink from "~/Jetstream/DropdownLink";
 import JetNavLink from "~/Jetstream/NavLink";
 import JetResponsiveNavLink from "~/Jetstream/ResponsiveNavLink";
-import FlashMessages from '~/Shared/FlashMessages';
+import FlashMessages from "~/Shared/FlashMessages";
 
 export default {
   components: {

@@ -13,9 +13,7 @@
             </div>
 
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-              <h2
-                class="inline-flex items-center p-2 text-xl font-semibold leading-tight text-gray-800 "
-              >
+              <h2 class="inline-flex items-center p-2 text-xl font-semibold leading-tight text-gray-800 ">
                 Customer Satisfaction Survey
               </h2>
             </div>
@@ -45,7 +43,7 @@
 
 <script>
 import Logo from "~/Shared/PgomLogo";
-import FlashMessages from '~/Shared/FlashMessages';
+import FlashMessages from "~/Shared/FlashMessages";
 
 export default {
   components: {
@@ -59,9 +57,7 @@ export default {
     };
   },
 
-  methods: {
-    
-  },
+  methods: {},
 
   computed: {
     path() {

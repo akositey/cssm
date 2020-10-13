@@ -662,6 +662,35 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
 .btn-red:hover, .btn-red:focus { --bg-opacity: 1; background-color: #ed8936; background-color: rgba(237, 137, 54, var(--bg-opacity))
 }
 
+.btn-green {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  --text-opacity: 1;
+  color: #fff;
+  color: rgba(255, 255, 255, var(--text-opacity));
+  white-space: nowrap;
+  --bg-opacity: 1;
+  background-color: #38a169;
+  background-color: rgba(56, 161, 105, var(--bg-opacity));
+  border-radius: 0.25rem
+}
+
+.btn-green:hover, .btn-green:focus { --bg-opacity: 1; background-color: #ed8936; background-color: rgba(237, 137, 54, var(--bg-opacity))
+}
+
+.btn-6xl {
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  font-size: 4rem;
+  font-weight: 700;
+}
+
 .btn-spinner,
 .btn-spinner:after {
   border-radius: 50%;
@@ -873,6 +902,69 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
 
   100% { transform: rotate(360deg);
   }
+}
+
+.table {
+  display: flex;
+  flex-flow: column nowrap;
+  font-size: .8rem;
+  margin: 0.5rem;
+  line-height: 1.5;
+  border-bottom: 1px solid #d0d0d0;
+  flex: 1 1 auto;
+}
+
+.th {
+  display: none;
+  font-weight: 700;
+  background-color: #f2f2f2;
+}
+
+.th > .td {
+  white-space: normal;
+  justify-content: center;
+}
+
+.tr {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.tr:nth-of-type(even) {
+  background-color: #f2f2f2;
+}
+
+.tr:nth-of-type(odd) {
+  background-color: #ffffff;
+}
+
+.td {
+  display: flex;
+  /* flex-flow: row nowrap; */
+  flex-grow: 1;
+  /* flex-basis: 0; */
+  word-break: break-word;
+  /* overflow: hidden; */
+  text-overflow: ellipsis;
+  min-width: 0px;
+  white-space: nowrap;
+  border-bottom: 1px solid #d0d0d0;
+  padding: 0.75rem
+}
+
+.zoom-2 {
+  zoom: 2;
+  transform: scale(2);
+  -ms-transform: scale(2);
+  -webkit-transform: scale(2);
+  -o-transform: scale(2);
+  -moz-transform: scale(2);
+  transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
 }
 
 /* Utilities */
