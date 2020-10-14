@@ -6,20 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Office extends Model
+class FeedbackAnswers extends Model
 {
     use HasFactory, SoftDeletes;
 
     /**
      * @var array
      */
-    protected $fillable = ['name', 'nick', 'parent_id'];
+    protected $fillable = ['question_id', 'answer'];
 
     /**
      * @return mixed
      */
-    public function ips()
+    public function question()
     {
-        return $this->hasMany('App\Models\Ip');
+        return $this->belongsTo('App\Models\Feedback');
     }
 }

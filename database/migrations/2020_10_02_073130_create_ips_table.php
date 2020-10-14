@@ -15,7 +15,7 @@ class CreateIpsTable extends Migration
     {
         Schema::create('ips', function (Blueprint $table) {
             $table->id();
-            $table->string('ip', 15);
+            $table->string('address', 15);
             $table->integer('office_id');
             $table->softDeletes();
             $table->timestamps();

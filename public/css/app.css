@@ -682,6 +682,26 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
 .btn-green:hover, .btn-green:focus { --bg-opacity: 1; background-color: #ed8936; background-color: rgba(237, 137, 54, var(--bg-opacity))
 }
 
+.btn-gray {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  --text-opacity: 1;
+  color: #fff;
+  color: rgba(255, 255, 255, var(--text-opacity));
+  white-space: nowrap;
+  --bg-opacity: 1;
+  background-color: #718096;
+  background-color: rgba(113, 128, 150, var(--bg-opacity));
+  border-radius: 0.25rem
+}
+
+.btn-gray:hover, .btn-gray:focus { --bg-opacity: 1; background-color: #2d3748; background-color: rgba(45, 55, 72, var(--bg-opacity))
+}
+
 .btn-6xl {
   padding-left: 3rem;
   padding-right: 3rem;
@@ -951,20 +971,6 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   white-space: nowrap;
   border-bottom: 1px solid #d0d0d0;
   padding: 0.75rem
-}
-
-.zoom-2 {
-  zoom: 2;
-  transform: scale(2);
-  -ms-transform: scale(2);
-  -webkit-transform: scale(2);
-  -o-transform: scale(2);
-  -moz-transform: scale(2);
-  transform-origin: 0 0;
-  -ms-transform-origin: 0 0;
-  -webkit-transform-origin: 0 0;
-  -o-transform-origin: 0 0;
-  -moz-transform-origin: 0 0;
 }
 
 /* Utilities */
@@ -23357,6 +23363,34 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
           animation: bounce 1s infinite;
 }
 
+.zoom-15 {
+  zoom: 1.5;
+  transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+  -o-transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+}
+
+.zoom-20 {
+  zoom: 2;
+  transform: scale(2);
+  -ms-transform: scale(2);
+  -webkit-transform: scale(2);
+  -o-transform: scale(2);
+  -moz-transform: scale(2);
+  transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
@@ -45706,6 +45740,34 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   .sm\:animate-bounce {
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
+  }
+
+  .sm\:zoom-15 {
+    zoom: 1.5;
+    transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+  }
+
+  .sm\:zoom-20 {
+    zoom: 2;
+    transform: scale(2);
+    -ms-transform: scale(2);
+    -webkit-transform: scale(2);
+    -o-transform: scale(2);
+    -moz-transform: scale(2);
+    transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
   }
 }
 
@@ -68059,6 +68121,34 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
   }
+
+  .md\:zoom-15 {
+    zoom: 1.5;
+    transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+  }
+
+  .md\:zoom-20 {
+    zoom: 2;
+    transform: scale(2);
+    -ms-transform: scale(2);
+    -webkit-transform: scale(2);
+    -o-transform: scale(2);
+    -moz-transform: scale(2);
+    transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -90411,6 +90501,34 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
   }
+
+  .lg\:zoom-15 {
+    zoom: 1.5;
+    transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+  }
+
+  .lg\:zoom-20 {
+    zoom: 2;
+    transform: scale(2);
+    -ms-transform: scale(2);
+    -webkit-transform: scale(2);
+    -o-transform: scale(2);
+    -moz-transform: scale(2);
+    transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+  }
 }
 
 @media (min-width: 1280px) {
@@ -112762,5 +112880,33 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   .xl\:animate-bounce {
     -webkit-animation: bounce 1s infinite;
             animation: bounce 1s infinite;
+  }
+
+  .xl\:zoom-15 {
+    zoom: 1.5;
+    transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+  }
+
+  .xl\:zoom-20 {
+    zoom: 2;
+    transform: scale(2);
+    -ms-transform: scale(2);
+    -webkit-transform: scale(2);
+    -o-transform: scale(2);
+    -moz-transform: scale(2);
+    transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
   }
 }

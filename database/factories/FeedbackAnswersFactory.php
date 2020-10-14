@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Feedback;
+use App\Models\FeedbackAnswers;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class FeedbackFactory extends Factory
+class FeedbackAnswersFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Feedback::class;
+    protected $model = FeedbackAnswers::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,8 @@ class FeedbackFactory extends Factory
     public function definition()
     {
         return [
-            'ip_id' => $this->faker->numberBetween(1, 30)
+            'question_id' => $this->faker->numberBetween(1, 18),
+            'answer' => '1'
         ];
     }
 }

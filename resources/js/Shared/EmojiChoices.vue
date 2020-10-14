@@ -1,22 +1,22 @@
 <template>
-  <div class="flex flex-no-wrap px-2 py-40">
+  <div class="flex flex-no-wrap px-2 py-20 md:py-40">
     <label
       v-for="(choice, i) in choices"
       :key="i"
-      :for="`option-${question}-${i}`"
+      :for="`option-${questionNumber}-${i+1}`"
       class="flex-grow w-20 h-20"
     >
       <input
         type="radio"
         name="option"
-        :id="`option-${question}-${i}`"
+        :id="`option-${questionNumber}-${i+1}`"
         :value="i+1"
         class="hidden"
         v-model="answer"
       >
       <emoji-icon
         :name="choice"
-        class="cursor-pointer"
+        class="w-24 cursor-pointer md:w-64"
       />
     </label>
   </div>
@@ -30,9 +30,13 @@ export default {
     EmojiIcon,
   },
   props: {
-    question: {
-      type: String,
-      default: "",
+    questionNumber: {
+      type: [Number, Boolean],
+      default: null,
+    },
+    questionId: {
+      type: [Number, Boolean],
+      default: null,
     },
   },
   data() {
@@ -43,8 +47,12 @@ export default {
   },
   watch: {
     answer() {
-      console.log(this.question, this.answer);
-      this.$emit("answer-question", this.question, this.answer);
+      this.$emit(
+        "answer-mandatory",
+        this.questionNumber,
+        this.questionId,
+        this.answer
+      );
     },
   },
 };

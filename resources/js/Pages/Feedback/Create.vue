@@ -3,163 +3,109 @@
     <!-- Intro -->
 
     <div class="h-screen">
-      <div class="p-8 text-6xl font-bold text-center">
+      <div class="p-8 font-bold text-center md:text-6xl sm:text-3xl">
         Ano po ang masasabi nyo sa serbisyong naibigay sa inyo?
 
         <div class="flex flex-no-wrap justify-center p-12">
           <button
             @click="startSurvey()"
-            class="btn-green btn-6xl "
+            class="sm:text-3xl btn-green md:btn-6xl md:text-6xl"
           >
-            Magsimula
+            Simulan ang Survey
           </button>
         </div>
       </div>
     </div>
-    <!-- test -->
 
     <!-- Questions -->
     <div class="p-6 m-auto overflow-hidden bg-white rounded shadow-xl">
+      <!-- mandatory -->
       <div
-        id="question-1-cont"
+        v-for="(question, i) in questionsSet.mandatory.questions"
+        :key="question.id"
+        :id="`question-${i+1}-cont`"
         class="h-screen"
       >
-        <div class="text-6xl font-bold">
-          1. Magalang ang pagbibigay ng serbisyo:
+        <div class="font-bold md:text-6xl sm:text-3xl">
+          {{ i+1 }}. {{ question.question }}
         </div>
+        <span :error="form.mandatory['question']" />
         <emoji-choices
-          question="1"
-          @answer-question="updateAnswer"
+          :questionNumber="i+1"
+          :questionId="question.id"
+          @answer-mandatory="updateAnswerMandatory"
         />
       </div>
 
+      <!-- optional-positive -->
       <div
-        id="question-2-cont"
-        class="h-screen"
+        :id="`question-${questionsSet.optional.positive.number}-cont`"
+        class="h-full md:h-screen"
       >
-        <div class="text-6xl font-bold">
-          2. Mabilis na natugunan ang pangangailangan:
+        <div class="font-bold md:text-5xl sm:text-2xl">
+          {{ questionsSet.optional.positive.number }}. (Opsyonal) Mga Positibong Kumento
         </div>
-        <emoji-choices
-          question="2"
-          @answer-question="updateAnswer"
-        />
-      </div>
-
-      <div
-        id="question-3-cont"
-        class="h-screen"
-      >
-        <div class="text-6xl font-bold">
-          3. Natugunan ng wasto at kumpleto ang pangangailangan:
-        </div>
-        <emoji-choices
-          question="3"
-          @answer-question="updateAnswer"
-        />
-      </div>
-
-      <div
-        id="question-4-cont"
-        class="h-screen"
-      >
-        <div class="text-5xl font-bold">
-          (Opsyonal) Mga Positibong Kumento
-        </div>
-        <div class="text-3xl font-bold">
+        <div class="font-bold md:text-3xl sm:text-lg">
           Maaaring pumili hanggang tatlo(3)
         </div>
-        {{ checkedPositive }}
-        <div class="table w-full text-4xl">
-          <div class="tr">
-            <div class="justify-center w-1/6 td">
-              <input
-                type="checkbox"
-                id="positive1"
-                value="1"
-                v-model="checkedPositive"
-                :disabled="checkedPositive.length >= maxChecked && checkedPositive.indexOf('1') == -1"
-                class="zoom-2"
-              >
-            </div>
-            <div class="w-5/6 td">
-              Maagap sa pag-asikaso sa kliyente
-            </div>
-          </div>
-          <div class="tr">
-            <div class="justify-center w-1/6 td">
-              <input
-                type="checkbox"
-                id="positive2"
-                value="2"
-                v-model="checkedPositive"
-                :disabled="checkedPositive.length >= maxChecked && checkedPositive.indexOf('2') == -1"
-                class="zoom-2"
-              >
-            </div>
-            <div class="w-5/6 td">
-              Magalang at maayos ang pakikitungo ng mga empleyado
-            </div>
-          </div>
-          <div class="tr">
-            <div class="justify-center w-1/6 td">
-              <input
-                type="checkbox"
-                id="positive3"
-                value="3"
-                v-model="checkedPositive"
-                :disabled="checkedPositive.length >= maxChecked && checkedPositive.indexOf('3') == -1"
-                class="zoom-2"
-              >
-            </div>
-            <div class="w-5/6 td">
-              Malinis ang opisina
-            </div>
-          </div>
-          <div class="tr">
-            <div class="justify-center w-1/6 td">
-              <input
-                type="checkbox"
-                id="positive4"
-                value="4"
-                v-model="checkedPositive"
-                :disabled="checkedPositive.length >= maxChecked && checkedPositive.indexOf('4') == -1"
-                class="zoom-2"
-              >
-            </div>
-            <div class="w-5/6 td">
-              Mabilis ang pagproseso ng mga dokumento
-            </div>
-          </div>
-          <div class="tr">
-            <div class="justify-center w-1/6 td">
-              <input
-                type="checkbox"
-                id="positive5"
-                value="5"
-                v-model="checkedPositive"
-                :disabled="checkedPositive.length >= maxChecked && checkedPositive.indexOf('5') == -1"
-                class="zoom-2"
-              >
-            </div>
-            <div class="w-5/6 td">
-              Maayos ang pasilidad para sa mga Senior Citizens at PWD
-            </div>
-          </div>
-          <div class="tr">
-            <div class="justify-center w-1/6 td">
-              <input
-                type="checkbox"
-                id="positive6"
-                value="6"
-                v-model="checkedPositive"
-                :disabled="checkedPositive.length >= maxChecked && checkedPositive.indexOf('6') == -1"
-                class="zoom-2"
-              >
-            </div>
-            <div class="w-5/6 td">
-              Maaga pumasok ang employado
-            </div>
+
+        <optional-comment
+          questionType="positive"
+          :questionNumber="questionsSet.optional.positive.number"
+          :questions="questionsSet.optional.positive.questions"
+          :maxChecked="maxChecked"
+          @answers-optional="updateAnswerOptional"
+        />
+      </div>
+
+      <!-- optional-negative -->
+      <div
+        :id="`question-${questionsSet.optional.negative.number}-cont`"
+        class="h-full md:h-screen"
+      >
+        <div class="font-bold md:text-5xl sm:text-2xl">
+          {{ questionsSet.optional.negative.number }}. (Opsyonal) Mga Negatibong Kumento
+        </div>
+        <div class="font-bold md:text-3xl sm:text-lg">
+          Maaaring pumili hanggang tatlo(3)
+        </div>
+
+        <optional-comment
+          questionType="negative"
+          :questionNumber="questionsSet.optional.negative.number"
+          :questions="questionsSet.optional.negative.questions"
+          :maxChecked="maxChecked"
+          @answers-optional="updateAnswerOptional"
+        />
+      </div>
+
+      <div
+        :id="`question-${numberOfQuestions+1}-cont`"
+        class="h-full pb-10 md:h-screen md:pb-0"
+      >
+        <div class="font-bold md:text-5xl sm:text-2xl">
+          Pirma
+        </div>
+        <div class="w-full h-auto m-auto md:p-8 sm:pb-20 md:h-64">
+          <canvas
+            id="signature-pad"
+            class="w-full h-full border-4 border-gray-600 border-solid shadow-xl signature-pad"
+          />
+          <div class="flex justify-between mt-8">
+            <button
+              id="clear"
+              class="md:text-5xl sm:text-2xl btn-gray"
+              @click="clearSignature"
+            >
+              Burahin
+            </button>
+            <button
+              id="save"
+              class="md:text-5xl sm:text-2xl btn-green"
+              @click="submit"
+            >
+              Tapusin
+            </button>
           </div>
         </div>
       </div>
@@ -169,72 +115,119 @@
 <script>
 import GuestLayout from "~/Layouts/GuestLayout";
 import EmojiChoices from "~/Shared/EmojiChoices.vue";
+import OptionalComment from "~/Shared/OptionalComment.vue";
+import SignaturePad from "signature_pad";
 
 export default {
   components: {
     GuestLayout,
     EmojiChoices,
+    OptionalComment,
   },
   props: {
     errors: { type: Object, default: () => {} },
-    test: { type: String, default: "" },
+    questions: { type: Object, default: () => {} },
   },
-  // remember: "form",
+  remember: "form",
   data() {
     return {
       sending: false,
       form: {
-        name: null,
-        nick: null,
-        parent_id: null,
+        ip_id: "1",
+        mandatory: {},
+        optional: {},
       },
-      answers: {},
+      questionsSet: {
+        mandatory: {
+          questions: this.questions.mandatory,
+          count: this.questions.mandatory.length,
+        },
+        optional: {
+          positive: {
+            questions: this.questions.optional.positive,
+            number: this.questions.mandatory.length + 1,
+          },
+          negative: {
+            questions: this.questions.optional.negative,
+            number: this.questions.mandatory.length + 2,
+          },
+          etc: {
+            //implement this later
+            questions: this.questions.optional.etc,
+            number: this.questions.mandatory.length + 3,
+          },
+        },
+      },
       maxChecked: 3,
-      checkedPositive: [],
-      checkedNegative: [],
+      numberOfQuestions:
+        Object.keys(this.questions.mandatory).length +
+        Object.keys(this.questions.optional).length,
+      canvas: null,
+      signaturePad: null,
     };
   },
   mounted() {
     this.$nextTick(function () {
+      // scroll to top
       window.scrollTo({ top: 0, behavior: "smooth" });
+
+      //init signature_pad
+      this.canvas = document.getElementById("signature-pad");
+      this.signaturePad = new SignaturePad(this.canvas);
+      //resize canvas, fix for signature_pad
+      window.addEventListener("resize", this.resizeCanvas);
+      this.resizeCanvas();
     });
-  },
-  watch: {
-    // answers(answers) {
-    //   console.log(answers);
-    // },
   },
   methods: {
     submit() {
+      console.log("submit triggered!");
+      // check if signature is not empty
+      // if (this.signaturePad.isEmpty()) {
+      //   alert("Pumirma muna bago tapusin. Salamat po!");
+      // }
+
+      this.form.signature = this.signaturePad.toDataURL("image/jpeg");
+
+      // console.log(this.form);
+
       this.sending = true;
       this.$inertia
         .post(this.route("feedback.store"), this.form)
         .then(() => (this.sending = false));
     },
+    clearSignature() {
+      this.signaturePad.clear();
+    },
     startSurvey() {
-      document.getElementById("question-1-cont").scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+      this.goToNextQuestion(1);
     },
-    updateAnswer(question, answer) {
-      console.log("updating answers...", question, answer);
-      this.answers[`q${question}`] = answer;
-      console.log("new answers...", this.answers);
+    updateAnswerMandatory(questionNumber, questionId, answer) {
+      this.form.mandatory[questionId] = answer;
 
-      this.goToNextQuestion(+question + 1);
+      this.goToNextQuestion(+questionNumber + 1);
     },
-    goToNextQuestion(question) {
-      if (question < 6) {
-        // scroll into the next view
-        document.getElementById(`question-${question}-cont`).scrollIntoView({
+    updateAnswerOptional(questionNumber, type, answer) {
+      this.form.optional[type] = answer;
+      if (answer.length === this.maxChecked) {
+        this.goToNextQuestion(+questionNumber + 1);
+      }
+    },
+    goToNextQuestion(questionNumber) {
+      // scroll into the next view
+      document
+        .getElementById(`question-${questionNumber}-cont`)
+        .scrollIntoView({
           behavior: "smooth",
           block: "start",
         });
-      } else {
-        // finish survey! //post
-        this.submit();
-      }
+    },
+    resizeCanvas() {
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      this.canvas.width = this.canvas.offsetWidth * ratio;
+      this.canvas.height = this.canvas.offsetHeight * ratio;
+      this.canvas.getContext("2d").scale(ratio, ratio);
+      this.signaturePad.clear(); // otherwise isEmpty() might return incorrect value
     },
   },
 };
