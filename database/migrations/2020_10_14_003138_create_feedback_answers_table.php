@@ -15,6 +15,7 @@ class CreateFeedbackAnswersTable extends Migration
     {
         Schema::create('feedback_answers', function (Blueprint $table) {
             $table->id();
+            $table->integer('feedback_id');
             $table->integer('question_id');
             $table->string('answer');
             $table->softDeletes();

@@ -29,7 +29,10 @@
         <div class="font-bold md:text-6xl sm:text-3xl">
           {{ i+1 }}. {{ question.question }}
         </div>
-        <span :error="form.mandatory['question']" />
+        <input-error
+          :message="form.error('mandatory.1.question')"
+          class="mt-2"
+        />
         <emoji-choices
           :questionNumber="i+1"
           :questionId="question.id"
@@ -86,7 +89,7 @@
         <div class="font-bold md:text-5xl sm:text-2xl">
           Pirma
         </div>
-        <div class="w-full h-auto m-auto md:p-8 sm:pb-20 md:h-64">
+        <div class="w-full h-48 m-auto md:h-64 md:p-8 sm:pb-20">
           <canvas
             id="signature-pad"
             class="w-full h-full border-4 border-gray-600 border-solid shadow-xl signature-pad"
@@ -116,6 +119,8 @@
 import GuestLayout from "~/Layouts/GuestLayout";
 import EmojiChoices from "~/Shared/EmojiChoices.vue";
 import OptionalComment from "~/Shared/OptionalComment.vue";
+import InputError from "~/Jetstream/InputError.vue";
+
 import SignaturePad from "signature_pad";
 
 export default {
@@ -123,20 +128,25 @@ export default {
     GuestLayout,
     EmojiChoices,
     OptionalComment,
+    InputError,
   },
   props: {
     errors: { type: Object, default: () => {} },
     questions: { type: Object, default: () => {} },
   },
-  remember: "form",
   data() {
     return {
       sending: false,
-      form: {
-        ip_id: "1",
-        mandatory: {},
-        optional: {},
-      },
+      form: this.$inertia.form(
+        {
+          ip_id: "1",
+          mandatory: {},
+          optional: {},
+        },
+        {
+          resetOnSuccess: true,
+        }
+      ),
       questionsSet: {
         mandatory: {
           questions: this.questions.mandatory,
@@ -183,15 +193,13 @@ export default {
     submit() {
       console.log("submit triggered!");
       // check if signature is not empty
-      // if (this.signaturePad.isEmpty()) {
-      //   alert("Pumirma muna bago tapusin. Salamat po!");
-      // }
+      if (this.signaturePad.isEmpty()) {
+        alert("Pumirma muna bago tapusin. Salamat po!");
+      }
 
-      this.form.signature = this.signaturePad.toDataURL("image/jpeg");
-
-      // console.log(this.form);
-
+      this.form.signature = this.signaturePad.toDataURL(); //default is png
       this.sending = true;
+      console.log(this.form);
       this.$inertia
         .post(this.route("feedback.store"), this.form)
         .then(() => (this.sending = false));
@@ -203,13 +211,26 @@ export default {
       this.goToNextQuestion(1);
     },
     updateAnswerMandatory(questionNumber, questionId, answer) {
-      this.form.mandatory[questionId] = answer;
+      this.form.mandatory[questionId] = {
+        question_id: questionId,
+        answer: answer,
+      };
 
       this.goToNextQuestion(+questionNumber + 1);
     },
-    updateAnswerOptional(questionNumber, type, answer) {
-      this.form.optional[type] = answer;
-      if (answer.length === this.maxChecked) {
+    updateAnswerOptional(questionNumber, type, chosenIds) {
+      // console.log(questionNumber, type, choices);
+      let newOptional = chosenIds.map((questionId) => {
+        return {
+          question_id: questionId,
+          answer: 1,
+        };
+      });
+      // console.log(newOptional);
+      this.form.optional[type] = newOptional;
+
+      // this.form.optional[type] = chosenIds;
+      if (chosenIds.length === this.maxChecked) {
         this.goToNextQuestion(+questionNumber + 1);
       }
     },
