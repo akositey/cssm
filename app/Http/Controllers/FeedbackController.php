@@ -22,32 +22,24 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        // $all = Question::all();
-        // $questions = [];
-        // $types = [null, 'positive', 'negative', 'etc'];
-        // foreach ($all as $q) {
-        //     if ($q->is_required) {
-        //         $questions['mandatory'][] = $q;
-        //     } else {
-        //         $questions['optional'][$types[$q->type]][] = $q;
-        //     }
-        // }
-        $mandatory = Question::where('is_required', true)->get();
-        $etc = Question::where('type', '3')->get();
-        $optional['positive'] = Question::where('type', '1')->get();
-        $optional['negative'] = Question::where('type', '2')->get();
-
-        if (count($etc)) {
-            $optional['etc'] = Question::where('type', '3')->get();
-        }
+        // dd(Question::all());
         return Inertia::render('Feedback/Create', [
-            // 'questions' => $questions
-            'questions' =>
-            [
-                'mandatory' => $mandatory,
-                'optional' => $optional
-            ]
+            'questions' => Question::all()
         ]);
+        // $mandatory = Question::where('is_required', true)->get();
+        // $optional['positive'] = Question::where('type', '1')->get();
+        // $optional['negative'] = Question::where('type', '2')->get();
+        // $etc = Question::where('type', '3')->get();
+        // if (count($etc)) {
+        //     $optional['etc'] = $etc;
+        // }
+        // return Inertia::render('Feedback/Create', [
+        //     'questions' =>
+        //     [
+        //         'mandatory' => $mandatory,
+        //         'optional' => $optional
+        //     ]
+        // ]);
     }
 
     /**
@@ -83,30 +75,20 @@ class FeedbackController extends Controller
         // dd($request->all());
 
         // validate
-        // $mandatory_ctr = Question::where('is_required', true)->count();
-        // , 'size:' . $mandatory_ctr]
         $fields = $request->validate([
-            'mandatory' => ['required', 'array'],
+            'mandatory' => '',
             'optional' => '',
             'signature' => ['required', 'string'],
-            'ip_id' => ['required']
+            'ip_id' => 'required'
         ]);
-
-        foreach (Question::where('is_required', true)->get() as $question) {
+        // dynamic validation for mandatory questions
+        foreach (Question::where('is_required', true)->get() as $q) {
             $request->validate([
-                'mandatory.' . $question->id . '.question_id' => 'required'
+                'mandatory.' . $q->id . '.answer' => 'required'
+            ], [
+                'mandatory.' . $q->id . '.answer.required' => 'Pumili po ng isa sa mga sumusunod 👇🏻, salamat po!'
             ]);
         }
-        // foreach (Question::where('is_required', true)->get() as $question) {
-        //     foreach ($fields['mandatory'] as $answer) {
-        //         if($answer['question_id']==$question['question_id']){
-        //             $request->validate([
-        //                 'question_id' => '',
-        //                 'answer' => 'required'
-        //             ]);
-        //         }
-        //     }
-        // }
 
         // begin transaction
         DB::transaction(function () use ($fields) {
@@ -146,7 +128,7 @@ class FeedbackController extends Controller
 
         //
         // return response
-        return redirect(route('feedback.index'))->with('bigSuccess', 'Salamat po sa inyong kasagutan!');
+        return redirect(route('feedback.index'))->with('bigSuccess', 'Tagumpay! 😃 Salamat po sa inyong kasagutan!');
 
     }
 

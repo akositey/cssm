@@ -78,16 +78,10 @@
       v-if="$page.flash.bigSuccess && show"
       class="flex items-center justify-between w-full mb-8 bg-green-500 rounded"
     >
+      <div class="p-10 ml-10" />
       <div class="flex items-center">
-        <svg
-          class="flex-shrink-0 w-10 h-10 ml-10 mr-8 fill-white"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-        >
-          <polygon points="0 11 2 9 7 14 18 3 20 5 7 18" />
-        </svg>
-        <div class="py-10 text-3xl font-bold text-white md:text-6xl">
-          {{ $page.flash.bigSuccess }}
+        <div class="self-center py-10 text-3xl font-bold text-center text-white md:text-6xl">
+          👍🏻 {{ $page.flash.bigSuccess }}
         </div>
       </div>
       <button

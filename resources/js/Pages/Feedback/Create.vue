@@ -11,7 +11,7 @@
             @click="startSurvey()"
             class="sm:text-3xl btn-green md:btn-6xl md:text-6xl"
           >
-            Simulan ang Survey
+            Simulan ang Survey ✍🏻
           </button>
         </div>
       </div>
@@ -21,7 +21,7 @@
     <div class="p-6 m-auto overflow-hidden bg-white rounded shadow-xl">
       <!-- mandatory -->
       <div
-        v-for="(question, i) in questionsSet.mandatory.questions"
+        v-for="(question, i) in questionsSet.mandatory"
         :key="question.id"
         :id="`question-${i+1}-cont`"
         class="h-screen"
@@ -29,11 +29,12 @@
         <div class="font-bold md:text-6xl sm:text-3xl">
           {{ i+1 }}. {{ question.question }}
         </div>
-        <input-error
-          :message="form.error('mandatory.1.question')"
+        <emoji-error
+          :message="form.error(`mandatory.${question.id}.answer`)"
           class="mt-2"
         />
         <emoji-choices
+          :answer="question.answer"
           :questionNumber="i+1"
           :questionId="question.id"
           @answer-mandatory="updateAnswerMandatory"
@@ -42,11 +43,11 @@
 
       <!-- optional-positive -->
       <div
-        :id="`question-${questionsSet.optional.positive.number}-cont`"
+        :id="`question-${questionsSet.mandatory.length+1}-cont`"
         class="h-full md:h-screen"
       >
         <div class="font-bold md:text-5xl sm:text-2xl">
-          {{ questionsSet.optional.positive.number }}. (Opsyonal) Mga Positibong Kumento
+          {{ questionsSet.mandatory.length+1 }}. (Opsyonal) Mga Positibong Kumento
         </div>
         <div class="font-bold md:text-3xl sm:text-lg">
           Maaaring pumili hanggang tatlo(3)
@@ -54,20 +55,29 @@
 
         <optional-comment
           questionType="positive"
-          :questionNumber="questionsSet.optional.positive.number"
-          :questions="questionsSet.optional.positive.questions"
+          :questionNumber="questionsSet.mandatory.length+1"
+          :questions="questionsSet.optional.positive"
           :maxChecked="maxChecked"
           @answers-optional="updateAnswerOptional"
         />
+        <div class="flex justify-end mt-8">
+          <button
+            id="next"
+            class="md:text-5xl sm:text-2xl btn-green"
+            @click="scrollToNext(questionsSet.mandatory.length+2)"
+          >
+            Susunod
+          </button>
+        </div>
       </div>
 
       <!-- optional-negative -->
       <div
-        :id="`question-${questionsSet.optional.negative.number}-cont`"
+        :id="`question-${questionsSet.mandatory.length+2}-cont`"
         class="h-full md:h-screen"
       >
         <div class="font-bold md:text-5xl sm:text-2xl">
-          {{ questionsSet.optional.negative.number }}. (Opsyonal) Mga Negatibong Kumento
+          {{ questionsSet.mandatory.length+2 }}. (Opsyonal) Mga Negatibong Kumento
         </div>
         <div class="font-bold md:text-3xl sm:text-lg">
           Maaaring pumili hanggang tatlo(3)
@@ -75,15 +85,24 @@
 
         <optional-comment
           questionType="negative"
-          :questionNumber="questionsSet.optional.negative.number"
-          :questions="questionsSet.optional.negative.questions"
+          :questionNumber="questionsSet.mandatory.length+2"
+          :questions="questionsSet.optional.negative"
           :maxChecked="maxChecked"
           @answers-optional="updateAnswerOptional"
         />
+        <div class="flex justify-end mt-8">
+          <button
+            id="next"
+            class="md:text-5xl sm:text-2xl btn-green"
+            @click="scrollToNext(questionsSet.mandatory.length+3)"
+          >
+            Susunod
+          </button>
+        </div>
       </div>
 
       <div
-        :id="`question-${numberOfQuestions+1}-cont`"
+        :id="`question-${questionsSet.mandatory.length+3}-cont`"
         class="h-full pb-10 md:h-screen md:pb-0"
       >
         <div class="font-bold md:text-5xl sm:text-2xl">
@@ -119,7 +138,7 @@
 import GuestLayout from "~/Layouts/GuestLayout";
 import EmojiChoices from "~/Shared/EmojiChoices.vue";
 import OptionalComment from "~/Shared/OptionalComment.vue";
-import InputError from "~/Jetstream/InputError.vue";
+import EmojiError from "~/Shared/EmojiError.vue";
 
 import SignaturePad from "signature_pad";
 
@@ -128,11 +147,11 @@ export default {
     GuestLayout,
     EmojiChoices,
     OptionalComment,
-    InputError,
+    EmojiError,
   },
   props: {
     errors: { type: Object, default: () => {} },
-    questions: { type: Object, default: () => {} },
+    questions: { type: Array, default: () => {} },
   },
   data() {
     return {
@@ -142,36 +161,28 @@ export default {
           ip_id: "1",
           mandatory: {},
           optional: {},
+          signature: "",
         },
         {
           resetOnSuccess: true,
         }
       ),
       questionsSet: {
-        mandatory: {
-          questions: this.questions.mandatory,
-          count: this.questions.mandatory.length,
-        },
+        mandatory: this.questions.filter((q) => q.is_required),
         optional: {
-          positive: {
-            questions: this.questions.optional.positive,
-            number: this.questions.mandatory.length + 1,
-          },
-          negative: {
-            questions: this.questions.optional.negative,
-            number: this.questions.mandatory.length + 2,
-          },
-          etc: {
-            //implement this later
-            questions: this.questions.optional.etc,
-            number: this.questions.mandatory.length + 3,
-          },
+          positive: this.questions.filter(
+            (q) => !q.is_required && q.type === 1
+          ),
+          negative: this.questions.filter(
+            (q) => !q.is_required && q.type === 2
+          ),
+          // etc: this.questions.filter(
+          //   (q) => !q.is_required && q.type === 3
+          // ),
         },
       },
       maxChecked: 3,
-      numberOfQuestions:
-        Object.keys(this.questions.mandatory).length +
-        Object.keys(this.questions.optional).length,
+      currentQuestion: 0,
       canvas: null,
       signaturePad: null,
     };
@@ -195,20 +206,31 @@ export default {
       // check if signature is not empty
       if (this.signaturePad.isEmpty()) {
         alert("Pumirma muna bago tapusin. Salamat po!");
+      } else {
+        this.form.signature = this.signaturePad.toDataURL(); //default is png
+        this.sending = true;
+        console.log(this.form);
+        this.form
+          .post(this.route("feedback.store"))
+          .then(() => (this.sending = false))
+          .then(() => {
+            console.log("form", this.form);
+            console.log("errors", this.$page.errors);
+            console.log("error-1", Object.keys(this.$page.errors)[0]);
+            if (Object.keys(this.$page.errors)[0]) {
+              const unanswered = Object.keys(this.$page.errors)[0];
+              const questionNumber = unanswered.match(/(\d+)/)[0];
+              console.log("error in: ", questionNumber);
+              this.scrollToNext(questionNumber);
+            }
+          });
       }
-
-      this.form.signature = this.signaturePad.toDataURL(); //default is png
-      this.sending = true;
-      console.log(this.form);
-      this.$inertia
-        .post(this.route("feedback.store"), this.form)
-        .then(() => (this.sending = false));
     },
     clearSignature() {
       this.signaturePad.clear();
     },
     startSurvey() {
-      this.goToNextQuestion(1);
+      this.scrollToNext(1);
     },
     updateAnswerMandatory(questionNumber, questionId, answer) {
       this.form.mandatory[questionId] = {
@@ -216,7 +238,7 @@ export default {
         answer: answer,
       };
 
-      this.goToNextQuestion(+questionNumber + 1);
+      this.scrollToNext(+questionNumber + 1);
     },
     updateAnswerOptional(questionNumber, type, chosenIds) {
       // console.log(questionNumber, type, choices);
@@ -231,17 +253,14 @@ export default {
 
       // this.form.optional[type] = chosenIds;
       if (chosenIds.length === this.maxChecked) {
-        this.goToNextQuestion(+questionNumber + 1);
+        this.scrollToNext(+questionNumber + 1);
       }
     },
-    goToNextQuestion(questionNumber) {
+    scrollToNext(questionNumber) {
       // scroll into the next view
-      document
-        .getElementById(`question-${questionNumber}-cont`)
-        .scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+      console.log("scrolling to question #" + questionNumber);
+      const block = document.getElementById(`question-${questionNumber}-cont`);
+      window.scrollTo({ top: block.offsetTop, left: 0, behavior: "smooth" });
     },
     resizeCanvas() {
       const ratio = Math.max(window.devicePixelRatio || 1, 1);
