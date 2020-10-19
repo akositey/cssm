@@ -111,7 +111,7 @@ class FeedbackController extends Controller
             $encoded_image = explode(",", $fields['signature'])[1];
             $decoded_image = base64_decode($encoded_image);
             $image_path = 'signatures/' . $feedback->id . '.png';
-            $optimized_image_path = 'signatures/' . $feedback->id . '_optimized.png';
+            // $optimized_image_path = 'signatures/' . $feedback->id . '_optimized.png';
             //save to storage
             Storage::put($image_path, $decoded_image);
             //resize
@@ -119,16 +119,16 @@ class FeedbackController extends Controller
             $image->resize(200, null, function ($constraint) {
                 $constraint->aspectRatio();
             });
-            if ($image->save(Storage::path($optimized_image_path))) {
-                //optimize
-                ImageOptimizer::optimize(Storage::path($optimized_image_path), Storage::path('signatures/' . $feedback->id . '_optimized_more.png'));
+            //optimize
+            if ($image->save(Storage::path($image_path))) {
+                ImageOptimizer::optimize(Storage::path($image_path), Storage::path($image_path));
             }
 
         });
 
         //
         // return response
-        return redirect(route('feedback.index'))->with('bigSuccess', 'Tagumpay! 😃 Salamat po sa inyong kasagutan!');
+        return redirect(route('guest.start'))->with('bigSuccess', '😃 Salamat po sa inyong kasagutan!');
 
     }
 

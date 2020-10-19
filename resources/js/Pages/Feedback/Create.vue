@@ -1,22 +1,5 @@
 <template>
   <guest-layout>
-    <!-- Intro -->
-
-    <div class="h-screen">
-      <div class="p-8 font-bold text-center md:text-6xl sm:text-3xl">
-        Ano po ang masasabi nyo sa serbisyong naibigay sa inyo?
-
-        <div class="flex flex-no-wrap justify-center p-12">
-          <button
-            @click="startSurvey()"
-            class="sm:text-3xl btn-green md:btn-6xl md:text-6xl"
-          >
-            Simulan ang Survey ✍🏻
-          </button>
-        </div>
-      </div>
-    </div>
-
     <!-- Questions -->
     <div class="p-6 m-auto overflow-hidden bg-white rounded shadow-xl">
       <!-- mandatory -->
@@ -26,7 +9,7 @@
         :id="`question-${i+1}-cont`"
         class="h-screen"
       >
-        <div class="font-bold md:text-6xl sm:text-3xl">
+        <div class="text-xl font-bold md:text-5xl sm:text-3xl">
           {{ i+1 }}. {{ question.question }}
         </div>
         <emoji-error
@@ -39,6 +22,21 @@
           :questionId="question.id"
           @answer-mandatory="updateAnswerMandatory"
         />
+        <div class="flex justify-between mt-4 md:mt-8">
+          <button
+            class="text-xl md:text-5xl btn-gray"
+            :class="{'invisible': i+1===1}"
+            @click="scrollToNext(i)"
+          >
+            Bumalik
+          </button>
+          <button
+            class="text-xl md:text-5xl btn-green"
+            @click="scrollToNext(i+2)"
+          >
+            Susunod
+          </button>
+        </div>
       </div>
 
       <!-- optional-positive -->
@@ -47,7 +45,7 @@
         class="h-full md:h-screen"
       >
         <div class="font-bold md:text-5xl sm:text-2xl">
-          {{ questionsSet.mandatory.length+1 }}. (Opsyonal) Mga Positibong Kumento
+          {{ questionsSet.mandatory.length+1 }}. (Opsyonal) Mga Positibong Kumento 👍
         </div>
         <div class="font-bold md:text-3xl sm:text-lg">
           Maaaring pumili hanggang tatlo(3)
@@ -60,10 +58,15 @@
           :maxChecked="maxChecked"
           @answers-optional="updateAnswerOptional"
         />
-        <div class="flex justify-end mt-8">
+        <div class="flex justify-between mt-4 md:mt-8">
           <button
-            id="next"
-            class="md:text-5xl sm:text-2xl btn-green"
+            class="text-xl md:text-5xl btn-gray"
+            @click="scrollToNext(questionsSet.mandatory.length)"
+          >
+            Bumalik
+          </button>
+          <button
+            class="text-xl md:text-5xl btn-green"
             @click="scrollToNext(questionsSet.mandatory.length+2)"
           >
             Susunod
@@ -77,7 +80,7 @@
         class="h-full md:h-screen"
       >
         <div class="font-bold md:text-5xl sm:text-2xl">
-          {{ questionsSet.mandatory.length+2 }}. (Opsyonal) Mga Negatibong Kumento
+          {{ questionsSet.mandatory.length+2 }}. (Opsyonal) Mga Negatibong Kumento 👎🏾
         </div>
         <div class="font-bold md:text-3xl sm:text-lg">
           Maaaring pumili hanggang tatlo(3)
@@ -90,10 +93,15 @@
           :maxChecked="maxChecked"
           @answers-optional="updateAnswerOptional"
         />
-        <div class="flex justify-end mt-8">
+        <div class="flex justify-between mt-4 md:mt-8">
           <button
-            id="next"
-            class="md:text-5xl sm:text-2xl btn-green"
+            class="text-xl md:text-5xl btn-gray"
+            @click="scrollToNext(questionsSet.mandatory.length+1)"
+          >
+            Bumalik
+          </button>
+          <button
+            class="text-xl md:text-5xl btn-green"
             @click="scrollToNext(questionsSet.mandatory.length+3)"
           >
             Susunod
@@ -103,32 +111,31 @@
 
       <div
         :id="`question-${questionsSet.mandatory.length+3}-cont`"
-        class="h-full pb-10 md:h-screen md:pb-0"
+        class="h-screen pb-0"
       >
-        <div class="font-bold md:text-5xl sm:text-2xl">
+        <div class="text-2xl font-bold md:text-5xl">
           Pirma
         </div>
-        <div class="w-full h-48 m-auto md:h-64 md:p-8 sm:pb-20">
+        <div class="w-full h-32 pb-8 m-auto md:h-64 md:p-8">
           <canvas
             id="signature-pad"
             class="w-full h-full border-4 border-gray-600 border-solid shadow-xl signature-pad"
           />
-          <div class="flex justify-between mt-8">
-            <button
-              id="clear"
-              class="md:text-5xl sm:text-2xl btn-gray"
-              @click="clearSignature"
-            >
-              Burahin
-            </button>
-            <button
-              id="save"
-              class="md:text-5xl sm:text-2xl btn-green"
-              @click="submit"
-            >
-              Tapusin
-            </button>
-          </div>
+        </div>
+        <div class="flex justify-between mt-8">
+          <button
+            class="text-xl md:text-5xl btn-gray"
+            @click="clearSignature"
+          >
+            Burahin
+          </button>
+          <button
+            class="text-xl md:text-5xl btn-green"
+            @click="submit"
+            :disabled="sending"
+          >
+            Tapusin
+          </button>
         </div>
       </div>
     </div>
@@ -136,10 +143,9 @@
 </template>
 <script>
 import GuestLayout from "~/Layouts/GuestLayout";
-import EmojiChoices from "~/Shared/EmojiChoices.vue";
-import OptionalComment from "~/Shared/OptionalComment.vue";
-import EmojiError from "~/Shared/EmojiError.vue";
-
+import EmojiChoices from "~/Shared/EmojiChoices";
+import OptionalComment from "~/Shared/OptionalComment";
+import EmojiError from "~/Shared/EmojiError";
 import SignaturePad from "signature_pad";
 
 export default {

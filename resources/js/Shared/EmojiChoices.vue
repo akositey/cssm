@@ -1,5 +1,5 @@
 <template>
-  <div class="flex px-2 py-20 md:py-40">
+  <div class="flex px-2 py-10 md:py-40">
     <label
       v-for="(choice, i) in choices"
       :key="i"
@@ -17,7 +17,7 @@
       <emoji-icon
         :name="choice"
         class="w-20 h-20 m-auto rounded-full cursor-pointer md:h-32 md:w-32"
-        :class="{ 'w-32 h-32 md:h-40 md:w-40': i+1==answer, 'opacity-25':answer && i+1!=answer }"
+        :class="{ 'w-24 h-24 md:h-40 md:w-40': i+1==answer, 'opacity-50':answer && i+1!=answer }"
       />
     </label>
   </div>

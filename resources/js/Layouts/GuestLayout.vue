@@ -1,14 +1,14 @@
 <template>
   <div class="min-h-screen bg-gray-100">
-    <nav class="bg-white border-b border-gray-100">
+    <nav class="hidden bg-white border-b border-gray-100">
       <!-- Primary Navigation Bar -->
       <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        <div class="flex justify-between h-12 md:h-16">
           <div class="flex">
             <!-- Logo -->
             <div class="flex items-center flex-shrink-0">
               <inertia-link :href="route('feedback.index')">
-                <logo class="block w-auto h-10" />
+                <logo class="block w-auto h-8 md:h-10" />
               </inertia-link>
             </div>
 

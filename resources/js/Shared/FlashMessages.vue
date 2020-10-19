@@ -78,15 +78,15 @@
       v-if="$page.flash.bigSuccess && show"
       class="flex items-center justify-between w-full mb-8 bg-green-500 rounded"
     >
-      <div class="p-10 ml-10" />
+      <div class="p-8 ml-8" />
       <div class="flex items-center">
-        <div class="self-center py-10 text-3xl font-bold text-center text-white md:text-6xl">
+        <div class="self-center py-8 text-3xl font-bold text-center text-white md:text-5xl">
           👍🏻 {{ $page.flash.bigSuccess }}
         </div>
       </div>
       <button
         type="button"
-        class="p-10 mr-10 group"
+        class="p-8 mr-8 group"
         @click="show = false"
       >
         <svg
@@ -117,6 +117,16 @@ export default {
       },
       deep: true,
     },
+  },
+  mounted() {
+    this.$nextTick(function () {
+      //after 10 seconds, hide bigSuccess
+      if (this.$page.flash.bigSuccess) {
+        setTimeout(() => {
+          this.show = false;
+        }, 10000);
+      }
+    });
   },
 };
 </script>
