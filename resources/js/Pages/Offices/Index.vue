@@ -5,9 +5,16 @@
     </template>
 
     <div class="flex justify-between">
-      <search-filter v-model="filterForm.search" class="w-full max-w-md mr-4" @reset="reset">
+      <search-filter
+        v-model="filterForm.search"
+        class="w-full max-w-md mr-4"
+        @reset="reset"
+      >
         <label class="block text-gray-700">Trashed:</label>
-        <select v-model="filterForm.trashed" class="w-full mt-1 form-select">
+        <select
+          v-model="filterForm.trashed"
+          class="w-full mt-1 form-select"
+        >
           <option :value="null" />
           <option value="with">
             With Trashed
@@ -17,8 +24,11 @@
           </option>
         </select>
       </search-filter>
-      
-      <inertia-link class="btn-indigo" :href="route('offices.create')">
+
+      <inertia-link
+        class="btn-indigo"
+        :href="route('offices.create')"
+      >
         <span>Create</span>
         <span class="hidden md:inline">Office</span>
       </inertia-link>
@@ -39,10 +49,18 @@
           Action
         </th>
       </tr>
-      <tr v-for="row in offices.data" :key="row.id" class="border-t hover:bg-gray-100 focus-within:bg-gray-100">
+      <tr
+        v-for="row in offices.data"
+        :key="row.id"
+        class="border-t hover:bg-gray-100 focus-within:bg-gray-100"
+      >
         <td class="p-3">
           {{ row.name }}
-          <icon v-if="row.deleted_at" name="trash" class="inline w-3 h-3 ml-2 fill-red-400" />
+          <icon
+            v-if="row.deleted_at"
+            name="trash"
+            class="inline w-3 h-3 ml-2 fill-red-400"
+          />
         </td>
         <td class="p-3">
           {{ row.nick }}
@@ -51,8 +69,15 @@
           {{ row.parent_id ? offices.data.find(x=>x.id===row.parent_id).name :'' }}
         </td>
         <td class="p-3">
-          <inertia-link class="focus:text-indigo-500" :href="route('offices.edit', row.id)" tabindex="-1">
-            <icon name="cheveron-right" class="w-6 h-6 m-auto fill-gray-400" />
+          <inertia-link
+            class="focus:text-indigo-500"
+            :href="route('offices.edit', row.id)"
+            tabindex="-1"
+          >
+            <icon
+              name="cheveron-right"
+              class="w-6 h-6 m-auto fill-gray-400"
+            />
           </inertia-link>
         </td>
       </tr>
@@ -71,17 +96,17 @@
 
 <script>
 import AppLayout from "./../../Layouts/AppLayout";
-import Icon from './../../Shared/Icon';
-import Pagination from './../../Shared/Pagination';
-import SearchFilter from './../../Shared/SearchFilter';
-import mapValues from 'lodash/mapValues';
-import pickBy from 'lodash/pickBy';
-import throttle from 'lodash/throttle';
+import Icon from "./../../Shared/Icon";
+import Pagination from "./../../Shared/Pagination";
+import SearchFilter from "./../../Shared/SearchFilter";
+import mapValues from "lodash/mapValues";
+import pickBy from "lodash/pickBy";
+import throttle from "lodash/throttle";
 
 export default {
   props: {
-    offices: { type: Object, default: ()=>{} },
-    filters: { type: Object, default: ()=>{} },
+    offices: { type: Object, default: () => {} },
+    filters: { type: Object, default: () => {} },
   },
   components: {
     AppLayout,
@@ -94,8 +119,8 @@ export default {
       filterForm: {
         text: this.filters.search,
         trashed: this.filters.trashed,
-      }
-    }
+      },
+    };
   },
   watch: {
     filterForm: {
@@ -103,8 +128,8 @@ export default {
         const query = pickBy(this.filterForm);
         this.$inertia.replace(
           this.route(
-            'offices.index',
-            Object.keys(query).length ? query : { remember: 'forget' }
+            "offices.index",
+            Object.keys(query).length ? query : { remember: "forget" }
           )
         );
       }, 150),

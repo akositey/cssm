@@ -1,0 +1,280 @@
+<template>
+  <guest-layout>
+    <!-- Questions -->
+    <div class="p-6 m-auto overflow-hidden bg-white rounded shadow-xl">
+      <!-- mandatory -->
+      <div
+        v-for="(question, i) in questionsSet.mandatory"
+        :key="question.id"
+        :id="`question-${i+1}-cont`"
+        class="h-screen"
+      >
+        <div class="text-xl font-bold md:text-5xl sm:text-3xl">
+          {{ i+1 }}. {{ question.question }}
+        </div>
+        <emoji-error
+          :message="form.error(`mandatory.${question.id}.answer`)"
+          class="mt-2"
+        />
+        <emoji-choices
+          :answer="question.answer"
+          :questionNumber="i+1"
+          :questionId="question.id"
+          @answer-mandatory="updateAnswerMandatory"
+        />
+        <div class="flex justify-between mt-4 md:mt-8">
+          <button
+            class="text-xl md:text-5xl btn-gray"
+            :class="{'invisible': i+1===1}"
+            @click="scrollToNext(i)"
+          >
+            Bumalik
+          </button>
+          <button
+            class="text-xl md:text-5xl btn-green"
+            @click="scrollToNext(i+2)"
+          >
+            Susunod
+          </button>
+        </div>
+      </div>
+
+      <!-- optional-positive -->
+      <div
+        :id="`question-${questionsSet.mandatory.length+1}-cont`"
+        class="h-full md:h-screen"
+      >
+        <div class="font-bold md:text-5xl sm:text-2xl">
+          {{ questionsSet.mandatory.length+1 }}. (Opsyonal) Mga Positibong Kumento 👍
+        </div>
+        <div class="font-bold md:text-3xl sm:text-lg">
+          Maaaring pumili hanggang tatlo(3)
+        </div>
+
+        <optional-comment
+          questionType="positive"
+          :questionNumber="questionsSet.mandatory.length+1"
+          :questions="questionsSet.optional.positive"
+          :maxChecked="maxChecked"
+          @answers-optional="updateAnswerOptional"
+        />
+        <div class="flex justify-between mt-4 md:mt-8">
+          <button
+            class="text-xl md:text-5xl btn-gray"
+            @click="scrollToNext(questionsSet.mandatory.length)"
+          >
+            Bumalik
+          </button>
+          <button
+            class="text-xl md:text-5xl btn-green"
+            @click="scrollToNext(questionsSet.mandatory.length+2)"
+          >
+            Susunod
+          </button>
+        </div>
+      </div>
+
+      <!-- optional-negative -->
+      <div
+        :id="`question-${questionsSet.mandatory.length+2}-cont`"
+        class="h-full md:h-screen"
+      >
+        <div class="font-bold md:text-5xl sm:text-2xl">
+          {{ questionsSet.mandatory.length+2 }}. (Opsyonal) Mga Negatibong Kumento 👎🏾
+        </div>
+        <div class="font-bold md:text-3xl sm:text-lg">
+          Maaaring pumili hanggang tatlo(3)
+        </div>
+
+        <optional-comment
+          questionType="negative"
+          :questionNumber="questionsSet.mandatory.length+2"
+          :questions="questionsSet.optional.negative"
+          :maxChecked="maxChecked"
+          @answers-optional="updateAnswerOptional"
+        />
+        <div class="flex justify-between mt-4 md:mt-8">
+          <button
+            class="text-xl md:text-5xl btn-gray"
+            @click="scrollToNext(questionsSet.mandatory.length+1)"
+          >
+            Bumalik
+          </button>
+          <button
+            class="text-xl md:text-5xl btn-green"
+            @click="scrollToNext(questionsSet.mandatory.length+3)"
+          >
+            Susunod
+          </button>
+        </div>
+      </div>
+
+      <div
+        :id="`question-${questionsSet.mandatory.length+3}-cont`"
+        class="h-screen pb-0"
+      >
+        <div class="text-2xl font-bold md:text-5xl">
+          Pirma
+        </div>
+        <div class="w-full h-32 pb-8 m-auto md:h-64 md:p-8">
+          <canvas
+            id="signature-pad"
+            class="w-full h-full border-4 border-gray-600 border-solid shadow-xl signature-pad"
+          />
+        </div>
+        <div class="flex justify-between mt-8">
+          <button
+            class="text-xl md:text-5xl btn-gray"
+            @click="clearSignature"
+          >
+            Burahin
+          </button>
+          <button
+            class="text-xl md:text-5xl btn-green"
+            @click="submit"
+            :disabled="sending"
+          >
+            Tapusin
+          </button>
+        </div>
+      </div>
+    </div>
+  </guest-layout>
+</template>
+<script>
+import GuestLayout from "~/Layouts/GuestLayout";
+import EmojiChoices from "~/Shared/EmojiChoices";
+import OptionalComment from "~/Shared/OptionalComment";
+import EmojiError from "~/Shared/EmojiError";
+import SignaturePad from "signature_pad";
+
+export default {
+  components: {
+    GuestLayout,
+    EmojiChoices,
+    OptionalComment,
+    EmojiError,
+  },
+  props: {
+    errors: { type: Object, default: () => {} },
+    questions: { type: Array, default: () => {} },
+  },
+  data() {
+    return {
+      sending: false,
+      form: this.$inertia.form(
+        {
+          ip_id: "1",
+          mandatory: {},
+          optional: {},
+          signature: "",
+        },
+        {
+          resetOnSuccess: true,
+        }
+      ),
+      questionsSet: {
+        mandatory: this.questions.filter((q) => q.is_required),
+        optional: {
+          positive: this.questions.filter(
+            (q) => !q.is_required && q.type === 1
+          ),
+          negative: this.questions.filter(
+            (q) => !q.is_required && q.type === 2
+          ),
+          // etc: this.questions.filter(
+          //   (q) => !q.is_required && q.type === 3
+          // ),
+        },
+      },
+      maxChecked: 3,
+      currentQuestion: 0,
+      canvas: null,
+      signaturePad: null,
+    };
+  },
+  mounted() {
+    this.$nextTick(function () {
+      // scroll to top
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      //init signature_pad
+      this.canvas = document.getElementById("signature-pad");
+      this.signaturePad = new SignaturePad(this.canvas);
+      //resize canvas, fix for signature_pad
+      window.addEventListener("resize", this.resizeCanvas);
+      this.resizeCanvas();
+    });
+  },
+  methods: {
+    submit() {
+      console.log("submit triggered!");
+      // check if signature is not empty
+      if (this.signaturePad.isEmpty()) {
+        alert("Pumirma muna bago tapusin. Salamat po!");
+      } else {
+        this.form.signature = this.signaturePad.toDataURL(); //default is png
+        this.sending = true;
+        console.log(this.form);
+        this.form
+          .post(this.route("feedback.store"))
+          .then(() => (this.sending = false))
+          .then(() => {
+            console.log("form", this.form);
+            console.log("errors", this.$page.errors);
+            console.log("error-1", Object.keys(this.$page.errors)[0]);
+            if (Object.keys(this.$page.errors)[0]) {
+              const unanswered = Object.keys(this.$page.errors)[0];
+              const questionNumber = unanswered.match(/(\d+)/)[0];
+              console.log("error in: ", questionNumber);
+              this.scrollToNext(questionNumber);
+            }
+          });
+      }
+    },
+    clearSignature() {
+      this.signaturePad.clear();
+    },
+    startSurvey() {
+      this.scrollToNext(1);
+    },
+    updateAnswerMandatory(questionNumber, questionId, answer) {
+      this.form.mandatory[questionId] = {
+        question_id: questionId,
+        answer: answer,
+      };
+
+      this.scrollToNext(+questionNumber + 1);
+    },
+    updateAnswerOptional(questionNumber, type, chosenIds) {
+      // console.log(questionNumber, type, choices);
+      let newOptional = chosenIds.map((questionId) => {
+        return {
+          question_id: questionId,
+          answer: 1,
+        };
+      });
+      // console.log(newOptional);
+      this.form.optional[type] = newOptional;
+
+      // this.form.optional[type] = chosenIds;
+      if (chosenIds.length === this.maxChecked) {
+        this.scrollToNext(+questionNumber + 1);
+      }
+    },
+    scrollToNext(questionNumber) {
+      // scroll into the next view
+      console.log("scrolling to question #" + questionNumber);
+      const block = document.getElementById(`question-${questionNumber}-cont`);
+      window.scrollTo({ top: block.offsetTop, left: 0, behavior: "smooth" });
+    },
+    resizeCanvas() {
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      this.canvas.width = this.canvas.offsetWidth * ratio;
+      this.canvas.height = this.canvas.offsetHeight * ratio;
+      this.canvas.getContext("2d").scale(ratio, ratio);
+      this.signaturePad.clear(); // otherwise isEmpty() might return incorrect value
+    },
+  },
+};
+</script>

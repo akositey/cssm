@@ -9,6 +9,23 @@
 
   &:hover, &:focus { @apply bg-orange-500 }
 }
+
+.btn-green {
+  @apply px-6 py-3 text-sm font-bold text-white whitespace-no-wrap bg-green-600 rounded;
+
+  &:hover, &:focus { @apply bg-orange-500 }
+}
+
+.btn-gray {
+  @apply px-6 py-3 text-sm font-bold text-white whitespace-no-wrap bg-gray-600 rounded;
+
+  &:hover, &:focus { @apply bg-gray-800 }
+}
+
+.btn-6xl {
+  @apply px-12 py-8 text-6xl font-bold;
+}
+
 .btn-spinner,
 .btn-spinner:after {
   border-radius: 50%;

@@ -1,11 +1,11 @@
 module.exports = {
     env: {
         browser: true,
-        node: true
+        node: true,
     },
     extends: [
         "eslint:recommended",
-        "plugin:vue/strongly-recommended" //needs eslint-plugin-vue,
+        "plugin:vue/strongly-recommended", //needs eslint-plugin-vue,
         // "plugin:prettier-vue/recommended", //needs eslint-config-prettier,eslint-plugin-prettier-vue
         // "prettier/vue" // use prettier for <template> block
     ],
@@ -13,7 +13,7 @@ module.exports = {
         parser: "babel-eslint", //needs babel-eslint
         ecmaVersion: 2019,
         sourceType: "module",
-        allowImportExportEverywhere: true
+        allowImportExportEverywhere: true,
     },
     plugins: ["vue"],
     rules: {
@@ -25,12 +25,19 @@ module.exports = {
                 singleline: 20,
                 multiline: {
                     max: 1,
-                    allowFirstLine: false
-                }
-            }
-        ]
+                    allowFirstLine: false,
+                },
+            },
+        ],
+        "vue/attribute-hyphenation": [
+            "error",
+            "never",
+            {
+                ignore: [],
+            },
+        ],
     },
     settings: {
-        "import/resolver": "webpack.mix.js" //needs eslint-import-resolver-webpack
-    }
+        "import/resolver": "webpack.mix.js", //needs eslint-import-resolver-webpack
+    },
 };

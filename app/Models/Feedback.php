@@ -14,4 +14,12 @@ class Feedback extends Model
      * @var array
      */
     protected $fillable = ['ip_id', 'question1', 'question2', 'question3', 'positive1', 'positive2', 'positive3', 'positive4', 'positive5', 'positive6', 'negative1', 'negative2', 'negative3', 'negative4', 'negative5', 'negative6', 'negative7', 'negative8', 'suggestion'];
+
+    /**
+     * @return mixed
+     */
+    public function answers()
+    {
+        return $this->hasMany('App\Models\FeedbackAnswers');
+    }
 }

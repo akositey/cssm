@@ -22,8 +22,8 @@ class IpFactory extends Factory
     public function definition()
     {
         return [
-            'ip' => $this->faker->ipv4,
-            'office_id' => $this->faker->numberBetween(1, 10),
+            'address' => $this->faker->ipv4,
+            'office_id' => $this->faker->numberBetween(1, 30)
         ];
     }
 }
