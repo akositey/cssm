@@ -19,17 +19,21 @@ class OfficeSeeder extends Seeder
             ['id' => 2, 'parent_id' => 1, 'old_id' => 42, 'name' => 'GO-Management Support Staff Division', 'abbr' => 'GO-MSSD'],
             ['id' => 3, 'parent_id' => 1, 'old_id' => 23, 'name' => 'GO-Internal Audit & Services Division', 'abbr' => 'GO-IASD'],
             ['id' => 4, 'parent_id' => 1, 'old_id' => 8, 'name' => 'GO-Education & Employment Services Division', 'abbr' => 'GO-EESD'], // how about 4? multiple entries (>,<)!!!
-            ['id' => 5, 'parent_id' => 1, 'old_id' => 24, 'name' => 'GO-Provincial Detention Center Management Services Division', 'abbr' => 'GO-PDCMSD'],
+            ['id' => 5, 'parent_id' => 1, 'old_id' => 24, 'name' => 'GO-Provincial Detention Center Management Division', 'abbr' => 'GO-PDCMD'],
             ['id' => 6, 'parent_id' => 1, 'old_id' => 130, 'name' => 'GO-Special Concerns Division', 'abbr' => 'GO-SCD'],
             ['id' => 7, 'parent_id' => 1, 'old_id' => 131, 'name' => 'GO-Provincial Social Action Center', 'abbr' => 'GO-PSAC'],
-            ['id' => 8, 'parent_id' => 1, 'old_id' => 35, 'name' => 'GO-Language Learning Program', 'abbr' => 'GO-LSI'],
+            ['id' => 8, 'parent_id' => 1, 'old_id' => 35, 'name' => 'GO-Language Skills Institute', 'abbr' => 'GO-LSI'],
             ['id' => 9, 'parent_id' => 1, 'old_id' => 36, 'name' => 'GO-Extension Office', 'abbr' => 'GO-EXT'],
             ['id' => 10, 'parent_id' => 1, 'old_id' => 40, 'name' => 'GO-Botika ng Lalawigan', 'abbr' => 'GO-BLOM'],
+            ['id' => 43, 'parent_id' => 1, 'old_id' => 25, 'name' => 'GO-Public Information Services Division', 'abbr' => 'GO-PISD'],
+            ['id' => 44, 'parent_id' => 1, 'old_id' => 69, 'name' => 'GO-Galing at Serbisyo para sa Mindoreño Action Center', 'abbr' => 'GO-GSMAC'],
+            ['id' => 45, 'parent_id' => 1, 'old_id' => 132, 'name' => 'GO-Oriental Mindoro Blood Council', 'abbr' => 'GO-OMBC'],
             // SP
             ['id' => 11, 'parent_id' => null, 'old_id' => 11, 'name' => 'Office of the Vice Governor & Sangguniang Panlalawigan', 'abbr' => 'OVG/SP'],
             //PA
             ['id' => 12, 'parent_id' => null, 'old_id' => 12, 'name' => 'Provincial Administrator\'s Office', 'abbr' => 'PA'],
-            ['id' => 13, 'parent_id' => 12, 'old_id' => 32, 'name' => 'PA - Management Information Services Division', 'abbr' => 'PA-MIS'],
+            ['id' => 13, 'parent_id' => 12, 'old_id' => 32, 'name' => 'PA-Management Information Services Division', 'abbr' => 'PA-MIS'],
+            ['id' => 46, 'parent_id' => 12, 'old_id' => null, 'name' => 'PA-Anti Red Tape Act', 'abbr' => 'PA-ARTA'],
             // PHRMO
             ['id' => 14, 'parent_id' => null, 'old_id' => 9, 'name' => 'Provincial Human Resource Management Office', 'abbr' => 'PHRMO'],
             // PPDO
@@ -41,7 +45,7 @@ class OfficeSeeder extends Seeder
             ['id' => 20, 'parent_id' => 15, 'old_id' => 45, 'name' => 'PPDO-Monitoring and Evaluation Division', 'abbr' => 'PPDO-Monitoring'],
             // PGSO
             ['id' => 21, 'parent_id' => null, 'old_id' => 14, 'name' => 'Provincial General Services Office', 'abbr' => 'GSO'],
-            ['id' => 22, 'parent_id' => null, 'old_id' => 21, 'name' => 'PGSO -Civil Security Division', 'abbr' => 'CSD'],
+            ['id' => 22, 'parent_id' => null, 'old_id' => 21, 'name' => 'PGSO-Civil Security Division', 'abbr' => 'PGSO-CSD'],
             // PBO / OPA / PTO / PAsO / PLO
             ['id' => 23, 'parent_id' => null, 'old_id' => 15, 'name' => 'Provincial Budget Office', 'abbr' => 'PBO'],
             ['id' => 24, 'parent_id' => null, 'old_id' => 16, 'name' => 'Office of the Provincial Accountant', 'abbr' => 'OPA'],
@@ -64,8 +68,8 @@ class OfficeSeeder extends Seeder
             ['id' => 38, 'parent_id' => null, 'old_id' => 29, 'name' => 'Provincial Veterinary\'s Office', 'abbr' => 'ProVet'],
             ['id' => 39, 'parent_id' => null, 'old_id' => 30, 'name' => 'Provincial Environment & Natural Resources Office', 'abbr' => 'ENRO'],
             ['id' => 40, 'parent_id' => null, 'old_id' => 31, 'name' => 'Provincial Engineering Office', 'abbr' => 'PEO'],
-            ['id' => 41, 'parent_id' => null, 'old_id' => 68, 'name' => 'Provincial Investment, Cooperative and Enterprise Development Office', 'abbr' => 'PICEDO'],
-            ['id' => 42, 'parent_id' => null, 'old_id' => 67, 'name' => 'Provincial Tourism and Cultural Affairs Office', 'abbr' => 'PTCAO']
+            ['id' => 41, 'parent_id' => null, 'old_id' => 22, 'name' => 'Provincial Tourism, Investment, and Enterprise Development Office', 'abbr' => 'PTIEDO'],
+            ['id' => 42, 'parent_id' => null, 'old_id' => 67, 'name' => 'Provincial Tourism and Cultural Affairs Office', 'abbr' => 'PTIEDO-Tourism']
         ];
 
         foreach ($offices as $dept) {

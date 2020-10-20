@@ -21,18 +21,28 @@
         </div>
       </div>
     </nav>
-
-    <!-- Page Content -->
     <main>
       <div
         class="flex-1 px-4 py-4 m-auto overflow-y-auto max-w-7xl "
         scroll-region
       >
         <flash-messages />
-        <slot />
+
+        <div class="h-screen">
+          <div class="p-8 text-xl font-bold text-center md:text-5xl sm:text-3xl">
+            Ano po ang masasabi nyo sa serbisyong naibigay sa inyo?
+
+            <div class="flex flex-no-wrap justify-center p-12">
+              <inertia-link :href="route('feedback.index')">
+                <button class="text-xl sm:text-3xl btn-green md:btn-6xl md:text-5xl">
+                  Simulan ang Survey ✍🏻
+                </button>
+              </inertia-link>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
-
     <!-- Dropdown Portal -->
     <portal-target
       name="dropdown"
@@ -40,16 +50,12 @@
     />
   </div>
 </template>
-
 <script>
-import Logo from "~/Shared/PgomLogo";
+// import AppLayout from "~/Layouts/GuestLayout";
 import FlashMessages from "~/Shared/FlashMessages";
 
 export default {
-  components: {
-    Logo,
-    FlashMessages,
-  },
+  components: { FlashMessages },
   props: {
     office: {
       type: String,
@@ -57,17 +63,13 @@ export default {
     },
   },
   data() {
-    return {
-      showingNavigationDropdown: false,
-    };
+    return {};
   },
-
+  mounted() {},
   methods: {},
-
-  computed: {
-    path() {
-      return window.location.pathname;
-    },
-  },
 };
 </script>
+
+
+
+    
