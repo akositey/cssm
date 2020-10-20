@@ -1,11 +1,10 @@
 <?php
 
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\IpController;
 use App\Http\Controllers\OfficeController;
-use App\Models\Ip;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,18 +25,7 @@ Route::get('/', function () {
 //     return Inertia::render('Dashboard');
 // })->name('dashboard');
 
-Route::get('/', function () {
-    $office = null;
-    $userIP = $_SERVER['REMOTE_ADDR'];
-    //check if IP is registered
-    $match = Ip::firstWhere('address', $userIP);
-    if ($match) {
-        $office = $match->office()->first()->name;
-    }
-    // dd($office);
-    return Inertia::render('GuestStart', ['office' => $office]);
-
-})->name('guest.start');
+Route::get('/', [GuestController::class, 'index'])->name('guest.start');
 
 Route::resource('feedback', FeedbackController::class);
 
