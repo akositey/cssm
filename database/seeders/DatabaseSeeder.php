@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\IpSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
@@ -31,7 +32,8 @@ class DatabaseSeeder extends Seeder
         }
         $this->call([
             QuestionSeeder::class,
-            OfficeSeeder::class
+            OfficeSeeder::class,
+            IpSeeder::class
         ]);
     }
 }
