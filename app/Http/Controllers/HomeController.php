@@ -8,6 +8,7 @@ class HomeController extends Controller
 {
     public function index()
     {
+        // Illuminate\Support\Facades\Auth::logout();
         $office = auth()->user()->office;
         $officeName = '';
         if ($office) {
