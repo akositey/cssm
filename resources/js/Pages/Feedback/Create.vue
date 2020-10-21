@@ -1,5 +1,5 @@
 <template>
-  <guest-layout>
+  <feedback-layout>
     <!-- Questions -->
     <div class="m-auto overflow-hidden">
       <!-- mandatory -->
@@ -173,10 +173,10 @@
         </div>
       </div>
     </div>
-  </guest-layout>
+  </feedback-layout>
 </template>
 <script>
-import GuestLayout from "~/Layouts/GuestLayout";
+import FeedbackLayout from "~/Layouts/FeedbackLayout";
 import EmojiChoices from "~/Shared/EmojiChoices";
 import OptionalComment from "~/Shared/OptionalComment";
 import Icon from "~/Shared/Icon";
@@ -185,7 +185,7 @@ import SignaturePad from "signature_pad";
 
 export default {
   components: {
-    GuestLayout,
+    FeedbackLayout,
     EmojiChoices,
     OptionalComment,
     Icon,

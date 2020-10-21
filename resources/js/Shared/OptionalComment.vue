@@ -16,7 +16,7 @@
             class="md:zoom-20 zoom-15"
           >
         </div>
-        <div class="p-1 md:p-2 flex-grow-1 td md:p-3">
+        <div class="p-1 md:p-2 flex-grow-1 td">
           <p>{{ question.question }}</p>
         </div>
       </div>

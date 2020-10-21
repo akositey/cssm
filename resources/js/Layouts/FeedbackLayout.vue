@@ -3,20 +3,26 @@
     <nav class="bg-white border-b border-gray-100">
       <!-- Primary Navigation Bar -->
       <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="flex justify-between h-12 md:h-16">
-          <div class="flex">
-            <!-- Logo -->
-            <div class="flex items-center flex-shrink-0">
+        <div class="relative flex items-center justify-between h-16">
+          <!-- Logo -->
+          <div class="flex items-center justify-center flex-1 md:items-stretch md:justify-start">
+            <div class="flex-shrink-0">
               <inertia-link :href="route('feedback.index')">
                 <logo class="block w-auto h-8 md:h-10" />
               </inertia-link>
             </div>
-
-            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-              <h2 class="inline-flex items-center p-2 text-xl font-semibold leading-tight text-gray-800 ">
-                Customer Satisfaction Survey | Office: {{ office }}
-              </h2>
+            <div class="hidden sm:block sm:ml-6">
+              <div class="flex">
+                <h2 class="items-center px-3 py-2 text-xl font-semibold leading-tight text-gray-800 ">
+                  Customer Satisfaction Survey
+                </h2>
+              </div>
             </div>
+          </div>
+          <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <h2 class="items-center px-3 py-2 text-xl font-semibold leading-tight text-gray-800 ">
+              {{ $page.user.name }}
+            </h2>
           </div>
         </div>
       </div>
