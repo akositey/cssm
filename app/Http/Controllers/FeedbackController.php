@@ -128,7 +128,7 @@ class FeedbackController extends Controller
 
         //
         // return response
-        return redirect(route('guest.start'))->with('bigSuccess', '😃 Salamat po sa inyong kasagutan!');
+        return redirect(route('start'))->with('bigSuccess', '😃 Salamat po sa inyong kasagutan!');
 
     }
 
