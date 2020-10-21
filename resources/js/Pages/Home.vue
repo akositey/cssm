@@ -79,11 +79,10 @@ export default {
   methods: {
     goFullScreen() {
       //go fullscreen
-      document
-        .querySelector("body")
+      document.documentElement
         .requestFullscreen({ navigationUI: "show" })
         .then(function () {
-          console.log("full screen");
+          console.log("entered full screen");
         })
         .catch(function (error) {
           console.log(error);
