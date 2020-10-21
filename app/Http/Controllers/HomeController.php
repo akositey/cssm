@@ -9,13 +9,14 @@ class HomeController extends Controller
     public function index()
     {
         // Illuminate\Support\Facades\Auth::logout();
-        $office = auth()->user()->office;
-        $officeName = '';
-        if ($office) {
-            $officeName = $office->abbr;
-        }
-        // dd($officeName);
-        return Inertia::render('Home', ['office' => $officeName]);
+        // $office = auth()->user()->office;
+        // $officeName = '';
+        // if ($office) {
+        //     $officeName = $office->abbr;
+        // }
+
+        dd(shell_exec('whoami'));
+        return Inertia::render('Home');
 
         // $office = null;
         // $userIP = $_SERVER['REMOTE_ADDR'];
