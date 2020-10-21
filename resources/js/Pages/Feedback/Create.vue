@@ -145,7 +145,7 @@
 
       <div
         :id="`question-${questionsSet.mandatory.length+3}-cont`"
-        class="h-screen p-6 pb-0 mt-20 bg-white rounded shadow-xl"
+        class="h-full p-6 pb-0 mt-20 bg-white rounded shadow-xl"
       >
         <div class="text-2xl font-bold md:text-5xl">
           Pirma
@@ -169,6 +169,10 @@
             :disabled="sending"
           >
             Tapusin
+            <icon
+              name="cheveron-right"
+              class="inline w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+            />
           </button>
         </div>
       </div>
@@ -200,7 +204,6 @@ export default {
       sending: false,
       form: this.$inertia.form(
         {
-          ip_id: "1",
           mandatory: {},
           optional: {},
           signature: "",
@@ -283,7 +286,7 @@ export default {
       this.scrollToNext(+questionNumber + 1);
     },
     updateAnswerOptional(questionNumber, type, chosenIds) {
-      // console.log(questionNumber, type, choices);
+      // console.log(questionNumber, type, chosenIds);
       let newOptional = chosenIds.map((questionId) => {
         return {
           question_id: questionId,
@@ -300,7 +303,7 @@ export default {
     },
     scrollToNext(questionNumber) {
       // scroll into the next view
-      console.log("scrolling to question #" + questionNumber);
+      // console.log("scrolling to question #" + questionNumber);
       const block = document.getElementById(`question-${questionNumber}-cont`);
       window.scrollTo({ top: block.offsetTop, left: 0, behavior: "smooth" });
     },

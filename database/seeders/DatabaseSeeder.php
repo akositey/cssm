@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\IpSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 
@@ -18,13 +17,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             QuestionSeeder::class,
-            OfficeSeeder::class,
-            IpSeeder::class
+            OfficeSeeder::class
+            // IpSeeder::class
         ]);
-        if (App::environment('local', 'testing', 'staging')) {
-            $this->call([
-                DevSeeder::class
-            ]);
-        }
+        // if (App::environment('local', 'testing', 'staging')) {
+        //     $this->call([
+        //         DevSeeder::class
+        //     ]);
+        // }
     }
 }

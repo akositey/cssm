@@ -14,6 +14,8 @@ class OfficeSeeder extends Seeder
     public function run()
     {
         $offices = [
+            //test office
+            ['id' => 999999999, 'parent_id' => null, 'old_id' => null, 'name' => 'Test Office', 'abbr' => 'TEST'],
             //GO
             ['id' => 1, 'parent_id' => null, 'old_id' => 10, 'name' => 'Office of the Governor', 'abbr' => 'GO'],
             ['id' => 2, 'parent_id' => 1, 'old_id' => 42, 'name' => 'GO-Management Support Staff Division', 'abbr' => 'GO-MSSD'],

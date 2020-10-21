@@ -10,9 +10,9 @@
           <input
             type="checkbox"
             :id="`positive${i+1}`"
-            :value="i+1"
+            :value="question.id"
             v-model="answers"
-            :disabled="answers.length >= maxChecked && answers.indexOf(i+1) == -1"
+            :disabled="answers.length >= maxChecked && answers.indexOf(question.id) == -1"
             class="md:zoom-20 zoom-15"
           >
         </div>
@@ -39,6 +39,9 @@ export default {
     return {
       answers: [],
     };
+  },
+  mounted() {
+    // console.log("questions", this.questions);
   },
   watch: {
     answers() {

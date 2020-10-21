@@ -30,4 +30,12 @@ class Office extends Model
     {
         return $this->hasMany('App\Models\User');
     }
+
+    /**
+     * @return mixed
+     */
+    public function feedback()
+    {
+        return $this->hasMany('App\Models\Feedback');
+    }
 }

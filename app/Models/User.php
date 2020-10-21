@@ -66,4 +66,13 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\Office');
     }
+
+    /**
+     * @return mixed
+     */
+    public function feedback()
+    {
+        return $this->hasMany('App\Models\Feedback');
+
+    }
 }

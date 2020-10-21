@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
                 'email' => 'chestermartinez@gmail.com',
                 'email_verified_at' => now(),
                 'type' => 1, //admin
+                'office_id' => 999999999,
                 'password' => bcrypt('@12345'), // password
                 'remember_token' => Str::random(10)
             ],

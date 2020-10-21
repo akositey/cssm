@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen bg-gray-100">
-    <nav class="bg-white border-b border-gray-100">
+  <div class="min-h-screen bg-gray-200">
+    <nav class="bg-white shadow-md">
       <!-- Primary Navigation Bar -->
       <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="relative flex items-center justify-between h-16">
@@ -34,7 +34,7 @@
       >
         <flash-messages />
 
-        <div class="h-screen">
+        <div class="h-full">
           <div class="p-8 text-xl font-bold text-center md:text-5xl sm:text-3xl">
             Ano po ang masasabi nyo sa serbisyong naibigay sa inyo?
 

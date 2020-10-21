@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen bg-gray-100">
-    <nav class="bg-white border-b border-gray-100">
+  <div class="min-h-screen bg-gray-200">
+    <nav class="bg-white shadow-md">
       <!-- Primary Navigation Bar -->
       <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="relative flex items-center justify-between h-16">

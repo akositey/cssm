@@ -75,11 +75,8 @@ class FeedbackController extends Controller
         // dd($request->all());
 
         // validate
-        $fields = $request->validate([
-            'mandatory' => '',
-            'optional' => '',
-            'signature' => ['required', 'string'],
-            'ip_id' => 'required'
+        $request->validate([
+            'signature' => ['required', 'string']
         ]);
         // dynamic validation for mandatory questions
         foreach (Question::where('is_required', true)->get() as $q) {
@@ -89,7 +86,9 @@ class FeedbackController extends Controller
                 'mandatory.' . $q->id . '.answer.required' => 'Pumili po ng isa sa mga sumusunod 👇🏻, salamat po!'
             ]);
         }
-
+        $fields = $request->only(['mandatory', 'optional', 'signature']);
+        $fields['office_id'] = auth()->user()->office->id;
+        // dd($fields);
         // begin transaction
         DB::transaction(function () use ($fields) {
 
