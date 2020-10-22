@@ -18,7 +18,7 @@ class CreateOfficesTable extends Migration
             $table->string('name');
             $table->string('abbr', 20);
             $table->integer('parent_id')->nullable();
-            $table->integer('old_id')->comment('if from dtr_dept table');
+            $table->integer('old_id')->nullable()->comment('if from dtr_dept table');
             $table->softDeletes();
             $table->timestamps();
         });

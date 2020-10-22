@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\FeedbackController;
-use App\Http\Controllers\GuestController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IpController;
 use App\Http\Controllers\OfficeController;
 use Illuminate\Support\Facades\Route;
@@ -17,17 +17,17 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
 // })->name('dashboard');
 
-Route::get('/', [GuestController::class, 'index'])->name('guest.start');
+Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('start');
 
-Route::resource('feedback', FeedbackController::class);
+Route::resource('feedback', FeedbackController::class)->middleware('auth');
 
 Route::prefix('admin')->group(function () {
     Route::put('offices/{office}/restore', [OfficeController::class, 'restore'])->name('offices.restore');

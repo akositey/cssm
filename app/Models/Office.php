@@ -15,11 +15,27 @@ class Office extends Model
      */
     protected $fillable = ['name', 'nick', 'parent_id'];
 
+    // /**
+    //  * @return mixed
+    //  */
+    // public function ips()
+    // {
+    //     return $this->hasMany('App\Models\Ip');
+    // }
+
     /**
      * @return mixed
      */
-    public function ips()
+    public function users()
     {
-        return $this->hasMany('App\Models\Ip');
+        return $this->hasMany('App\Models\User');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function feedback()
+    {
+        return $this->hasMany('App\Models\Feedback');
     }
 }

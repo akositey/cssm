@@ -1,5 +1,5 @@
 <template>
-  <div class="flex px-2 py-10 md:py-40">
+  <div class="flex flex-grow w-10/12 px-8 py-10 md:py-40">
     <label
       v-for="(choice, i) in choices"
       :key="i"

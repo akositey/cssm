@@ -1,13 +1,14 @@
 <template>
-  <guest-layout>
+  <feedback-layout>
     <!-- Questions -->
-    <div class="p-6 m-auto overflow-hidden bg-white rounded shadow-xl">
+    <div class="m-auto overflow-hidden">
       <!-- mandatory -->
       <div
         v-for="(question, i) in questionsSet.mandatory"
         :key="question.id"
         :id="`question-${i+1}-cont`"
-        class="h-screen"
+        class="h-screen p-6 bg-white rounded shadow-xl"
+        :class="{'mt-20': i+1!==1}"
       >
         <div class="text-xl font-bold md:text-5xl sm:text-3xl">
           {{ i+1 }}. {{ question.question }}
@@ -16,33 +17,46 @@
           :message="form.error(`mandatory.${question.id}.answer`)"
           class="mt-2"
         />
-        <emoji-choices
-          :answer="question.answer"
-          :questionNumber="i+1"
-          :questionId="question.id"
-          @answer-mandatory="updateAnswerMandatory"
-        />
+
         <div class="flex justify-between mt-4 md:mt-8">
-          <button
-            class="text-xl md:text-5xl btn-gray"
-            :class="{'invisible': i+1===1}"
-            @click="scrollToNext(i)"
-          >
-            Bumalik
-          </button>
-          <button
-            class="text-xl md:text-5xl btn-green"
-            @click="scrollToNext(i+2)"
-          >
-            Susunod
-          </button>
+          <div class="flex justify-center w-1/12 min-h-full">
+            <button
+              class="md:text-5xl btn-prev"
+              :class="{'invisible': i+1===1}"
+              @click="scrollToNext(i)"
+            >
+              <icon
+                name="cheveron-right"
+                class="w-12 h-12 transform -rotate-180 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+              />
+            </button>
+          </div>
+
+          <emoji-choices
+            :answer="question.answer"
+            :questionNumber="i+1"
+            :questionId="question.id"
+            @answer-mandatory="updateAnswerMandatory"
+          />
+
+          <div class="flex justify-center w-1/12 min-h-full">
+            <button
+              class="md:text-5xl btn-next"
+              @click="scrollToNext(i+2)"
+            >
+              <icon
+                name="cheveron-right"
+                class="w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+              />
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- optional-positive -->
       <div
         :id="`question-${questionsSet.mandatory.length+1}-cont`"
-        class="h-full md:h-screen"
+        class="h-full p-6 mt-20 bg-white rounded shadow-xl md:h-screen"
       >
         <div class="font-bold md:text-5xl sm:text-2xl">
           {{ questionsSet.mandatory.length+1 }}. (Opsyonal) Mga Positibong Kumento 👍
@@ -51,33 +65,43 @@
           Maaaring pumili hanggang tatlo(3)
         </div>
 
-        <optional-comment
-          questionType="positive"
-          :questionNumber="questionsSet.mandatory.length+1"
-          :questions="questionsSet.optional.positive"
-          :maxChecked="maxChecked"
-          @answers-optional="updateAnswerOptional"
-        />
-        <div class="flex justify-between mt-4 md:mt-8">
-          <button
-            class="text-xl md:text-5xl btn-gray"
-            @click="scrollToNext(questionsSet.mandatory.length)"
-          >
-            Bumalik
-          </button>
-          <button
-            class="text-xl md:text-5xl btn-green"
-            @click="scrollToNext(questionsSet.mandatory.length+2)"
-          >
-            Susunod
-          </button>
+        <div class="flex justify-between">
+          <div class="flex justify-center w-1/12 min-h-full">
+            <button
+              class="md:text-5xl btn-prev"
+              @click="scrollToNext(questionsSet.mandatory.length)"
+            >
+              <icon
+                name="cheveron-right"
+                class="w-12 h-12 transform -rotate-180 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+              />
+            </button>
+          </div>
+          <optional-comment
+            questionType="positive"
+            :questionNumber="questionsSet.mandatory.length+1"
+            :questions="questionsSet.optional.positive"
+            :maxChecked="maxChecked"
+            @answers-optional="updateAnswerOptional"
+          />
+          <div class="flex justify-center w-1/12 min-h-full">
+            <button
+              class="md:text-5xl btn-next"
+              @click="scrollToNext(questionsSet.mandatory.length+2)"
+            >
+              <icon
+                name="cheveron-right"
+                class="w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+              />
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- optional-negative -->
       <div
         :id="`question-${questionsSet.mandatory.length+2}-cont`"
-        class="h-full md:h-screen"
+        class="h-full p-6 mt-20 bg-white rounded shadow-xl md:h-screen"
       >
         <div class="font-bold md:text-5xl sm:text-2xl">
           {{ questionsSet.mandatory.length+2 }}. (Opsyonal) Mga Negatibong Kumento 👎🏾
@@ -86,32 +110,42 @@
           Maaaring pumili hanggang tatlo(3)
         </div>
 
-        <optional-comment
-          questionType="negative"
-          :questionNumber="questionsSet.mandatory.length+2"
-          :questions="questionsSet.optional.negative"
-          :maxChecked="maxChecked"
-          @answers-optional="updateAnswerOptional"
-        />
-        <div class="flex justify-between mt-4 md:mt-8">
-          <button
-            class="text-xl md:text-5xl btn-gray"
-            @click="scrollToNext(questionsSet.mandatory.length+1)"
-          >
-            Bumalik
-          </button>
-          <button
-            class="text-xl md:text-5xl btn-green"
-            @click="scrollToNext(questionsSet.mandatory.length+3)"
-          >
-            Susunod
-          </button>
+        <div class="flex justify-between">
+          <div class="flex justify-center w-1/12 min-h-full">
+            <button
+              class="md:text-5xl btn-prev"
+              @click="scrollToNext(questionsSet.mandatory.length+1)"
+            >
+              <icon
+                name="cheveron-right"
+                class="w-12 h-12 transform -rotate-180 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+              />
+            </button>
+          </div>
+          <optional-comment
+            questionType="negative"
+            :questionNumber="questionsSet.mandatory.length+2"
+            :questions="questionsSet.optional.negative"
+            :maxChecked="maxChecked"
+            @answers-optional="updateAnswerOptional"
+          />
+          <div class="flex justify-center w-1/12 min-h-full">
+            <button
+              class="md:text-5xl btn-next"
+              @click="scrollToNext(questionsSet.mandatory.length+3)"
+            >
+              <icon
+                name="cheveron-right"
+                class="w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+              />
+            </button>
+          </div>
         </div>
       </div>
 
       <div
         :id="`question-${questionsSet.mandatory.length+3}-cont`"
-        class="h-screen pb-0"
+        class="h-full p-6 pb-0 mt-20 bg-white rounded shadow-xl"
       >
         <div class="text-2xl font-bold md:text-5xl">
           Pirma
@@ -122,7 +156,7 @@
             class="w-full h-full border-4 border-gray-600 border-solid shadow-xl signature-pad"
           />
         </div>
-        <div class="flex justify-between mt-8">
+        <div class="flex justify-between mt-8 md:p-8">
           <button
             class="text-xl md:text-5xl btn-gray"
             @click="clearSignature"
@@ -135,24 +169,30 @@
             :disabled="sending"
           >
             Tapusin
+            <icon
+              name="cheveron-right"
+              class="inline w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+            />
           </button>
         </div>
       </div>
     </div>
-  </guest-layout>
+  </feedback-layout>
 </template>
 <script>
-import GuestLayout from "~/Layouts/GuestLayout";
+import FeedbackLayout from "~/Layouts/FeedbackLayout";
 import EmojiChoices from "~/Shared/EmojiChoices";
 import OptionalComment from "~/Shared/OptionalComment";
+import Icon from "~/Shared/Icon";
 import EmojiError from "~/Shared/EmojiError";
 import SignaturePad from "signature_pad";
 
 export default {
   components: {
-    GuestLayout,
+    FeedbackLayout,
     EmojiChoices,
     OptionalComment,
+    Icon,
     EmojiError,
   },
   props: {
@@ -164,7 +204,6 @@ export default {
       sending: false,
       form: this.$inertia.form(
         {
-          ip_id: "1",
           mandatory: {},
           optional: {},
           signature: "",
@@ -247,7 +286,7 @@ export default {
       this.scrollToNext(+questionNumber + 1);
     },
     updateAnswerOptional(questionNumber, type, chosenIds) {
-      // console.log(questionNumber, type, choices);
+      // console.log(questionNumber, type, chosenIds);
       let newOptional = chosenIds.map((questionId) => {
         return {
           question_id: questionId,
@@ -264,7 +303,7 @@ export default {
     },
     scrollToNext(questionNumber) {
       // scroll into the next view
-      console.log("scrolling to question #" + questionNumber);
+      // console.log("scrolling to question #" + questionNumber);
       const block = document.getElementById(`question-${questionNumber}-cont`);
       window.scrollTo({ top: block.offsetTop, left: 0, behavior: "smooth" });
     },

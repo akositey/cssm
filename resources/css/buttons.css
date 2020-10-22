@@ -16,8 +16,20 @@
   &:hover, &:focus { @apply bg-orange-500 }
 }
 
+.btn-prev {
+  @apply h-full p-2 text-xl font-bold text-white whitespace-no-wrap bg-gray-500 rounded;
+
+  &:hover, &:focus { @apply bg-gray-900 }
+}
+
+.btn-next {
+  @apply h-full p-2 text-xl font-bold text-white whitespace-no-wrap bg-green-500 rounded;
+
+  &:hover, &:focus { @apply bg-green-900 }
+}
+
 .btn-gray {
-  @apply px-6 py-3 text-sm font-bold text-white whitespace-no-wrap bg-gray-600 rounded;
+  @apply px-6 py-3 text-sm font-bold text-white whitespace-no-wrap bg-gray-500 rounded;
 
   &:hover, &:focus { @apply bg-gray-800 }
 }

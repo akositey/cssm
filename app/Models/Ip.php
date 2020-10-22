@@ -15,11 +15,11 @@ class Ip extends Model
      */
     protected $fillable = ['address', 'office_id'];
 
-    /**
-     * @return mixed
-     */
-    public function office()
-    {
-        return $this->belongsTo('App\Models\Office');
-    }
+    // /**
+    //  * @return mixed
+    //  */
+    // public function office()
+    // {
+    //     return $this->belongsTo('App\Models\Office');
+    // }
 }
