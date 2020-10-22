@@ -6,19 +6,22 @@
         v-for="(question,i) in questions"
         :key="question.id"
       >
-        <div class="justify-start flex-initial p-1 pr-2 md:p-2 td md:pr-6">
-          <input
-            type="checkbox"
-            :id="`positive${i+1}`"
-            :value="question.id"
-            v-model="answers"
-            :disabled="answers.length >= maxChecked && answers.indexOf(question.id) == -1"
-            class="md:zoom-20 zoom-15"
-          >
-        </div>
-        <div class="p-1 md:p-2 flex-grow-1 td">
-          <p>{{ question.question }}</p>
-        </div>
+        <label class="flex w-full">
+          <div class="justify-start flex-initial p-1 pr-2 md:p-2 td md:pr-6">
+            <input
+              type="checkbox"
+              :ref="`positive${i+1}`"
+              :id="`positive${i+1}`"
+              :value="question.id"
+              v-model="answers"
+              :disabled="answers.length >= maxChecked && answers.indexOf(question.id) == -1"
+              class="md:zoom-20 zoom-15"
+            >
+          </div>
+          <div class="p-1 md:p-2 flex-grow-1 td">
+            <p>{{ question.question }}</p>
+          </div>
+        </label>
       </div>
     </div>
   </div>
@@ -51,6 +54,12 @@ export default {
         this.questionType,
         this.answers
       );
+    },
+  },
+  methods: {
+    triggerClick(elName) {
+      console.log(this.$refs[elName]);
+      this.$refs[elName].click();
     },
   },
 };
