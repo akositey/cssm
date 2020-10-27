@@ -23,6 +23,7 @@ class ServiceController extends Controller
                 ->paginate(10)
                 ->transform(function ($service) {
                     return [
+                        'id' => $service->id,
                         'name' => $service->name,
                         'office' => $service->office->abbr,
                         'deleted_at' => $service->deleted_at
@@ -80,7 +81,10 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        //
+        return Inertia::render('Services/Edit', [
+            'service' => $service,
+            'offices' => Office::all()
+        ]);
     }
 
     /**
@@ -92,7 +96,13 @@ class ServiceController extends Controller
      */
     public function update(Request $request, Service $service)
     {
-        //
+        $service->update($request->validate(
+            [
+                'name' => 'required',
+                'office_id' => 'required'
+            ]
+        ));
+        return redirect(route('services.index'))->with('success', 'Successfully Updated Service');
     }
 
     /**
@@ -103,6 +113,7 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
-        //
+        $service->delete();
+        return redirect(route('services.index'))->with('success', 'Successfully Deleted Service');
     }
 }
