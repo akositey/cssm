@@ -19,7 +19,7 @@
         class="w-20 h-20 m-auto rounded-full cursor-pointer md:h-32 md:w-32"
         :class="{ 'w-24 h-24 md:h-40 md:w-40': i+1==answer, 'opacity-50':answer && i+1!=answer }"
       />
-      <div class="text-lg text-center md:text-5xl" :class="{'opacity-50':answer && i+1!=answer}">{{ i+1 }}</div>
+      <div class="text-lg font-bold text-center md:text-5xl" :class="{'opacity-50':answer && i+1!=answer}">{{ i+1 }}</div>
       
     </label>
   </div>
