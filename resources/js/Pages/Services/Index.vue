@@ -1,7 +1,7 @@
 <template>
   <app-layout>
     <template #header>
-      Offices
+      Services
     </template>
 
     <div class="flex justify-between">
@@ -27,10 +27,10 @@
 
       <inertia-link
         class="btn-indigo"
-        :href="route('offices.create')"
+        :href="route('services.create')"
       >
         <span>Create</span>
-        <span class="hidden md:inline">Office</span>
+        <span class="hidden md:inline">Service</span>
       </inertia-link>
     </div>
 
@@ -40,17 +40,14 @@
           Name
         </th>
         <th class="p-4 text-center">
-          Abbr.
-        </th>
-        <th class="p-4 text-center">
-          Parent Office
+          Office
         </th>
         <th class="p-4 text-center">
           Action
         </th>
       </tr>
       <tr
-        v-for="row of offices"
+        v-for="row in services"
         :key="row.id"
         class="border-t hover:bg-gray-100 focus-within:bg-gray-100"
       >
@@ -63,20 +60,12 @@
           />
         </td>
         <td class="p-3">
-          {{ row.abbr }}
-        </td>
-        <td class="p-3">
-          <inertia-link
-            v-if="row.parent_id"
-            :href="route('offices.edit', row.parent_id)"
-          >
-            {{ row.parent_office }}
-          </inertia-link>
+          {{ row.office }}
         </td>
         <td class="p-3">
           <inertia-link
             class="focus:text-indigo-500"
-            :href="route('offices.edit', row.id)"
+            :href="route('services.edit', row.id)"
             tabindex="-1"
           >
             <icon
@@ -86,16 +75,16 @@
           </inertia-link>
         </td>
       </tr>
-      <tr v-if="offices.length === 0">
+      <tr v-if="services.length === 0">
         <td
           class="px-6 py-4 border-t"
           colspan="4"
         >
-          No Offices found.
+          No Services found.
         </td>
       </tr>
     </table>
-    <pagination :links="offices.links" />
+    <pagination :links="services.links" />
   </app-layout>
 </template>
 
@@ -110,7 +99,7 @@ import throttle from "lodash/throttle";
 
 export default {
   props: {
-    offices: { type: Array, default: () => [] },
+    services: { type: [Object, Array], default: () => {} },
     filters: { type: Object, default: () => {} },
   },
   components: {
@@ -122,7 +111,7 @@ export default {
   data() {
     return {
       filterForm: {
-        search: this.filters.search,
+        text: this.filters.search,
         trashed: this.filters.trashed,
       },
     };
@@ -133,7 +122,7 @@ export default {
         const query = pickBy(this.filterForm);
         this.$inertia.replace(
           this.route(
-            "offices.index",
+            "services.index",
             Object.keys(query).length ? query : { remember: "forget" }
           )
         );
