@@ -163,13 +163,11 @@
           >
             Burahin
           </button>
-          <button
-            class="text-xl md:text-5xl btn-green"
-            @click="submit"
-            :disabled="sending"
-          >
+          <button :disabled="sending" class="flex items-center text-xl md:text-5xl btn-green" @click="submit">
             Tapusin
+            <div v-if="sending" class="ml-2 text-xl md:ml-6 btn-spinner md:text-3xl" />
             <icon
+              v-else
               name="cheveron-right"
               class="inline w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
             />
