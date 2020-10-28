@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\IpController;
 use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,9 +30,10 @@ Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('sta
 
 Route::resource('feedback', FeedbackController::class)->middleware('auth');
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () { //TODO: middleware should be role:admin
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::put('offices/{office}/restore', [OfficeController::class, 'restore'])->name('offices.restore');
     Route::resource('offices', OfficeController::class);
-    Route::resource('ips', IpController::class);
-
+    Route::resource('services', ServiceController::class);
 });

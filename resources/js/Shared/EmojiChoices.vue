@@ -5,6 +5,7 @@
       :key="i"
       :for="`option-${questionId}-${i+1}`"
       class="flex-1"
+      @click="saveAnswer"
     >
       <input
         type="radio"
@@ -12,13 +13,15 @@
         :id="`option-${questionId}-${i+1}`"
         :value="i+1"
         class="hidden checked:border-solid"
-        v-model="answer"
+        v-model="newAnswer"
       >
       <emoji-icon
         :name="choice"
         class="w-20 h-20 m-auto rounded-full cursor-pointer md:h-32 md:w-32"
-        :class="{ 'w-24 h-24 md:h-40 md:w-40': i+1==answer, 'opacity-50':answer && i+1!=answer }"
+        :class="{ 'w-24 h-24 md:h-40 md:w-40': i+1==newAnswer, 'opacity-50':newAnswer && i+1!=newAnswer }"
       />
+      <div class="text-lg font-bold text-center md:text-5xl" :class="{'opacity-50':newAnswer && i+1!=newAnswer}">{{ i+1 }}</div>
+      
     </label>
   </div>
 </template>
@@ -36,27 +39,22 @@ export default {
       type: [Number, Boolean],
       default: null,
     },
-    oldAnswer: {
-      type: [String, Boolean],
-      default: null,
-    },
   },
   data() {
     return {
       choices: ["angry", "sad", "like", "wow", "love"],
-      answer: this.oldAnswer,
+      newAnswer: null,
     };
   },
-  watch: {
-    answer() {
-      console.log(this.answer);
+  methods: {
+    saveAnswer(){
       this.$emit(
         "answer-mandatory",
         this.questionNumber,
         this.questionId,
-        this.answer
+        this.newAnswer
       );
-    },
+    }
   },
 };
 </script>

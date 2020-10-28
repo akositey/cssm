@@ -28,8 +28,8 @@
             label="Name"
           />
           <text-input
-            v-model="form.nick"
-            :error="errors.nick"
+            v-model="form.abbr"
+            :error="errors.abbr"
             class="w-full pb-8 pr-6 lg:w-1/2"
             label="Abbreviation"
           />
@@ -41,11 +41,11 @@
           >
             <option :value="null" />
             <option
-              v-for="row in officesList"
+              v-for="row in offices"
               :key="row.id"
               :value="row.id"
             >
-              {{ row.name }}
+              {{ row.abbr }}
             </option>
           </select-input>
         </div>
@@ -90,7 +90,7 @@ export default {
   props: {
     errors: { type: Object, default: () => {} },
     office: { type: Object, default: () => {} },
-    officesList: { type: Array, default: () => [] },
+    offices: { type: Array, default: () => [] },
   },
   remember: "form",
   data() {
@@ -98,7 +98,7 @@ export default {
       sending: false,
       form: {
         name: this.office.name,
-        nick: this.office.nick,
+        abbr: this.office.abbr,
         parent_id: this.office.parent_id,
       },
     };

@@ -1,82 +1,55 @@
 <template>
-  <div class="min-h-screen bg-gray-200">
-    <nav class="bg-white shadow-md">
-      <!-- Primary Navigation Bar -->
-      <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="relative flex items-center justify-between h-16">
-          <!-- Logo -->
-          <div class="flex items-center justify-center flex-1 md:items-stretch md:justify-start">
-            <div class="flex-shrink-0">
-              <inertia-link :href="route('feedback.index')">
-                <logo class="block w-auto h-8 md:h-10" />
-              </inertia-link>
-            </div>
-            <div class="hidden sm:block sm:ml-6">
-              <div class="flex">
-                <h2 class="items-center px-3 py-2 text-xl font-semibold leading-tight text-gray-800 ">
-                  Customer Satisfaction Survey
-                </h2>
-              </div>
-            </div>
-          </div>
-          <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <h2 class="items-center px-3 py-2 text-xl font-semibold leading-tight text-gray-800 ">
-              {{ $page.user.name }}
-            </h2>
-          </div>
-        </div>
-      </div>
-    </nav>
-    <main>
-      <div
-        class="flex-1 px-4 py-4 m-auto overflow-y-auto max-w-7xl "
-        scroll-region
-      >
-        <flash-messages />
-
-        <div class="h-full">
-          <div class="p-8 text-xl font-bold text-center md:text-5xl sm:text-3xl">
+  <feedback-layout>
+    <div class="h-full">
+      <form @submit.prevent="submit">
+        <div class="p-8 text-xl font-bold text-left md:text-5xl sm:text-3xl">
+          <p>
             Ano po ang masasabi nyo sa serbisyong naibigay sa inyo?
+          </p>
 
-            <div class="flex flex-no-wrap justify-center p-12">
-              <inertia-link :href="route('feedback.index')">
-                <button
-                  class="text-xl sm:text-3xl btn-green md:btn-6xl md:text-5xl"
-                  @click="goFullScreen"
-                >
-                  Simulan ang Survey ✍🏻
-                </button>
-              </inertia-link>
-            </div>
+          <div class="flex flex-no-wrap justify-center p-12">
+            <inertia-link :href="route('feedback.index')">
+              <button
+                class="text-xl sm:text-3xl btn-green md:btn-6xl md:text-5xl"
+                @click="goFullScreen"
+              >
+                Simulan ang Survey ✍🏻
+              </button>
+            </inertia-link>
           </div>
         </div>
-      </div>
-    </main>
-    <!-- Dropdown Portal -->
-    <portal-target
-      name="dropdown"
-      slim
-    />
-  </div>
+      </form>
+    </div>
+  </feedback-layout>
 </template>
 <script>
-// import AppLayout from "~/Layouts/GuestLayout";
-import FlashMessages from "~/Shared/FlashMessages";
-import Logo from "~/Shared/PgomLogo";
+import FeedbackLayout from "~/Layouts/FeedbackLayout";
+// import SelectInput from "~/Shared/SelectInput";
 
 export default {
-  components: { FlashMessages, Logo },
+  components: { FeedbackLayout },
   props: {
     office: {
       type: String,
       default: "",
     },
+    services: {
+      type: Array,
+      default: ()=>{},
+    },
   },
-  data() {
-    return {};
-  },
+  // data() {
+  //   return {
+  //     form: this.$inertia.form({
+  //       service : null
+  //     })
+  //   };
+  // },
   mounted() {},
   methods: {
+    // submit(){
+    //   this.form.post(route('feedback.index'));
+    // },
     goFullScreen() {
       //go fullscreen
       document.documentElement

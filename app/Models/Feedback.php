@@ -13,14 +13,14 @@ class Feedback extends Model
     /**
      * @var array
      */
-    protected $fillable = ['office_id'];
+    protected $fillable = ['service_id'];
 
     /**
      * @return mixed
      */
-    public function office()
+    public function service()
     {
-        return $this->belongsTo('App\Models\Office');
+        return $this->belongsTo('App\Models\Service');
     }
 
     /**
