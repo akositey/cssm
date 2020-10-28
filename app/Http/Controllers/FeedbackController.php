@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Feedback;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -24,7 +25,8 @@ class FeedbackController extends Controller
     {
         // dd(Question::all());
         return Inertia::render('Feedback/Create', [
-            'questions' => Question::all()
+            'questions' => Question::all(),
+            'services' => Auth::user()->office->services
         ]);
         // $mandatory = Question::where('is_required', true)->get();
         // $optional['positive'] = Question::where('type', '1')->get();
@@ -58,25 +60,17 @@ class FeedbackController extends Controller
      * @param  \Illuminate\Http\Request    $request
      * @return \Illuminate\Http\Response
      */
-    /**
-     * @param $from
-     * @param $to
-     */
-    /**
-     * @param $from
-     * @param $to
-     */
-    /**
-     * @param $from
-     * @param $to
-     */
     public function store(Request $request)
     {
         // dd($request->all());
 
         // validate
+        $list = implode(',', Auth::user()->office->services->pluck('id')->toArray());
         $request->validate([
+            'service_id' => ['required', "in:$list"],
             'signature' => ['required', 'string']
+        ], [
+            'service_id.required' => 'Kailangan pong pumili ng isa dito 👇🏻'
         ]);
         // dynamic validation for mandatory questions
         foreach (Question::where('is_required', true)->get() as $q) {
@@ -86,8 +80,8 @@ class FeedbackController extends Controller
                 'mandatory.' . $q->id . '.answer.required' => 'Pumili po ng isa sa mga sumusunod 👇🏻, salamat po!'
             ]);
         }
-        $fields = $request->only(['mandatory', 'optional', 'signature']);
-        $fields['office_id'] = auth()->user()->office->id;
+        $fields = $request->only(['service_id', 'mandatory', 'optional', 'signature']);
+        $fields['office_id'] = Auth::user()->office->id;
         // dd($fields);
         // begin transaction
         DB::transaction(function () use ($fields) {
@@ -129,21 +123,6 @@ class FeedbackController extends Controller
         // return response
         return redirect(route('start'))->with('bigSuccess', '😃 Salamat po sa inyong kasagutan!');
 
-    }
-
-    /**
-     * @param $from
-     * @param $to
-     */
-    public function convert($from, $to)
-    {
-        $command = 'convert '
-            . $from
-            . ' '
-            . '-resize 50%'
-            . ' '
-            . $to;
-        return $command;
     }
 
     /**

@@ -12,3 +12,5 @@
 
 /* Utilities */
 @import "tailwindcss/utilities";
+
+@import "pretty-checkbox";

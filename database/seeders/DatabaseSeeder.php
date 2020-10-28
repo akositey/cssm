@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
 
 // use Illuminate\Support\Facades\App;
 
@@ -21,10 +22,10 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             QuestionSeeder::class
         ]);
-        // if (App::environment('local', 'testing', 'staging')) {
-        //     $this->call([
-        //         DevSeeder::class
-        //     ]);
-        // }
+        if (App::environment('local', 'testing', 'staging')) {
+            $this->call([
+                DevSeeder::class
+            ]);
+        }
     }
 }

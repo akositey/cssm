@@ -13,20 +13,27 @@ class DevSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\Office::factory(30)->create();
-        // \App\Models\Ip::factory(30)->create();
-        // $devIps = [[
-        //     'id' => 1,
-        //     'address' => '127.0.0.1',
-        //     'office_id' => 13 //MIS
-        // ], [
-        //     'id' => 2,
-        //     'address' => '192.168.255.25',
-        //     'office_id' => 13 //MIS
-        // ]];
-        // foreach ($devIps as $ip) {
-        //     Ip::create($ip);
-        // }
-        \App\Models\Feedback::factory(100)->create();
+        //test admin
+        \App\Models\Office::create([
+            'id' => 999999999,
+            'parent_id' => null,
+            'old_id' => null,
+            'name' => 'Test Office',
+            'abbr' => 'TEST'
+        ]);
+        $testServices = [[
+            'office_id' => 999999999,
+            'name' => 'Service # 1'
+        ], [
+            'office_id' => 999999999,
+            'name' => 'Service # 2'
+        ], [
+            'office_id' => 999999999,
+            'name' => 'Service # 3'
+        ]];
+        foreach ($testServices as $service) {
+            \App\Models\Service::create($service);
+        }
+
     }
 }

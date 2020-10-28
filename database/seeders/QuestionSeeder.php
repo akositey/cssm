@@ -59,7 +59,7 @@ class QuestionSeeder extends Seeder
                 'type' => 1
             ],
             [
-                'question' => 'Maaga pumasok ang employado',
+                'question' => 'Maaga pumasok ang empleyado',
                 'is_required' => false,
                 'type' => 1
             ]
