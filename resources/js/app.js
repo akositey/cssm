@@ -6,7 +6,7 @@ import { InertiaApp } from "@inertiajs/inertia-vue";
 import route from "ziggy-js";
 import { Ziggy } from "../assets/js/ziggy";
 
-require("./bootstrap");
+// require("./bootstrap");
 
 Vue.config.productionTip = false;
 Vue.mixin({

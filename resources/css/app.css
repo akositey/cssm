@@ -8,9 +8,12 @@
 @import "form";
 @import "nprogress";
 @import "table";
-@import "etc";
+/* @import "etc"; */
+
 
 /* Utilities */
 @import "tailwindcss/utilities";
 
-@import "pretty-checkbox";
+/*! purgecss start ignore */
+@import "pretty-checkbox/dist/pretty-checkbox.min.css";
+/*! purgecss end ignore */
