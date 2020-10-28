@@ -50,7 +50,7 @@
         </th>
       </tr>
       <tr
-        v-for="row in offices.data"
+        v-for="row of offices"
         :key="row.id"
         class="border-t hover:bg-gray-100 focus-within:bg-gray-100"
       >
@@ -63,10 +63,15 @@
           />
         </td>
         <td class="p-3">
-          {{ row.nick }}
+          {{ row.abbr }}
         </td>
         <td class="p-3">
-          {{ row.parent_id ? offices.data.find(x=>x.id===row.parent_id).name :'' }}
+          <inertia-link
+            v-if="row.parent_id"
+            :href="route('offices.edit', row.parent_id)"
+          >
+            {{ row.parent_office }}
+          </inertia-link>
         </td>
         <td class="p-3">
           <inertia-link
@@ -81,7 +86,7 @@
           </inertia-link>
         </td>
       </tr>
-      <tr v-if="offices.data.length === 0">
+      <tr v-if="offices.length === 0">
         <td
           class="px-6 py-4 border-t"
           colspan="4"
@@ -105,7 +110,7 @@ import throttle from "lodash/throttle";
 
 export default {
   props: {
-    offices: { type: Object, default: () => {} },
+    offices: { type: Array, default: () => [] },
     filters: { type: Object, default: () => {} },
   },
   components: {
@@ -117,7 +122,7 @@ export default {
   data() {
     return {
       filterForm: {
-        text: this.filters.search,
+        search: this.filters.search,
         trashed: this.filters.trashed,
       },
     };

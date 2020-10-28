@@ -24,9 +24,17 @@
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
               <jet-nav-link
                 :href="route('offices.index')"
-                :active="$page.currentRouteName == 'offices'"
+                :active="$page.currentRouteName == 'offices.index'"
               >
                 Offices
+              </jet-nav-link>
+            </div>
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+              <jet-nav-link
+                :href="route('services.index')"
+                :active="$page.currentRouteName == 'services.index'"
+              >
+                Services
               </jet-nav-link>
             </div>
           </div>

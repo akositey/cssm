@@ -15,14 +15,6 @@ class Office extends Model
      */
     protected $fillable = ['name', 'nick', 'parent_id'];
 
-    // /**
-    //  * @return mixed
-    //  */
-    // public function ips()
-    // {
-    //     return $this->hasMany('App\Models\Ip');
-    // }
-
     /**
      * @return mixed
      */
@@ -37,5 +29,39 @@ class Office extends Model
     public function feedback()
     {
         return $this->hasMany('App\Models\Feedback');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function services()
+    {
+        return $this->hasMany('App\Models\Service');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function parent()
+    {
+        return $this->belongsTo($this, 'parent_id');
+    }
+
+    /**
+     * @param $query
+     * @param array    $filters
+     */
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where('name', 'like', "%$search")
+                ->orWhere('abbr', 'like', "%$search%");
+        })->when($filters['trashed'] ?? null, function ($query, $trashed) {
+            if ($trashed === 'with') {
+                $query->withTrashed();
+            } elseif ($trashed === 'only') {
+                $query->onlyTrashed();
+            }
+        });
     }
 }

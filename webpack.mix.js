@@ -21,7 +21,7 @@ mix.js("resources/js/app.js", "public/js")
                           ],
                           defaultExtractor: (content) =>
                               content.match(/[\w-/:.]+(?<!:)/g) || [],
-                          whitelistPatternsChildren: [/nprogress/],
+                          whitelistPatterns: [/nprogress/, /pretty-checkbox/],
                       }),
                   ]
                 : []),

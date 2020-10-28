@@ -15,8 +15,8 @@ class CreateFeedbackTable extends Migration
     {
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
-            $table->integer('office_id');
-            // $table->integer('service_id'); //this will replace office_id later
+            // $table->integer('office_id');
+            $table->integer('service_id'); //this will replace office_id later
             $table->softDeletes();
             $table->timestamps();
         });

@@ -2,13 +2,47 @@
   <feedback-layout>
     <!-- Questions -->
     <div class="m-auto overflow-hidden">
+      <div
+        :id="`question-0-cont`"
+        class="h-screen p-6 bg-white rounded shadow-xl"
+      >
+        <div class="flex justify-between mt-4 md:mt-8 ">
+          <div class="flex justify-center w-11/12 py-10 md:py-32">
+            <div class="w-full p-8 text-xl font-bold text-left text-black md:text-5xl sm:text-3xl">
+              <label class="form-label">Piliin ang serbisyong natanggap:</label>
+              <emoji-error
+                :message="form.error(`service_id`)"
+                class="mt-2"
+              />
+              <select v-model="form.service_id" class="form-select" @change="scrollToNext(1)">
+                <option :value="null" />
+                <option v-for="service in services" :key="service.id" :value="service.id">
+                  {{ service.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="flex justify-center w-1/12 min-h-full">
+            <button
+              class="md:text-5xl btn-next"
+              @click="scrollToNext(1)"
+            >
+              <icon
+                name="cheveron-right"
+                class="w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- mandatory -->
       <div
         v-for="(question, i) in questionsSet.mandatory"
         :key="question.id"
         :id="`question-${i+1}-cont`"
-        class="h-screen p-6 bg-white rounded shadow-xl"
-        :class="{'mt-20': i+1!==1}"
+        class="h-screen p-6 mt-20 bg-white rounded shadow-xl"
       >
         <div class="text-xl font-bold md:text-5xl sm:text-3xl">
           {{ i+1 }}. {{ question.question }}
@@ -22,7 +56,6 @@
           <div class="flex justify-center w-1/12 min-h-full">
             <button
               class="md:text-5xl btn-prev"
-              :class="{'invisible': i+1===1}"
               @click="scrollToNext(i)"
             >
               <icon
@@ -33,7 +66,6 @@
           </div>
 
           <emoji-choices
-            :answer="question.answer"
             :questionNumber="i+1"
             :questionId="question.id"
             @answer-mandatory="updateAnswerMandatory"
@@ -58,12 +90,13 @@
         :id="`question-${questionsSet.mandatory.length+1}-cont`"
         class="h-full p-6 mt-20 bg-white rounded shadow-xl md:h-screen"
       >
-        <div class="font-bold md:text-5xl sm:text-2xl">
+        <div class="text-xl font-bold md:text-5xl sm:text-3xl">
           {{ questionsSet.mandatory.length+1 }}. (Opsyonal) Mga Positibong Kumento 👍
+          <div class="md:text-3xl sm:text-lg">
+            Maaaring pumili hanggang tatlo(3)
+          </div>
         </div>
-        <div class="font-bold md:text-3xl sm:text-lg">
-          Maaaring pumili hanggang tatlo(3)
-        </div>
+        
 
         <div class="flex justify-between">
           <div class="flex justify-center w-1/12 min-h-full">
@@ -103,11 +136,11 @@
         :id="`question-${questionsSet.mandatory.length+2}-cont`"
         class="h-full p-6 mt-20 bg-white rounded shadow-xl md:h-screen"
       >
-        <div class="font-bold md:text-5xl sm:text-2xl">
+        <div class="text-xl font-bold md:text-5xl sm:text-3xl">
           {{ questionsSet.mandatory.length+2 }}. (Opsyonal) Mga Negatibong Kumento 👎🏾
-        </div>
-        <div class="font-bold md:text-3xl sm:text-lg">
-          Maaaring pumili hanggang tatlo(3)
+          <div class="md:text-3xl sm:text-lg">
+            Maaaring pumili hanggang tatlo(3)
+          </div>
         </div>
 
         <div class="flex justify-between">
@@ -163,13 +196,11 @@
           >
             Burahin
           </button>
-          <button
-            class="text-xl md:text-5xl btn-green"
-            @click="submit"
-            :disabled="sending"
-          >
+          <button :disabled="sending" class="flex items-center text-xl md:text-5xl btn-green" @click="submit">
             Tapusin
+            <div v-if="sending" class="ml-2 text-xl md:ml-6 btn-spinner md:text-3xl" />
             <icon
+              v-else
               name="cheveron-right"
               class="inline w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
             />
@@ -198,12 +229,14 @@ export default {
   props: {
     errors: { type: Object, default: () => {} },
     questions: { type: Array, default: () => {} },
+    services: { type: Array, default: () => {} },
   },
   data() {
     return {
       sending: false,
       form: this.$inertia.form(
         {
+          service_id: null,
           mandatory: {},
           optional: {},
           signature: "",
@@ -254,20 +287,24 @@ export default {
       } else {
         this.form.signature = this.signaturePad.toDataURL(); //default is png
         this.sending = true;
-        console.log(this.form);
+        // console.log(this.form);
         this.form
           .post(this.route("feedback.store"))
-          .then(() => (this.sending = false))
           .then(() => {
-            console.log("form", this.form);
-            console.log("errors", this.$page.errors);
-            console.log("error-1", Object.keys(this.$page.errors)[0]);
+            this.sending = false;
+            // console.log("form", this.form);
+            // console.log("errors", this.$page.errors);
+            // console.log("error-1", Object.keys(this.$page.errors)[0]);
             if (Object.keys(this.$page.errors)[0]) {
               const unanswered = Object.keys(this.$page.errors)[0];
-              const questionNumber = unanswered.match(/(\d+)/)[0];
-              console.log("error in: ", questionNumber);
+              let questionNumber = 0;
+              if(unanswered.match(/(\d+)/)){
+                questionNumber = unanswered.match(/(\d+)/)[0];
+                // console.log("error in: ", questionNumber);
+              }
               this.scrollToNext(questionNumber);
             }
+            // console.log(this.form);
           });
       }
     },
