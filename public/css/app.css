@@ -23368,6 +23368,8 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
 
 /* @import "table"; */
 
+/* pretty checkbox*/
+
 /**
  * pretty-checkbox.css
  *
@@ -24198,6 +24200,15 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
     -webkit-print-color-adjust:exact;
     print-color-adjust:exact
   }
+}
+
+/* customize pretty checkbox border when unchecked */
+
+.pretty input:not(:checked) .state label::after, .pretty .state label::before {
+  border-width: 4px;
+  --border-opacity: 1;
+  border-color: #718096;
+  border-color: rgba(113, 128, 150, var(--border-opacity))
 }
 
 /* purgecss end ignore */
@@ -113689,8 +113700,3 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
             animation: bounce 1s infinite;
   }
 }
-
-
-
-
-

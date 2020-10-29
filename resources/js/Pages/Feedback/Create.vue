@@ -14,7 +14,7 @@
                 :message="form.error(`service_id`)"
                 class="mt-2"
               />
-              <select v-model="form.service_id" class="form-select" @change="scrollToNext(1)">
+              <select v-model="form.service_id" class="border-4 border-gray-600 form-select" @change="scrollToNext(1)">
                 <option :value="null" />
                 <option v-for="service in services" :key="service.id" :value="service.id">
                   {{ service.name }}
@@ -30,7 +30,7 @@
             >
               <icon
                 name="cheveron-right"
-                class="w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+                class="w-12 h-12 md:w-20 md:h-20 fill-white "
               />
             </button>
           </div>
@@ -78,7 +78,7 @@
             >
               <icon
                 name="cheveron-right"
-                class="w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+                class="w-12 h-12 md:w-20 md:h-20 fill-white "
               />
             </button>
           </div>
@@ -124,7 +124,7 @@
             >
               <icon
                 name="cheveron-right"
-                class="w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+                class="w-12 h-12 md:w-20 md:h-20 fill-white "
               />
             </button>
           </div>
@@ -169,7 +169,7 @@
             >
               <icon
                 name="cheveron-right"
-                class="w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+                class="w-12 h-12 md:w-20 md:h-20 fill-white "
               />
             </button>
           </div>
@@ -202,7 +202,7 @@
             <icon
               v-else
               name="cheveron-right"
-              class="inline w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+              class="inline w-12 h-12 md:w-20 md:h-20 fill-white "
             />
           </button>
         </div>

@@ -11,10 +11,12 @@
 @import "form";
 @import "nprogress";
 /* @import "table"; */
+
+/* pretty checkbox*/
 @import "pretty-checkbox/dist/pretty-checkbox.min.css"; 
+/* customize pretty checkbox border when unchecked */
+.pretty input:not(:checked) .state label::after, .pretty .state label::before {
+  @apply .border-4 .border-gray-600
+}
+
 /* purgecss end ignore */
-
-
-
-
-
