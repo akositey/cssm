@@ -1,19 +1,22 @@
-/* Reset */
+/* Base */
 @import "tailwindcss/base";
-@import "reset";
-
 /* Components */
 @import "tailwindcss/components";
-@import "buttons";
-@import "form";
-@import "nprogress";
-@import "table";
-/* @import "etc"; */
-
-
 /* Utilities */
 @import "tailwindcss/utilities";
 
-/*! purgecss start ignore */
-@import "pretty-checkbox/dist/pretty-checkbox.min.css";
-/*! purgecss end ignore */
+/* purgecss start ignore */
+@import "reset";
+@import "buttons";
+@import "form";
+@import "nprogress";
+/* @import "table"; */
+
+/* pretty checkbox*/
+@import "pretty-checkbox/dist/pretty-checkbox.min.css"; 
+/* customize pretty checkbox border when unchecked */
+.pretty input:not(:checked) .state label::after, .pretty .state label::before {
+  @apply .border-4 .border-gray-600
+}
+
+/* purgecss end ignore */

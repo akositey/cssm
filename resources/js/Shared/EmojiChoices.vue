@@ -13,8 +13,9 @@
         :id="`option-${questionId}-${i+1}`"
         :value="i+1"
         class="hidden checked:border-solid"
-        v-model="newAnswer"
+        @click="choose($event.target.value)"
       >
+      <!-- v-model="newAnswer" dont use this anymore, clicking on the same element wont trigger watch -->
       <emoji-icon
         :name="choice"
         class="w-20 h-20 m-auto rounded-full cursor-pointer md:h-32 md:w-32"
@@ -46,13 +47,21 @@ export default {
       newAnswer: null,
     };
   },
+  // watch: {
+  //   newAnswer(){
+  //     console.log(this.newAnswer);
+  //   }
+  // },
   methods: {
-    saveAnswer(){
+    choose(value){
+      console.log(value);
+      this.newAnswer = value;
+      
       this.$emit(
         "answer-mandatory",
         this.questionNumber,
         this.questionId,
-        this.newAnswer
+        value
       );
     }
   },
