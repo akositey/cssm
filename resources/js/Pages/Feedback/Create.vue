@@ -14,7 +14,7 @@
                 :message="form.error(`service_id`)"
                 class="mt-2"
               />
-              <select v-model="form.service_id" class="form-select" @change="scrollToNext(1)">
+              <select v-model="form.service_id" class="border-4 border-gray-600 form-select" @change="scrollToNext(1)">
                 <option :value="null" />
                 <option v-for="service in services" :key="service.id" :value="service.id">
                   {{ service.name }}
@@ -30,7 +30,7 @@
             >
               <icon
                 name="cheveron-right"
-                class="w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+                class="w-12 h-12 md:w-20 md:h-20 fill-white "
               />
             </button>
           </div>
@@ -78,7 +78,7 @@
             >
               <icon
                 name="cheveron-right"
-                class="w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+                class="w-12 h-12 md:w-20 md:h-20 fill-white "
               />
             </button>
           </div>
@@ -124,7 +124,7 @@
             >
               <icon
                 name="cheveron-right"
-                class="w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+                class="w-12 h-12 md:w-20 md:h-20 fill-white "
               />
             </button>
           </div>
@@ -169,7 +169,7 @@
             >
               <icon
                 name="cheveron-right"
-                class="w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+                class="w-12 h-12 md:w-20 md:h-20 fill-white "
               />
             </button>
           </div>
@@ -183,7 +183,7 @@
         <div class="text-2xl font-bold md:text-5xl">
           Pirma
         </div>
-        <div class="w-full h-32 pb-8 m-auto md:h-64 md:p-8">
+        <div class="w-3/6 h-32 pb-8 m-auto md:h-64 md:p-8">
           <canvas
             id="signature-pad"
             class="w-full h-full border-4 border-gray-600 border-solid shadow-xl signature-pad"
@@ -202,7 +202,7 @@
             <icon
               v-else
               name="cheveron-right"
-              class="inline w-12 h-12 md:w-20 md:h-20 fill-white focus:fill-gray-600"
+              class="inline w-12 h-12 md:w-20 md:h-20 fill-white "
             />
           </button>
         </div>
@@ -242,7 +242,7 @@ export default {
           signature: "",
         },
         {
-          resetOnSuccess: true,
+          resetOnSuccess: false,
         }
       ),
       questionsSet: {
@@ -315,6 +315,7 @@ export default {
       this.scrollToNext(1);
     },
     updateAnswerMandatory(questionNumber, questionId, answer) {
+      console.log(questionNumber, questionId, answer);
       this.form.mandatory[questionId] = {
         question_id: questionId,
         answer: answer,
@@ -323,8 +324,9 @@ export default {
       this.scrollToNext(+questionNumber + 1);
     },
     updateAnswerOptional(questionNumber, type, chosenIds) {
-      // console.log(questionNumber, type, chosenIds);
+      console.log(questionNumber, type, chosenIds);
       let newOptional = chosenIds.map((questionId) => {
+        console.log('questionId',questionId)
         return {
           question_id: questionId,
           answer: 1,

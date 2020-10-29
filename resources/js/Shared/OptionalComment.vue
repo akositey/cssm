@@ -9,20 +9,9 @@
       >
         <label class="flex w-full cursor-pointer select-none">
           <div class="self-center text-lg md:text-4xl">
-            <!-- <input
-              type="checkbox"
-              :ref="`positive${i+1}`"
-              :id="`positive${i+1}`"
-              :value="question.id"
-              v-model="answers"
-              :disabled="answers.length >= maxChecked && answers.indexOf(question.id) == -1"
-              class="md:zoom-20 zoom-15"
-            > -->
             <p-check
               name="check"
               color="primary"
-              :ref="`positive${i+1}`"
-              :id="`positive${i+1}`"
               :value="question.id"
               v-model="answers"
               class="ml-2 p-curve p-thick p-smooth p-svg"
@@ -78,10 +67,6 @@ export default {
     },
   },
   methods: {
-    triggerClick(elName) {
-      console.log(this.$refs[elName]);
-      this.$refs[elName].click();
-    },
   },
 };
 </script>
