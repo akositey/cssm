@@ -183,7 +183,7 @@
         <div class="text-2xl font-bold md:text-5xl">
           Pirma
         </div>
-        <div class="w-full h-32 pb-8 m-auto md:h-64 md:p-8">
+        <div class="w-3/6 h-32 pb-8 m-auto md:h-64 md:p-8">
           <canvas
             id="signature-pad"
             class="w-full h-full border-4 border-gray-600 border-solid shadow-xl signature-pad"
@@ -242,7 +242,7 @@ export default {
           signature: "",
         },
         {
-          resetOnSuccess: true,
+          resetOnSuccess: false,
         }
       ),
       questionsSet: {
@@ -287,7 +287,7 @@ export default {
       } else {
         this.form.signature = this.signaturePad.toDataURL(); //default is png
         this.sending = true;
-        // console.log(this.form);
+        console.log(this.form);
         this.form
           .post(this.route("feedback.store"))
           .then(() => {
@@ -315,6 +315,7 @@ export default {
       this.scrollToNext(1);
     },
     updateAnswerMandatory(questionNumber, questionId, answer) {
+      console.log(questionNumber, questionId, answer);
       this.form.mandatory[questionId] = {
         question_id: questionId,
         answer: answer,
@@ -323,8 +324,9 @@ export default {
       this.scrollToNext(+questionNumber + 1);
     },
     updateAnswerOptional(questionNumber, type, chosenIds) {
-      // console.log(questionNumber, type, chosenIds);
+      console.log(questionNumber, type, chosenIds);
       let newOptional = chosenIds.map((questionId) => {
+        console.log('questionId',questionId)
         return {
           question_id: questionId,
           answer: 1,
