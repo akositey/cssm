@@ -1,29 +1,23 @@
 <template>
   <app-layout>
     <template #header>
-      <h2 class="text-xl font-semibold leading-tight text-gray-800">
-        Dashboard
-      </h2>
+      Dashboard
     </template>
 
-    <div class="py-4">
-      <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
-          <welcome />
-        </div>
-      </div>
+    <div class="flex justify-between">
+      - statistics / charts
+      - feedback submissions
+      - 
     </div>
   </app-layout>
 </template>
 
 <script>
 import AppLayout from "./../Layouts/AppLayout";
-import Welcome from "./../Jetstream/Welcome";
 
 export default {
   components: {
     AppLayout,
-    Welcome,
   },
 };
 </script>

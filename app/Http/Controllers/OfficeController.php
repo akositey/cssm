@@ -15,20 +15,20 @@ class OfficeController extends Controller
      */
     public function index(Request $request)
     {
+        $offices = Office::filter($request->only('search', 'trashed'))->paginate(10);
+        $offices->transform(function ($office) {
+            return [
+                'id' => $office->id,
+                'name' => $office->name,
+                'abbr' => $office->abbr,
+                'parent_id' => $office->parent_id,
+                'parent_office' => $office->parent_id ? $office->parent->abbr : null,
+                'deleted_at' => $office->deleted_at
+            ];
+        });
         return Inertia::render('Offices/Index', [
             'filters' => $request->all('search', 'trashed'),
-            'offices' => Office::filter($request->only('search', 'trashed'))
-                ->paginate(10)
-                ->transform(function ($office) {
-                    return [
-                        'id' => $office->id,
-                        'name' => $office->name,
-                        'abbr' => $office->abbr,
-                        'parent_id' => $office->parent_id,
-                        'parent_office' => $office->parent_id ? $office->parent->abbr : null,
-                        'deleted_at' => $office->deleted_At
-                    ];
-                })
+            'offices' => $offices
         ]);
 
     }

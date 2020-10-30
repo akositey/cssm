@@ -37,6 +37,14 @@
                 Services
               </jet-nav-link>
             </div>
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+              <jet-nav-link
+                :href="route('questions.index')"
+                :active="$page.currentRouteName == 'questions.index'"
+              >
+                Questions
+              </jet-nav-link>
+            </div>
           </div>
 
           <!-- Settings Dropdown -->

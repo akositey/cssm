@@ -8,6 +8,11 @@ PGOM - Customer Satisfaction Survey
   - ~~smaller area for signature~~
   - ~~purge js/css files in prod~~
 - admin panel
+  - ~~offices~~
+  - ~~services~~
+  - ~~questions~~
+  - feedback
+  - reports
 - additional features
   - english translation
   - voice / sounds

@@ -1,7 +1,7 @@
 <template>
   <app-layout>
     <template #header>
-      Offices
+      Questions
     </template>
 
     <div class="flex justify-between">
@@ -27,10 +27,10 @@
 
       <inertia-link
         class="btn-indigo"
-        :href="route('offices.create')"
+        :href="route('questions.create')"
       >
         <span>Create</span>
-        <span class="hidden md:inline">Office</span>
+        <span class="hidden md:inline">Question</span>
       </inertia-link>
     </div>
 
@@ -40,28 +40,25 @@
           #
         </th>
         <th class="p-4 text-center">
-          Name
+          Question
         </th>
         <th class="p-4 text-center">
-          Abbr.
-        </th>
-        <th class="p-4 text-center">
-          Parent Office
+          Type
         </th>
         <th class="p-4 text-center">
           Action
         </th>
       </tr>
       <tr
-        v-for="(row,i) of offices.data"
+        v-for="(row,i) of questions.data"
         :key="row.id"
         class="border-t hover:bg-gray-100 focus-within:bg-gray-100"
       >
         <td class="p-3">
-          {{ offices.from + i }}
+          {{ questions.from + i }}
         </td>
         <td class="p-3">
-          {{ row.name }}
+          {{ row.question }}
           <icon
             v-if="row.deleted_at"
             name="trash"
@@ -69,20 +66,12 @@
           />
         </td>
         <td class="p-3">
-          {{ row.abbr }}
-        </td>
-        <td class="p-3">
-          <inertia-link
-            v-if="row.parent_id"
-            :href="route('offices.edit', row.parent_id)"
-          >
-            {{ row.parent_office }}
-          </inertia-link>
+          {{ row.type }}
         </td>
         <td class="p-3">
           <inertia-link
             class="focus:text-indigo-500"
-            :href="route('offices.edit', row.id)"
+            :href="route('questions.edit', row.id)"
             tabindex="-1"
           >
             <icon
@@ -92,16 +81,16 @@
           </inertia-link>
         </td>
       </tr>
-      <tr v-if="offices.length === 0">
+      <tr v-if="questions.length === 0">
         <td
           class="px-6 py-4 border-t"
           colspan="4"
         >
-          No Offices found.
+          No Questions found.
         </td>
       </tr>
     </table>
-    <pagination :links="offices.links" />
+    <pagination :links="questions.links" />
   </app-layout>
 </template>
 
@@ -116,7 +105,7 @@ import throttle from "lodash/throttle";
 
 export default {
   props: {
-    offices: { type: Object, default: () => [] },
+    questions: { type: Object, default: () => [] },
     filters: { type: Object, default: () => {} },
   },
   components: {
@@ -139,7 +128,7 @@ export default {
         const query = pickBy(this.filterForm);
         this.$inertia.replace(
           this.route(
-            "offices.index",
+            "questions.index",
             Object.keys(query).length ? query : { remember: "forget" }
           )
         );
