@@ -13,6 +13,7 @@ PGOM - Customer Satisfaction Survey
   - ~~questions~~
   - feedback
   - reports
+  - dashboard
 - additional features
   - english translation
   - voice / sounds

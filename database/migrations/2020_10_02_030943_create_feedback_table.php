@@ -18,6 +18,7 @@ class CreateFeedbackTable extends Migration
             // $table->integer('office_id');
             $table->integer('service_id'); //this will replace office_id later
             $table->string('signature_path');
+            $table->integer('user_id')->comment('author');
             $table->softDeletes();
             $table->timestamps();
         });

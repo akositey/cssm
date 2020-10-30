@@ -20,6 +20,6 @@ class FeedbackAnswers extends Model
      */
     public function question()
     {
-        return $this->belongsTo('App\Models\Feedback');
+        return $this->belongsTo('App\Models\Question');
     }
 }

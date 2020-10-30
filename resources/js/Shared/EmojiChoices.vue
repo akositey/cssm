@@ -5,7 +5,6 @@
       :key="i"
       :for="`option-${questionId}-${i+1}`"
       class="flex-1"
-      @click="saveAnswer"
     >
       <input
         type="radio"
@@ -54,7 +53,7 @@ export default {
   // },
   methods: {
     choose(value){
-      console.log(value);
+      // console.log(value);
       this.newAnswer = value;
       
       this.$emit(

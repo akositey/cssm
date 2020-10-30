@@ -24,8 +24,16 @@ class Service extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function feedback()
+    {
+        return $this->belongsToMany('App\Models\Feedback');
+    }
+
+    /**
      * @param $query
-     * @param array $filters
+     * @param array    $filters
      */
     public function scopeFilter($query, array $filters)
     {

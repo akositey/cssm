@@ -27,9 +27,9 @@ use Illuminate\Support\Facades\Route;
 //     return Inertia::render('Dashboard');
 // })->name('dashboard');
 
-Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('start');
+Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('home');
 
-Route::resource('feedback', FeedbackController::class)->middleware('auth');
+Route::resource('survey', SurveyController::class)->middleware('auth');
 
 Route::prefix('admin')->middleware('auth')->group(function () { //TODO: middleware should be role:admin
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -38,4 +38,5 @@ Route::prefix('admin')->middleware('auth')->group(function () { //TODO: middlewa
     Route::resource('offices', OfficeController::class);
     Route::resource('services', ServiceController::class);
     Route::resource('questions', QuestionController::class);
+    Route::resource('feedback', FeedbackController::class);
 });
