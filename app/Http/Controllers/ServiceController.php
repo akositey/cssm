@@ -16,19 +16,19 @@ class ServiceController extends Controller
      */
     public function index(Request $request)
     {
+        $services = Service::with('office')
+            ->filter($request->only('search', 'filter'))->paginate(10);
+        $services->transform(function ($service) {
+            return [
+                'id' => $service->id,
+                'name' => $service->name,
+                'office' => $service->office->abbr,
+                'deleted_at' => $service->deleted_at
+            ];
+        });
         return Inertia::render('Services/Index', [
             'filters' => $request->all('search', 'trashed'),
-            'services' => Service::with('office')
-                ->filter($request->only('search', 'filter'))
-                ->paginate(10)
-                ->transform(function ($service) {
-                    return [
-                        'id' => $service->id,
-                        'name' => $service->name,
-                        'office' => $service->office->abbr,
-                        'deleted_at' => $service->deleted_at
-                    ];
-                })
+            'services' => $services
         ]);
     }
 

@@ -1,9 +1,14 @@
 <template>
   <app-layout>
     <template #header>
-      <h2 class="text-xl font-semibold leading-tight text-gray-800">
-        Create New Service
-      </h2>
+      <inertia-link
+        class="text-indigo-400 hover:text-indigo-600"
+        :href="route('services.index')"
+      >
+        Services
+      </inertia-link>
+      <span class="font-medium">/</span>
+      Create New
     </template>
 
     <div class="py-4">

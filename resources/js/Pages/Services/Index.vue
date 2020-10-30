@@ -37,6 +37,9 @@
     <table class="w-full my-4 whitespace-no-wrap bg-white">
       <tr class="font-bold text-left">
         <th class="p-4 text-center">
+          #
+        </th>
+        <th class="p-4 text-center">
           Name
         </th>
         <th class="p-4 text-center">
@@ -47,10 +50,13 @@
         </th>
       </tr>
       <tr
-        v-for="row in services"
+        v-for="(row,i) in services.data"
         :key="row.id"
         class="border-t hover:bg-gray-100 focus-within:bg-gray-100"
       >
+        <td class="p-3">
+          {{ services.from+i }}
+        </td>
         <td class="p-3">
           {{ row.name }}
           <icon
@@ -99,7 +105,7 @@ import throttle from "lodash/throttle";
 
 export default {
   props: {
-    services: { type: [Object, Array], default: () => {} },
+    services: { type: Object, default: () => {} },
     filters: { type: Object, default: () => {} },
   },
   components: {

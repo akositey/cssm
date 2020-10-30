@@ -3,12 +3,12 @@
     <template #header>
       <inertia-link
         class="text-indigo-400 hover:text-indigo-600"
-        :href="route('offices.index')"
+        :href="route('questions.index')"
       >
-        Offices
+        Questions
       </inertia-link>
       <span class="font-medium">/</span>
-      Create New 
+      Create New
     </template>
 
     <div class="py-4">
@@ -16,30 +16,55 @@
         <form @submit.prevent="submit">
           <div class="flex flex-wrap p-8 -mb-8 -mr-6">
             <text-input
-              v-model="form.name"
-              :error="errors.name"
-              class="w-full pb-8 pr-6 lg:w-1/2"
-              label="Name"
-            />
-            <text-input
-              v-model="form.abbr"
-              :error="errors.abbr"
-              class="w-full pb-8 pr-6 lg:w-1/2"
-              label="Abbreviation"
+              v-model="form.question"
+              :error="errors.question"
+              class="w-full pb-8 pr-6"
+              label="Question"
             />
             <select-input
-              v-model="form.parent_id"
-              :error="errors.parent_id"
+              v-model="form.is_required"
+              :error="errors.is_required"
               class="w-full pb-8 pr-6 lg:w-1/2"
-              label="Parent Office"
+              label="Required"
             >
               <option :value="null" />
               <option
-                v-for="row in offices"
-                :key="row.id"
-                :value="row.id"
+                key="0"
+                value="0"
               >
-                {{ row.abbr }}
+                Optional
+              </option>
+              <option
+                key="1"
+                value="1"
+              >
+                Mandatory
+              </option>
+            </select-input>
+            <select-input
+              v-model="form.type"
+              :error="errors.type"
+              class="w-full pb-8 pr-6 lg:w-1/2"
+              label="(If Optional) Type"
+            >
+              <option :value="null" />
+              <option
+                key="1"
+                value="1"
+              >
+                Positive
+              </option>
+              <option
+                key="2"
+                value="2"
+              >
+                Negative
+              </option>
+              <option
+                key="3"
+                value="3"
+              >
+                Etc
               </option>
             </select-input>
           </div>
@@ -49,7 +74,7 @@
               class="btn-indigo"
               type="submit"
             >
-              Create Office
+              Create Question
             </loading-button>
           </div>
         </form>
@@ -80,9 +105,9 @@ export default {
     return {
       sending: false,
       form: {
-        name: null,
-        abbr: null,
-        parent_id: null,
+        question: null,
+        is_required: null,
+        type: null,
       },
     };
   },

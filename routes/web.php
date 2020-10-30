@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,4 +37,5 @@ Route::prefix('admin')->middleware('auth')->group(function () { //TODO: middlewa
     Route::put('offices/{office}/restore', [OfficeController::class, 'restore'])->name('offices.restore');
     Route::resource('offices', OfficeController::class);
     Route::resource('services', ServiceController::class);
+    Route::resource('questions', QuestionController::class);
 });
