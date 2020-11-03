@@ -8,7 +8,7 @@
           </p>
 
           <div class="flex flex-no-wrap justify-center p-12">
-            <inertia-link :href="route('feedback.index')">
+            <inertia-link :href="route('survey.index')">
               <button
                 class="text-xl sm:text-3xl btn-green md:btn-6xl md:text-5xl"
                 @click="goFullScreen"

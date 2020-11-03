@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SurveyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,9 +28,9 @@ use Illuminate\Support\Facades\Route;
 //     return Inertia::render('Dashboard');
 // })->name('dashboard');
 
-Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('start');
+Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('home');
 
-Route::resource('feedback', FeedbackController::class)->middleware('auth');
+Route::resource('survey', SurveyController::class)->middleware('auth');
 
 Route::prefix('admin')->middleware('auth')->group(function () { //TODO: middleware should be role:admin
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -38,4 +39,5 @@ Route::prefix('admin')->middleware('auth')->group(function () { //TODO: middlewa
     Route::resource('offices', OfficeController::class);
     Route::resource('services', ServiceController::class);
     Route::resource('questions', QuestionController::class);
+    Route::resource('feedback', FeedbackController::class);
 });

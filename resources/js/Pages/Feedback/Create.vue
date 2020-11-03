@@ -289,7 +289,7 @@ export default {
         this.sending = true;
         // console.log(this.form);
         this.form
-          .post(this.route("feedback.store"))
+          .post(this.route("survey.store"))
           .then(() => {
             this.sending = false;
             // console.log("form", this.form);
@@ -315,7 +315,7 @@ export default {
       this.scrollToNext(1);
     },
     updateAnswerMandatory(questionNumber, questionId, answer) {
-      console.log(questionNumber, questionId, answer);
+      // console.log(questionNumber, questionId, answer);
       this.form.mandatory[questionId] = {
         question_id: questionId,
         answer: answer,
@@ -324,7 +324,7 @@ export default {
       this.scrollToNext(+questionNumber + 1);
     },
     updateAnswerOptional(questionNumber, type, chosenIds) {
-      console.log(questionNumber, type, chosenIds);
+      // console.log(questionNumber, type, chosenIds);
       let newOptional = chosenIds.map((questionId) => {
         console.log('questionId',questionId)
         return {

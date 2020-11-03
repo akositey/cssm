@@ -3,11 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Feedback;
-use App\Models\Question;
-use App\Services\ImageProcessor;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class FeedbackController extends Controller
@@ -19,87 +14,21 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Feedback/Create', [
-            'questions' => Question::all(),
-            'services' => Auth::user()->office->services
-        ]);
-    }
+        $all_feedback = Feedback::paginate(10);
+        $all_feedback->transform(function ($feedback) {
+            return [
+                'id' => $feedback->id,
+                'office' => $feedback->service->office->name,
+                'service' => $feedback->service->name,
+                'user' => $feedback->user->name,
+                'date' => $feedback->created_at->format('M j, Y g:i a'),
+                'signaturePath' => $feedback->signature_path
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request    $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // dd($request->all());
-
-        # benchmark
-        // $timer = microtime(true);
-
-        # validation
-        $list = implode(',', Auth::user()->office->services->pluck('id')->toArray());
-        $request->validate([
-            'service_id' => ['required', "in:$list"],
-            'signature' => ['required', 'string']
-        ], [
-            'service_id.required' => 'Kailangan pong pumili ng isa dito 👇🏻'
-        ]);
-        # dynamic validation for mandatory questions
-        foreach (Question::where('is_required', true)->get() as $q) {
-            $request->validate([
-                'mandatory.' . $q->id . '.answer' => 'required'
-            ], [
-                'mandatory.' . $q->id . '.answer.required' => 'Pumili po ng isa sa mga sumusunod 👇🏻, salamat po!'
-            ]);
-        }
-
-        $fields = $request->only(['service_id', 'mandatory', 'optional', 'signature']);
-        $fields['office_id'] = Auth::user()->office->id;
-
-        $folder = 'signatures';
-        $filename = Auth::user()->username . '-' . Auth::user()->id . '-' . date('YmdHis') . '.png';
-
-        # begin transaction
-        DB::transaction(function () use ($fields, $folder, &$filename) {
-            # save to database
-            $feedback = Feedback::create($fields + [
-                'signature_path' => $folder . '/' . $filename
-            ]);
-
-            # save answers
-            $feedback->answers()->createMany($fields['mandatory']);
-            foreach ($fields['optional'] as $type => $answers) {
-                $feedback->answers()->createMany($answers);
-            }
+            ];
         });
-
-        # save signature image
-        $encoded_image = explode(",", $fields['signature'])[1];
-        $decoded_image = base64_decode($encoded_image);
-
-        # resize, store, and optimize image
-        $img_processor = new ImageProcessor($decoded_image, $folder, $filename);
-        $img_processor->save();
-
-        # benchmark
-        // $timer = microtime(true) - $timer;
-        // dd('took:', round($timer, 3));
-
-        # return response
-        return redirect(route('start'))->with('bigSuccess', '😃 Salamat po sa inyong kasagutan!');
-
+        return Inertia::render('Feedback/Index', [
+            'feedback' => $all_feedback
+        ]);
     }
 
     /**
@@ -110,40 +39,23 @@ class FeedbackController extends Controller
      */
     public function show(Feedback $feedback)
     {
-        //
+        $types = ['mandatory', 'optional: positive', 'optional: negative', 'optional: etc'];
+
+        return Inertia::render('Feedback/Show', [
+            'feedback' => $feedback,
+            'creationDate' => $feedback->created_at->format('M j, Y g:i a'),
+            'office' => $feedback->service->office->name,
+            'answers' => $feedback->answers
+                ->transform(function ($f) use ($types) {
+                    $type = !$f->question->type ? 0 : $f->question->type;
+                    return [
+                        'type' => $type,
+                        'typeWords' => $types[$type],
+                        'question' => $f->question->question,
+                        'answer' => $f->answer
+                    ];
+                })
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Feedback        $feedback
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Feedback $feedback)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request    $request
-     * @param  \App\Models\Feedback        $feedback
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Feedback $feedback)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Feedback        $feedback
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Feedback $feedback)
-    {
-        //
-    }
 }
