@@ -8,75 +8,61 @@
         Feedback
       </inertia-link>
       <span class="font-medium">/</span>
-      {{ feedback.id }} - {{ office }}
+      {{ feedback.id }}
     </template>
 
-    <div class="py-4">
-      <div class="w-full m-auto overflow-hidden bg-white rounded shadow-xl">
-        <div class="p-4">
-          <p>Date Submitted: {{ creationDate }}</p>
+    <page-section class="md:max-w-3xl">
+      <h2 class="section-header">
+        Info
+      </h2>
+      <div class="grid grid-cols-2 justify-items-auto">
+        <div>Office:</div>
+        <div>{{ feedback.officeName }}</div>
+        <div>Service:</div>
+        <div>{{ feedback.serviceName }}</div>
+        <div>Date Submitted:</div>
+        <div>{{ feedback.date }}</div>
+        <div>Author:</div>
+        <div>{{ feedback.authorName }}</div>
+        <div>Signature: </div>
+        <div class="w-1/2">
+          <img :src="'/'+feedback.signaturePath" alt="">
         </div>
-        <table class="w-full my-4 whitespace-no-wrap bg-white">
-          <tr class="font-bold text-left">
-            <th class="p-4 text-center">
-              Type
-            </th>
-            <th class="p-4 text-center">
-              Question
-            </th>
-            <th class="p-4 text-center">
-              Rating
-            </th>
-          </tr>
-          <tr class="border-t hover:bg-gray-100 focus-within:bg-gray-100" v-for="(answer,i) in answers" :key="i">
-            <td class="p-3">
-              {{ answer.typeWords }}
-            </td>
-            <td class="p-3">
-              {{ answer.question }}
-            </td>
-            <td class="p-3">
-              <div v-if="answer.type === 0">
-                {{/* mandatory */}}
-                <span v-for="n in +answer.answer" :key="n" class="px-1">⭐</span>
-              </div>
-              <div v-else-if="answer.type === 1">
-                {{/* positive */}}
-                👍
-              </div>
-              <div v-else-if="answer.type === 2">
-                {{/* negative */}}
-                👎🏾
-              </div>
-            </td>
-          </tr>
-        </table>
       </div>
-    </div>
+    </page-section>
+    <page-section class="md:max-w-3xl" v-for="(set,type) of answers" :key="type">
+      <h2 class="section-header">
+        {{ type }}
+      </h2>
+      <div class="grid grid-cols-3" v-for="(answer,x) of set" :key="x">
+        <div class="col-span-2">
+          {{ answer.question }}
+        </div>
+        <div class="col-span-1 m-auto " v-if="type==='Mandatory'">
+          <star-rating :rating="+answer.answer" />
+        </div>
+      </div>
+    </page-section>
   </app-layout>
 </template>
 
 <script>
 import AppLayout from '~/Layouts/AppLayout';
+import PageSection from '~/Shared/Section';
+import StarRating from '~/Shared/StarRating';
 export default {
   components: {
-    AppLayout
+    AppLayout,
+    PageSection,
+    StarRating,
   },
   props: {
     feedback: {
       type: Object,
       default: () => {}
     },
-    office: {
-      type: String,
-      default: ""
-    },
-    creationDate: {
-      type: String,
-      default: ""
-    },
     answers: {
-      type: Array,
+      type: [Array, Object],
       default: () => {}
     }
   }

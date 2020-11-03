@@ -12,11 +12,23 @@
 @import "nprogress";
 /* @import "table"; */
 
+/* vue2-datepicker */
+@import 'vue2-datepicker/index.css';
+
 /* pretty checkbox*/
 @import "pretty-checkbox/dist/pretty-checkbox.min.css"; 
-/* customize pretty checkbox border when unchecked */
 .pretty input:not(:checked) .state label::after, .pretty .state label::before {
   @apply .border-4 .border-gray-600
 }
 
+
+
+@layer base {
+  .page-header{
+    @apply mb-4 text-3xl font-bold
+  }
+  .section-header{
+    @apply mb-2 text-2xl font-bold
+  }
+}
 /* purgecss end ignore */
