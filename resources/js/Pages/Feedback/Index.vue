@@ -4,27 +4,42 @@
       Feedback
     </template>
 
-    <!-- <div class="flex justify-between">
-      <search-filter
-        v-model="filterForm.search"
-        class="w-full max-w-md mr-4"
-        @reset="reset"
-      >
-        <label class="block text-gray-700">Trashed:</label>
-        <select
-          v-model="filterForm.trashed"
-          class="w-full mt-1 form-select"
-        >
-          <option :value="null" />
-          <option value="with">
-            With Trashed
-          </option>
-          <option value="only">
-            Only Trashed
-          </option>
-        </select>
-      </search-filter>
-    </div> -->
+    <div class="flex justify-between">
+      <form @submit.prevent="submit">
+        <div class="grid grid-cols-4">
+          <select-input
+            v-model="filterForm.office"
+            class="pr-6"
+            label="Office"
+          >
+            <option :value="null">
+              All
+            </option>
+            <option v-for="(office,i) of offices" :key="i" :value="office.id">
+              {{ office.abbr }}
+            </option>
+          </select-input>
+          <select-input
+            v-model="filterForm.service"
+            class="pr-6"
+            label="Service"
+          >
+            <option :value="null">
+              All
+            </option>
+            <option v-for="(service,i) of officeServices" :key="i" :value="service.id">
+              {{ service.name }}
+            </option>
+          </select-input>
+          <date-input type="month" format="YYYY-MM" v-model="filterForm.month" class="pr-6" label="Month" />
+          <div class="flex items-end">
+            <button type="submit" class="btn-indigo">
+              Filter
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
 
     <table class="w-full my-4 whitespace-no-wrap bg-white">
       <tr class="font-bold text-left">
@@ -44,9 +59,6 @@
           Date
         </th>
         <th class="p-4 text-center">
-          Signature
-        </th>
-        <th class="p-4 text-center">
           Action
         </th>
       </tr>
@@ -59,21 +71,18 @@
           {{ feedback.from + i }}
         </td>
         <td class="p-3">
-          {{ row.office }}
+          {{ row.officeName }}
         </td>
-        <td class="p-3 ">
+        <td class="p-3">
           <p class="max-w-xs truncate">
-            {{ row.service }}
+            {{ row.serviceName }}
           </p>
         </td>
         <td class="p-3">
-          {{ row.user }}
+          {{ row.authorName }}
         </td>
         <td class="p-3">
           {{ row.date }}
-        </td>
-        <td class="">
-          <img :src="'/'+row.signaturePath" alt="signature" class="object-cover h-8">
         </td>
         <td class="p-3">
           <inertia-link
@@ -88,10 +97,10 @@
           </inertia-link>
         </td>
       </tr>
-      <tr v-if="feedback.length === 0">
+      <tr v-if="feedback.data.length === 0">
         <td
           class="px-6 py-4 border-t"
-          colspan="4"
+          colspan="6"
         >
           No Feedback found.
         </td>
@@ -105,47 +114,47 @@
 import AppLayout from "./../../Layouts/AppLayout";
 import Icon from "./../../Shared/Icon";
 import Pagination from "./../../Shared/Pagination";
-// import SearchFilter from "./../../Shared/SearchFilter";
+import SelectInput from "./../../Shared/SelectInput";
+import DateInput from "./../../Shared/DateInput";
 import mapValues from "lodash/mapValues";
-import pickBy from "lodash/pickBy";
-import throttle from "lodash/throttle";
 
 export default {
   props: {
-    feedback: { type: Object, default: () => [] },
-    // filters: { type: Object, default: () => {} },
+    feedback: { type: Object, default: () => {} },
+    offices: { type: Array, default: () => {} },
+    services: { type: Array, default: () => {} },
+    filters: { type: Object, default: () => {} },
   },
   components: {
     AppLayout,
     Icon,
     Pagination,
-    // SearchFilter,
+    SelectInput,
+    DateInput,
   },
   data() {
     return {
-      // filterForm: {
-      //   search: this.filters.search,
-      //   trashed: this.filters.trashed,
-      // },
+      filterForm: {
+        office: this.filters.office,
+        service: this.filters.service,
+        month: this.filters.month,
+      },
     };
   },
   watch: {
-    // filterForm: {
-    //   handler: throttle(function () {
-    //     const query = pickBy(this.filterForm);
-    //     this.$inertia.replace(
-    //       this.route(
-    //         "admin.feedback.index",
-    //         Object.keys(query).length ? query : { remember: "forget" }
-    //       )
-    //     );
-    //   }, 150),
-    //   deep: true,
-    // },
+    
+  },
+  computed: {
+    officeServices(){
+      return this.services.filter(service => service.officeId == this.filterForm.office)
+    }
   },
   methods: {
+    submit(){
+      this.$inertia.replace(this.route('feedback.index'), this.filterForm);
+    },
     reset() {
-      // this.filterForm = mapValues(this.filterForm, () => null);
+      this.filterForm = mapValues(this.filterForm, () => null);
     },
   },
 };

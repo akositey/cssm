@@ -53,17 +53,21 @@ class Feedback extends Model
      */
     public function scopeFilter($query, array $filters)
     {
-        $query->when($filters['search'] ?? null, function ($query, $search) {
-            $query->whereHas('office', 'like', "%$search%")
-                ->orWhereHas('user', 'like', "%$search%")
-                ->orWhereBetween('created_at', "%$search%");
-        })->when($filters['trashed'] ?? null, function ($query, $trashed) {
-            if ($trashed === 'with') {
-                $query->withTrashed();
-            } elseif ($trashed === 'only') {
-                $query->onlyTrashed();
-            }
-        });
+        $query->when($filters['office'] ?? null, function ($query, $id) {
+            $query->whereHas('service', function ($query) use ($id) {
+                $query->whereHas('office', function ($query) use ($id) {
+                    $query->where('id', $id);
+                });
+            });
+        })
+            ->when($filters['service'] ?? null, function ($query, $id) {
+                $query->whereHas('service', function ($query) use ($id) {
+                    $query->where('id', $id);
+                });
+            })
+            ->when($filters['month'] ?? null, function ($query, $month) {
+                $query->whereBetween('created_at', [date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))]);
+            });
     }
 
 }

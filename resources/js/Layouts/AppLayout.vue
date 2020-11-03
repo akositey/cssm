@@ -263,7 +263,7 @@
       >
         <!-- Page Heading -->
         <header>
-          <h1 class="mb-4 text-3xl font-bold">
+          <h1 class="page-header">
             <slot name="header" />
           </h1>
         </header>
