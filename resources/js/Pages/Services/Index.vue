@@ -81,7 +81,7 @@
           </inertia-link>
         </td>
       </tr>
-      <tr v-if="services.length === 0">
+      <tr v-if="services.data.length === 0">
         <td
           class="px-6 py-4 border-t"
           colspan="4"
