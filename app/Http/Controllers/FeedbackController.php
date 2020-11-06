@@ -5,19 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Feedback;
 use App\Models\Office;
 use App\Models\Service;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class FeedbackController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * @param  \Illuminate\Http\Request    $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $filters = Request::all('search', 'office', 'service', 'month');
+        $filters = $request->only('office', 'service', 'month');
         $feedback = Feedback::filter($filters)->orderBy('created_at', 'DESC')->paginate(10);
         $feedback->transform(function ($row) {
             return [
@@ -61,6 +61,7 @@ class FeedbackController extends Controller
             'serviceName' => $feedback->service->name,
             'date' => $feedback->created_at->format('M j, Y g:i a'),
             'officeName' => $feedback->service->office->name,
+            'commentsPath' => $feedback->comments_path,
             'signaturePath' => $feedback->signature_path,
             'authorName' => $feedback->user->name
         ];
