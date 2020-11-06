@@ -15,7 +15,11 @@
             <option :value="null">
               All
             </option>
-            <option v-for="(office,i) of offices" :key="i" :value="office.id">
+            <option
+              v-for="(office,i) of offices"
+              :key="i"
+              :value="office.id"
+            >
               {{ office.abbr }}
             </option>
           </select-input>
@@ -27,28 +31,47 @@
             <option :value="null">
               All
             </option>
-            <option v-for="(service,i) of officeServices" :key="i" :value="service.id">
+            <option
+              v-for="(service,i) of officeServices"
+              :key="i"
+              :value="service.id"
+            >
               {{ service.name }}
             </option>
           </select-input>
-          <date-input type="month" format="YYYY-MM" v-model="filterForm.month" class="pr-6" label="Month" />
-          <select-input
-            v-model="filterForm.hasOptionalComments"
+          <date-input
+            type="month"
+            format="YYYY-MM"
+            v-model="filterForm.month"
             class="pr-6"
-            label="Has Comments"
+            label="Month"
+          />
+          <select-input
+            v-model="filterForm.hasComments"
+            class="pr-6"
+            label="Comments"
           >
             <option :value="null">
               All
             </option>
-            <option key="true" :value="true">
-              Yes
+            <option
+              key="true"
+              value="with"
+            >
+              Has Optional Comment
             </option>
-            <option key="false" :value="false">
-              No
+            <option
+              key="false"
+              value="without"
+            >
+              No Optional Comment
             </option>
           </select-input>
           <div class="flex items-end">
-            <button type="submit" class="btn-indigo">
+            <button
+              type="submit"
+              class="btn-indigo"
+            >
               Filter
             </button>
             <button
@@ -139,7 +162,6 @@ import Pagination from "./../../Shared/Pagination";
 import SelectInput from "./../../Shared/SelectInput";
 import DateInput from "./../../Shared/DateInput";
 import mapValues from "lodash/mapValues";
-import pickBy from "lodash/pickBy";
 
 export default {
   props: {
@@ -161,33 +183,28 @@ export default {
         office: this.filters.office,
         service: this.filters.service,
         month: this.filters.month,
-        hasOptionalComments: this.filters.hasOptionalComments,
+        hasComments: this.filters.hasComments,
       },
     };
   },
-  watch: {
-    
-  },
+  watch: {},
   computed: {
-    officeServices(){
-      return this.services.filter(service => service.officeId == this.filterForm.office)
-    }
-  },
-  methods: {
-    submit(){
-      console.log(this.filterForm);
-      const query = pickBy(this.filterForm);
-      this.$inertia.replace(
-        this.route(
-          "feedback.index",
-          Object.keys(query).length ? query : { remember: "forget" }
-        )
+    officeServices() {
+      return this.services.filter(
+        (service) => service.officeId == this.filterForm.office
       );
     },
+  },
+  methods: {
+    submit() {
+      // console.log(this.filterForm);
+      this.$inertia.replace(this.route("feedback.index"), {
+        data: this.filterForm,
+      });
+    },
     reset() {
-      console.log('resetting form...');
       this.filterForm = mapValues(this.filterForm, () => null);
-      console.log(this.filterForm);
+      this.submit();
     },
   },
 };
