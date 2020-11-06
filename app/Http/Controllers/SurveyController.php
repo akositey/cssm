@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Feedback;
 use App\Models\Question;
-use App\Services\ImageProcessor;
+use App\Services\ImageHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +12,19 @@ use Inertia\Inertia;
 
 class SurveyController extends Controller
 {
+    /**
+     * @var mixed
+     */
+    protected $imageHandler;
+
+    /**
+     * @param ImageHandler $imageHandler
+     */
+    public function __construct(ImageHandler $imageHandler)
+    {
+        $this->imageHandler = $imageHandler;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -38,8 +51,11 @@ class SurveyController extends Controller
         # benchmark
         // $timer = microtime(true);
 
+        $user = Auth::user();
+
+        ### TODO: move validation out of this controller
         # validation
-        $list = implode(',', Auth::user()->office->services->pluck('id')->toArray());
+        $list = implode(',', $user->office->services->pluck('id')->toArray());
         $request->validate([
             'service_id' => ['required', "in:$list"],
             'signature' => ['required', 'string']
@@ -55,34 +71,46 @@ class SurveyController extends Controller
             ]);
         }
 
-        $fields = $request->only(['service_id', 'mandatory', 'optional', 'signature']);
-        $fields['office_id'] = Auth::user()->office->id;
+        $fields = $request->only(['service_id', 'mandatory', 'optional', 'additional_comments', 'signature']);
+        $fields['office_id'] = $user->office->id;
 
-        $folder = 'signatures';
-        $filename = Auth::user()->username . '-' . Auth::user()->id . '-' . date('YmdHis') . '.png';
+        ### TODO: send to jobs instead?
+        $commentsFolder = 'comments';
+        $commentsFilename = 'comment_' . $user->username . '_' . $user->id . '_' . date('YmdHis') . '.png';
+        # save comment image, if not empty
+        if ($fields['additional_comments']) {
+            $encodedCommentImage = explode(",", $fields['additional_comments'])[1];
+            $decodedCommentImage = base64_decode($encodedCommentImage);
+
+            # resize, store, and optimize image
+            $this->imageHandler->create($decodedCommentImage, $commentsFolder, $commentsFilename, 768);
+        }
+
+        # save signature image
+        $sigFolder = 'signatures';
+        $sigFilename = 'signature_' . $user->username . '_' . $user->id . '_' . date('YmdHis') . '.png';
+        $encodedSignatureImage = explode(",", $fields['signature'])[1];
+        $decodedSignatureImage = base64_decode($encodedSignatureImage);
+
+        # resize, store, and optimize image
+        $this->imageHandler->create($decodedSignatureImage, $sigFolder, $sigFilename);
 
         # begin transaction
-        DB::transaction(function () use ($fields, $folder, &$filename) {
+        DB::transaction(function () use ($fields, $user, $commentsFolder, &$commentsFilename, $sigFolder, &$sigFilename) {
             # save to database
-            $feedback = Feedback::create($fields + [
-                'signature_path' => $folder . '/' . $filename,
-                'user_id' => Auth::user()->id
-            ]);
+            $fields = $fields + [
+                'comments_path' => $fields['additional_comments'] ? $commentsFolder . '/' . $commentsFilename : null,
+                'signature_path' => $sigFolder . '/' . $sigFilename,
+                'user_id' => $user->id
+            ];
+            $feedback = Feedback::create($fields);
 
             # save answers
             $feedback->answers()->createMany($fields['mandatory']);
-            foreach ($fields['optional'] as $type => $answers) {
+            foreach ($fields['optional'] as $answers) {
                 $feedback->answers()->createMany($answers);
             }
         });
-
-        # save signature image
-        $encodedImage = explode(",", $fields['signature'])[1];
-        $decodedImage = base64_decode($encodedImage);
-
-        # resize, store, and optimize image
-        $imgProcessor = new ImageProcessor($decodedImage, $folder, $filename);
-        $imgProcessor->save();
 
         # benchmark
         // $timer = microtime(true) - $timer;
