@@ -14,9 +14,17 @@
                 :message="form.error(`service_id`)"
                 class="mt-2"
               />
-              <select v-model="form.service_id" class="border-4 border-gray-600 form-select" @change="scrollToNext(1)">
+              <select
+                v-model="form.service_id"
+                class="border-4 border-gray-600 form-select"
+                @change="scrollToNext(1)"
+              >
                 <option :value="null" />
-                <option v-for="service in services" :key="service.id" :value="service.id">
+                <option
+                  v-for="service in services"
+                  :key="service.id"
+                  :value="service.id"
+                >
                   {{ service.name }}
                 </option>
               </select>
@@ -68,7 +76,7 @@
           <emoji-choices
             :questionNumber="i+1"
             :questionId="question.id"
-            @answer-mandatory="updateAnswerMandatory"
+            @answer-mandatory="updateMandatoryAnswers"
           />
 
           <div class="flex justify-center w-1/12 min-h-full">
@@ -96,7 +104,6 @@
             Maaaring pumili hanggang tatlo(3)
           </div>
         </div>
-        
 
         <div class="flex justify-between">
           <div class="flex justify-center w-1/12 min-h-full">
@@ -115,7 +122,7 @@
             :questionNumber="questionsSet.mandatory.length+1"
             :questions="questionsSet.optional.positive"
             :maxChecked="maxChecked"
-            @answers-optional="updateAnswerOptional"
+            @answers-optional="updateOptionalAnswer"
           />
           <div class="flex justify-center w-1/12 min-h-full">
             <button
@@ -160,7 +167,7 @@
             :questionNumber="questionsSet.mandatory.length+2"
             :questions="questionsSet.optional.negative"
             :maxChecked="maxChecked"
-            @answers-optional="updateAnswerOptional"
+            @answers-optional="updateOptionalAnswer"
           />
           <div class="flex justify-center w-1/12 min-h-full">
             <button
@@ -178,12 +185,48 @@
 
       <div
         :id="`question-${questionsSet.mandatory.length+3}-cont`"
+        class="flex flex-col flex-no-wrap h-screen p-6 pb-0 mt-20 bg-white rounded shadow-xl"
+      >
+        <div class="flex-none text-2xl font-bold md:text-5xl">
+          6. (Opsyonal) Karagdagang Kumento o Suhestyon
+        </div>
+        <div class="flex-grow w-full md:p-8">
+          <canvas
+            id="comment-pad"
+            class="w-full h-full border-4 border-gray-600 border-solid shadow-xl signature-pad"
+          />
+        </div>
+        <div class="flex justify-between flex-none md:p-8">
+          <button
+            class="text-xl md:text-5xl btn-gray"
+            @click="comment.pad.clear()"
+          >
+            Burahin
+          </button>
+          <button
+            class="md:text-5xl btn-next"
+            @click="scrollToNext(questionsSet.mandatory.length+4)"
+          >
+            <icon
+              name="cheveron-right"
+              class="w-12 h-12 md:w-20 md:h-20 fill-white "
+            />
+          </button>
+        </div>
+      </div>
+
+      <div
+        :id="`question-${questionsSet.mandatory.length+4}-cont`"
         class="h-full p-6 pb-0 mt-20 bg-white rounded shadow-xl"
       >
         <div class="text-2xl font-bold md:text-5xl">
           Pirma
         </div>
         <div class="w-3/6 h-32 pb-8 m-auto md:h-64 md:p-8">
+          <emoji-error
+            :message="signature.error"
+            class="mt-2"
+          />
           <canvas
             id="signature-pad"
             class="w-full h-full border-4 border-gray-600 border-solid shadow-xl signature-pad"
@@ -192,13 +235,20 @@
         <div class="flex justify-between mt-8 md:p-8">
           <button
             class="text-xl md:text-5xl btn-gray"
-            @click="clearSignature"
+            @click="signature.pad.clear()"
           >
             Burahin
           </button>
-          <button :disabled="sending" class="flex items-center text-xl md:text-5xl btn-green" @click="submit">
+          <button
+            :disabled="sending"
+            class="flex items-center text-xl md:text-5xl btn-green"
+            @click="submit"
+          >
             Tapusin
-            <div v-if="sending" class="ml-2 text-xl md:ml-6 btn-spinner md:text-3xl" />
+            <div
+              v-if="sending"
+              class="ml-2 text-xl md:ml-6 btn-spinner md:text-3xl"
+            />
             <icon
               v-else
               name="cheveron-right"
@@ -239,6 +289,7 @@ export default {
           service_id: null,
           mandatory: {},
           optional: {},
+          additional_comments: "",
           signature: "",
         },
         {
@@ -261,8 +312,15 @@ export default {
       },
       maxChecked: 3,
       currentQuestion: 0,
-      canvas: null,
-      signaturePad: null,
+      comment: {
+        canvas: null,
+        pad: null
+      },
+      signature: {
+        canvas: null,
+        pad: null,
+        error: null
+      },
     };
   },
   mounted() {
@@ -270,51 +328,58 @@ export default {
       // scroll to top
       window.scrollTo({ top: 0, behavior: "smooth" });
 
-      //init signature_pad
-      this.canvas = document.getElementById("signature-pad");
-      this.signaturePad = new SignaturePad(this.canvas);
-      //resize canvas, fix for signature_pad
+      //init comments pad
+      this.comment.canvas = document.getElementById("comment-pad");
+      this.comment.pad = new SignaturePad(this.comment.canvas, {
+        dotSize: 1,
+        maxWidth: 1,
+      });
+
+      //init signature pad
+      this.signature.canvas = document.getElementById("signature-pad");
+      this.signature.pad = new SignaturePad(this.signature.canvas, {
+        minWidth: 1,
+        maxWidth: 3,
+        penColor: "blue",
+      });
+
+      //resize canvas, fix for SignaturePad
       window.addEventListener("resize", this.resizeCanvas);
       this.resizeCanvas();
     });
   },
   methods: {
     submit() {
-      console.log("submit triggered!");
+      // console.log("submit triggered!");
       // check if signature is not empty
-      if (this.signaturePad.isEmpty()) {
-        alert("Pumirma muna bago tapusin. Salamat po!");
+      if (this.signature.pad.isEmpty()) {
+        this.signature.error = "Pumirma muna dito 👇🏻 bago tapusin. Salamat po!";
       } else {
-        this.form.signature = this.signaturePad.toDataURL(); //default is png
+        // add images to form
+        this.form.additional_comments = this.cropCanvas(
+          this.comment.canvas
+        );
+        this.form.signature = this.cropCanvas(this.signature.canvas);
         this.sending = true;
-        // console.log(this.form);
-        this.form
-          .post(this.route("survey.store"))
-          .then(() => {
-            this.sending = false;
-            // console.log("form", this.form);
-            // console.log("errors", this.$page.errors);
-            // console.log("error-1", Object.keys(this.$page.errors)[0]);
-            if (Object.keys(this.$page.errors)[0]) {
-              const unanswered = Object.keys(this.$page.errors)[0];
-              let questionNumber = 0;
-              if(unanswered.match(/(\d+)/)){
-                questionNumber = unanswered.match(/(\d+)/)[0];
-                // console.log("error in: ", questionNumber);
-              }
-              this.scrollToNext(questionNumber);
+
+        // submit form
+        this.form.post(this.route("survey.store")).then(() => {
+          this.sending = false;
+          this.signature.error = null;
+
+          // validation handling
+          if (Object.keys(this.$page.errors)[0]) {
+            const unanswered = Object.keys(this.$page.errors)[0];
+            let questionNumber = 0;
+            if (unanswered.match(/(\d+)/)) {
+              questionNumber = unanswered.match(/(\d+)/)[0];
             }
-            // console.log(this.form);
-          });
+            this.scrollToNext(questionNumber);
+          }
+        });
       }
     },
-    clearSignature() {
-      this.signaturePad.clear();
-    },
-    startSurvey() {
-      this.scrollToNext(1);
-    },
-    updateAnswerMandatory(questionNumber, questionId, answer) {
+    updateMandatoryAnswers(questionNumber, questionId, answer) {
       // console.log(questionNumber, questionId, answer);
       this.form.mandatory[questionId] = {
         question_id: questionId,
@@ -323,10 +388,10 @@ export default {
 
       this.scrollToNext(+questionNumber + 1);
     },
-    updateAnswerOptional(questionNumber, type, chosenIds) {
+    updateOptionalAnswer(questionNumber, type, chosenIds) {
       // console.log(questionNumber, type, chosenIds);
       let newOptional = chosenIds.map((questionId) => {
-        console.log('questionId',questionId)
+        console.log("questionId", questionId);
         return {
           question_id: questionId,
           answer: 1,
@@ -348,10 +413,58 @@ export default {
     },
     resizeCanvas() {
       const ratio = Math.max(window.devicePixelRatio || 1, 1);
-      this.canvas.width = this.canvas.offsetWidth * ratio;
-      this.canvas.height = this.canvas.offsetHeight * ratio;
-      this.canvas.getContext("2d").scale(ratio, ratio);
-      this.signaturePad.clear(); // otherwise isEmpty() might return incorrect value
+      this.comment.canvas.width = this.comment.canvas.offsetWidth * ratio;
+      this.comment.canvas.height = this.comment.canvas.offsetHeight * ratio;
+      this.comment.canvas.getContext("2d").scale(ratio, ratio);
+      this.comment.pad.clear(); // otherwise isEmpty() might return incorrect value
+
+      this.signature.canvas.width = this.signature.canvas.offsetWidth * ratio;
+      this.signature.canvas.height = this.signature.canvas.offsetHeight * ratio;
+      this.signature.canvas.getContext("2d").scale(ratio, ratio);
+      this.signature.pad.clear(); // otherwise isEmpty() might return incorrect value
+    },
+    cropCanvas: function (canvas) {
+      // First duplicate the canvas to not alter the original
+      let croppedCanvas = document.createElement("canvas"),
+        croppedCtx = croppedCanvas.getContext("2d");
+
+      croppedCanvas.width = canvas.width;
+      croppedCanvas.height = canvas.height;
+      croppedCtx.drawImage(canvas, 0, 0);
+
+      let w = croppedCanvas.width;
+      let h = croppedCanvas.height;
+      let pix = { x: [], y: [] };
+      let imageData = croppedCtx.getImageData(0, 0, w, h);
+      let index = 0;
+      
+
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          index = (y * w + x) * 4;
+          if (imageData.data[index + 3] > 0) {
+            pix.x.push(x);
+            pix.y.push(y);
+          }
+        }
+      }
+
+      pix.x.sort((a, b) => a - b);
+      pix.y.sort((a, b) => a - b);
+      let n = pix.x.length - 1;
+
+      w = pix.x[n] - pix.x[0];
+      h = pix.y[n] - pix.y[0];
+      if(!pix.x[0]){//if image is empty
+        return null;
+      }
+      var cut = croppedCtx.getImageData(pix.x[0], pix.y[0], w, h);
+
+      croppedCanvas.width = w;
+      croppedCanvas.height = h;
+      croppedCtx.putImageData(cut, 0, 0);
+
+      return croppedCanvas.toDataURL();
     },
   },
 };
