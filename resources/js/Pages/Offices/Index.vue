@@ -117,7 +117,7 @@ import throttle from "lodash/throttle";
 export default {
   props: {
     offices: { type: Object, default: () => [] },
-    filters: { type: Object, default: () => {} },
+    filters: { type: [Object, Array], default: () => {} },
   },
   components: {
     AppLayout,

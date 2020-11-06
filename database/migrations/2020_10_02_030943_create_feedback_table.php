@@ -17,6 +17,7 @@ class CreateFeedbackTable extends Migration
             $table->id();
             // $table->integer('office_id');
             $table->integer('service_id'); //this will replace office_id later
+            $table->string('comments')->nullable()->comment('transcribed from image'); //admin user will transcribe the image to this
             $table->string('comments_path')->nullable();
             $table->string('signature_path');
             $table->integer('user_id')->comment('author');

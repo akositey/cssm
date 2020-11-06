@@ -17,7 +17,7 @@ class FeedbackController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->only('office', 'service', 'month');
+        $filters = $request->only('office', 'service', 'month', 'transcribed');
         $feedback = Feedback::filter($filters)->orderBy('created_at', 'DESC')->paginate(10);
         $feedback->transform(function ($row) {
             return [

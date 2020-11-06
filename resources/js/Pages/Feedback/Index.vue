@@ -6,7 +6,7 @@
 
     <div class="flex justify-between">
       <form @submit.prevent="submit">
-        <div class="grid grid-cols-4">
+        <div class="grid grid-cols-5">
           <select-input
             v-model="filterForm.office"
             class="pr-6"
@@ -32,9 +32,31 @@
             </option>
           </select-input>
           <date-input type="month" format="YYYY-MM" v-model="filterForm.month" class="pr-6" label="Month" />
+          <select-input
+            v-model="filterForm.hasOptionalComments"
+            class="pr-6"
+            label="Has Comments"
+          >
+            <option :value="null">
+              All
+            </option>
+            <option key="true" :value="true">
+              Yes
+            </option>
+            <option key="false" :value="false">
+              No
+            </option>
+          </select-input>
           <div class="flex items-end">
             <button type="submit" class="btn-indigo">
               Filter
+            </button>
+            <button
+              class="p-3 text-sm text-gray-500 hover:text-gray-700 focus:text-indigo-500"
+              type="button"
+              @click="reset"
+            >
+              Reset
             </button>
           </div>
         </div>
@@ -124,7 +146,7 @@ export default {
     feedback: { type: Object, default: () => {} },
     offices: { type: Array, default: () => {} },
     services: { type: Array, default: () => {} },
-    filters: { type: Object, default: () => {} },
+    filters: { type: [Object, Array], default: () => {} },
   },
   components: {
     AppLayout,
@@ -139,6 +161,7 @@ export default {
         office: this.filters.office,
         service: this.filters.service,
         month: this.filters.month,
+        hasOptionalComments: this.filters.hasOptionalComments,
       },
     };
   },
@@ -160,10 +183,11 @@ export default {
           Object.keys(query).length ? query : { remember: "forget" }
         )
       );
-      // this.$inertia.replace(this.route('feedback.index'),this.filterForm);
     },
     reset() {
+      console.log('resetting form...');
       this.filterForm = mapValues(this.filterForm, () => null);
+      console.log(this.filterForm);
     },
   },
 };
