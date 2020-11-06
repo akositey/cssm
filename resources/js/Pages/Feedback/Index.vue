@@ -117,6 +117,7 @@ import Pagination from "./../../Shared/Pagination";
 import SelectInput from "./../../Shared/SelectInput";
 import DateInput from "./../../Shared/DateInput";
 import mapValues from "lodash/mapValues";
+import pickBy from "lodash/pickBy";
 
 export default {
   props: {
@@ -151,7 +152,15 @@ export default {
   },
   methods: {
     submit(){
-      this.$inertia.replace(this.route('feedback.index'), this.filterForm);
+      console.log(this.filterForm);
+      const query = pickBy(this.filterForm);
+      this.$inertia.replace(
+        this.route(
+          "feedback.index",
+          Object.keys(query).length ? query : { remember: "forget" }
+        )
+      );
+      // this.$inertia.replace(this.route('feedback.index'),this.filterForm);
     },
     reset() {
       this.filterForm = mapValues(this.filterForm, () => null);

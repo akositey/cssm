@@ -80,7 +80,8 @@ return [
 
     'links' => [
         // public_path('storage') => storage_path('app/public'),
-        public_path('signatures') => storage_path('app/signatures')
+        public_path('signatures') => storage_path('app/signatures'),
+        public_path('comments') => storage_path('app/comments')
     ]
 
 ];
