@@ -61,6 +61,7 @@ class FeedbackController extends Controller
             'serviceName' => $feedback->service->name,
             'date' => $feedback->created_at->format('M j, Y g:i a'),
             'officeName' => $feedback->service->office->name,
+            'comments' => $feedback->comments,
             'commentsPath' => $feedback->comments_path,
             'signaturePath' => $feedback->signature_path,
             'authorName' => $feedback->user->name

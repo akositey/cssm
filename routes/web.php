@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
@@ -40,4 +41,7 @@ Route::prefix('admin')->middleware('auth')->group(function () { //TODO: middlewa
     Route::resource('services', ServiceController::class);
     Route::resource('questions', QuestionController::class);
     Route::resource('feedback', FeedbackController::class);
+
+    Route::get('feedback/{feedback}/comments/edit', [CommentController::class, 'edit'])->name('comments.edit');
+    Route::patch('feedback/{feedback}/comments/', [CommentController::class, 'store'])->name('comments.store');
 });

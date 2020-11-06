@@ -36,29 +36,57 @@
             Signature:
           </div>
           <div class="w-1/2">
-            <img :src="'/'+feedback.signaturePath" alt="">
+            <img
+              :src="'/'+feedback.signaturePath"
+              alt=""
+            >
           </div>
         </div>
       </page-section>
-      <page-section class="" v-for="(set,type) of answers" :key="type">
+      <page-section
+        class=""
+        v-for="(set,type) of answers"
+        :key="type"
+      >
         <h2 class="section-header">
           {{ type }}
         </h2>
-        <div class="grid grid-cols-3" v-for="(answer,x) of set" :key="x">
+        <div
+          class="grid grid-cols-3"
+          v-for="(answer,x) of set"
+          :key="x"
+        >
           <div class="col-span-2">
             {{ x+1 }}. {{ answer.question }}
           </div>
-          <div class="col-span-1 m-auto " v-if="type==='Mandatory'">
+          <div
+            class="col-span-1 m-auto "
+            v-if="type==='Mandatory'"
+          >
             <star-rating :rating="+answer.answer" />
           </div>
         </div>
       </page-section>
-      <page-section class="" v-if="feedback.commentsPath">
+      <page-section
+        class=""
+        v-if="feedback.commentsPath"
+      >
         <h2 class="section-header">
           Additional Comments / Suggestions
         </h2>
-        <div class="w-1/2">
-          <img :src="'/'+feedback.commentsPath" alt="">
+        <div class="w-full">
+          <img
+            :src="'/'+feedback.commentsPath"
+            alt=""
+          >
+        </div>
+        <div class="w-full text-right">
+          <inertia-link
+            v-if="!feedback.comments"
+            :href="route('comments.edit', feedback.id)"
+          >
+            Transcribe
+          </inertia-link>
         </div>
       </page-section>
     </div>
@@ -66,9 +94,9 @@
 </template>
 
 <script>
-import AppLayout from '~/Layouts/AppLayout';
-import PageSection from '~/Shared/Section';
-import StarRating from '~/Shared/StarRating';
+import AppLayout from "~/Layouts/AppLayout";
+import PageSection from "~/Shared/Section";
+import StarRating from "~/Shared/StarRating";
 export default {
   components: {
     AppLayout,
@@ -78,12 +106,12 @@ export default {
   props: {
     feedback: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     answers: {
       type: [Array, Object],
-      default: () => {}
-    }
-  }
-}
+      default: () => {},
+    },
+  },
+};
 </script>
