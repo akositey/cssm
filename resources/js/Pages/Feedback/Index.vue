@@ -98,7 +98,7 @@
           Service
         </th>
         <th class="p-4 text-center">
-          Author
+          Comments
         </th>
         <th class="p-4 text-center">
           Date
@@ -123,8 +123,15 @@
             {{ row.serviceName }}
           </p>
         </td>
-        <td class="p-3">
-          {{ row.authorName }}
+        <td class="p-3 green">
+          <span
+            v-if="(row.comments_path && !row.comments)"
+            class="text-orange-500"
+          >untranscribed</span>
+          <span
+            v-if="(row.comments_path && row.comments)"
+            class="text-green-500"
+          >transcribed</span>
         </td>
         <td class="p-3">
           {{ row.date }}

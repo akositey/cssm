@@ -24,7 +24,8 @@ class FeedbackController extends Controller
                 'id' => $row->id,
                 'officeName' => $row->service->office->name,
                 'serviceName' => $row->service->name,
-                'authorName' => $row->user->name,
+                'comments' => $row->comments,
+                'comments_path' => $row->comments_path,
                 'date' => $row->created_at->format('M j, Y g:i a')
             ];
         });
@@ -82,6 +83,22 @@ class FeedbackController extends Controller
             'feedback' => $feedbackData,
             'answers' => $answers
         ]);
+    }
+
+    /**
+     * update only comments. this is for transcribing comment image
+     *
+     * @param  Request  $request
+     * @param  Feedback $feedback
+     * @return void
+     */
+    public function update(Request $request, Feedback $feedback)
+    {
+        $feedback->update([
+            'comments' => $request->comments
+        ]);
+        return redirect(route('feedback.index'))->with('success', 'Feedback Successfully Updated');
+
     }
 
 }

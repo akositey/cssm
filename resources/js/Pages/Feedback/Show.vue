@@ -81,9 +81,18 @@
           >
         </div>
         <div class="w-full text-right">
+          <div
+            v-if="feedback.comments"
+            class="text-left"
+          >
+            <p class="font-bold">
+              Transcription:
+            </p>
+            {{ feedback.comments }}
+          </div>
           <inertia-link
-            v-if="!feedback.comments"
             :href="route('comments.edit', feedback.id)"
+            class="btn-indigo"
           >
             Transcribe
           </inertia-link>
