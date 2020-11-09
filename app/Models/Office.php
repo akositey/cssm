@@ -13,7 +13,7 @@ class Office extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'nick', 'parent_id'];
+    protected $fillable = ['name', 'abbr', 'parent_id'];
 
     /**
      * @return mixed

@@ -13,7 +13,7 @@ class Feedback extends Model
     /**
      * @var array
      */
-    protected $fillable = ['service_id', 'comments_path', 'signature_path', 'user_id'];
+    protected $fillable = ['service_id', 'comments', 'comments_path', 'signature_path', 'user_id'];
 
     /**
      * @return mixed
@@ -67,6 +67,13 @@ class Feedback extends Model
             })
             ->when($filters['month'] ?? null, function ($query, $month) {
                 $query->whereBetween('created_at', [date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))]);
+            })
+            ->when($filters['hasComments'] ?? null, function ($query, $yesNo) {
+                if ($yesNo === "with") {
+                    $query->whereNotNull('comments_path');
+                } else {
+                    $query->whereNull('comments_path');
+                }
             });
     }
 

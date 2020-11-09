@@ -111,13 +111,12 @@ import Icon from "./../../Shared/Icon";
 import Pagination from "./../../Shared/Pagination";
 import SearchFilter from "./../../Shared/SearchFilter";
 import mapValues from "lodash/mapValues";
-import pickBy from "lodash/pickBy";
 import throttle from "lodash/throttle";
 
 export default {
   props: {
     offices: { type: Object, default: () => [] },
-    filters: { type: Object, default: () => {} },
+    filters: { type: [Object, Array], default: () => {} },
   },
   components: {
     AppLayout,
@@ -136,13 +135,7 @@ export default {
   watch: {
     filterForm: {
       handler: throttle(function () {
-        const query = pickBy(this.filterForm);
-        this.$inertia.replace(
-          this.route(
-            "offices.index",
-            Object.keys(query).length ? query : { remember: "forget" }
-          )
-        );
+        this.$inertia.replace(this.route("offices.index", this.filterForm));
       }, 150),
       deep: true,
     },

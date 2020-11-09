@@ -6,7 +6,7 @@
 
     <div class="flex justify-between">
       <form @submit.prevent="submit">
-        <div class="grid grid-cols-4">
+        <div class="grid grid-cols-5">
           <select-input
             v-model="filterForm.office"
             class="pr-6"
@@ -15,7 +15,11 @@
             <option :value="null">
               All
             </option>
-            <option v-for="(office,i) of offices" :key="i" :value="office.id">
+            <option
+              v-for="(office,i) of offices"
+              :key="i"
+              :value="office.id"
+            >
               {{ office.abbr }}
             </option>
           </select-input>
@@ -27,14 +31,55 @@
             <option :value="null">
               All
             </option>
-            <option v-for="(service,i) of officeServices" :key="i" :value="service.id">
+            <option
+              v-for="(service,i) of officeServices"
+              :key="i"
+              :value="service.id"
+            >
               {{ service.name }}
             </option>
           </select-input>
-          <date-input type="month" format="YYYY-MM" v-model="filterForm.month" class="pr-6" label="Month" />
+          <date-input
+            type="month"
+            format="YYYY-MM"
+            v-model="filterForm.month"
+            class="pr-6"
+            label="Month"
+          />
+          <select-input
+            v-model="filterForm.hasComments"
+            class="pr-6"
+            label="Comments"
+          >
+            <option :value="null">
+              All
+            </option>
+            <option
+              key="true"
+              value="with"
+            >
+              Has Optional Comment
+            </option>
+            <option
+              key="false"
+              value="without"
+            >
+              No Optional Comment
+            </option>
+          </select-input>
           <div class="flex items-end">
-            <button type="submit" class="btn-indigo">
+            <button
+              type="submit"
+              class="btn-indigo"
+            >
               Filter
+            </button>
+            <button
+              class="p-3 text-sm text-gray-500 hover:text-gray-700 focus:text-indigo-500"
+              type="button"
+              @click="reset"
+            >
+              Reset
             </button>
           </div>
         </div>
@@ -53,7 +98,7 @@
           Service
         </th>
         <th class="p-4 text-center">
-          Author
+          Comments
         </th>
         <th class="p-4 text-center">
           Date
@@ -78,8 +123,15 @@
             {{ row.serviceName }}
           </p>
         </td>
-        <td class="p-3">
-          {{ row.authorName }}
+        <td class="p-3 green">
+          <span
+            v-if="(row.comments_path && !row.comments)"
+            class="text-orange-500"
+          >untranscribed</span>
+          <span
+            v-if="(row.comments_path && row.comments)"
+            class="text-green-500"
+          >transcribed</span>
         </td>
         <td class="p-3">
           {{ row.date }}
@@ -117,14 +169,13 @@ import Pagination from "./../../Shared/Pagination";
 import SelectInput from "./../../Shared/SelectInput";
 import DateInput from "./../../Shared/DateInput";
 import mapValues from "lodash/mapValues";
-import pickBy from "lodash/pickBy";
 
 export default {
   props: {
     feedback: { type: Object, default: () => {} },
     offices: { type: Array, default: () => {} },
     services: { type: Array, default: () => {} },
-    filters: { type: Object, default: () => {} },
+    filters: { type: [Object, Array], default: () => {} },
   },
   components: {
     AppLayout,
@@ -139,31 +190,28 @@ export default {
         office: this.filters.office,
         service: this.filters.service,
         month: this.filters.month,
+        hasComments: this.filters.hasComments,
       },
     };
   },
-  watch: {
-    
-  },
+  watch: {},
   computed: {
-    officeServices(){
-      return this.services.filter(service => service.officeId == this.filterForm.office)
-    }
+    officeServices() {
+      return this.services.filter(
+        (service) => service.officeId == this.filterForm.office
+      );
+    },
   },
   methods: {
-    submit(){
-      console.log(this.filterForm);
-      const query = pickBy(this.filterForm);
-      this.$inertia.replace(
-        this.route(
-          "feedback.index",
-          Object.keys(query).length ? query : { remember: "forget" }
-        )
-      );
-      // this.$inertia.replace(this.route('feedback.index'),this.filterForm);
+    submit() {
+      // console.log(this.filterForm);
+      this.$inertia.replace(this.route("feedback.index"), {
+        data: this.filterForm,
+      });
     },
     reset() {
       this.filterForm = mapValues(this.filterForm, () => null);
+      this.submit();
     },
   },
 };

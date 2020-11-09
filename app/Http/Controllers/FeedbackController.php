@@ -17,14 +17,15 @@ class FeedbackController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->only('office', 'service', 'month');
+        $filters = $request->only('office', 'service', 'month', 'hasComments');
         $feedback = Feedback::filter($filters)->orderBy('created_at', 'DESC')->paginate(10);
         $feedback->transform(function ($row) {
             return [
                 'id' => $row->id,
                 'officeName' => $row->service->office->name,
                 'serviceName' => $row->service->name,
-                'authorName' => $row->user->name,
+                'comments' => $row->comments,
+                'comments_path' => $row->comments_path,
                 'date' => $row->created_at->format('M j, Y g:i a')
             ];
         });
@@ -61,6 +62,7 @@ class FeedbackController extends Controller
             'serviceName' => $feedback->service->name,
             'date' => $feedback->created_at->format('M j, Y g:i a'),
             'officeName' => $feedback->service->office->name,
+            'comments' => $feedback->comments,
             'commentsPath' => $feedback->comments_path,
             'signaturePath' => $feedback->signature_path,
             'authorName' => $feedback->user->name
@@ -81,6 +83,22 @@ class FeedbackController extends Controller
             'feedback' => $feedbackData,
             'answers' => $answers
         ]);
+    }
+
+    /**
+     * update only comments. this is for transcribing comment image
+     *
+     * @param  Request  $request
+     * @param  Feedback $feedback
+     * @return void
+     */
+    public function update(Request $request, Feedback $feedback)
+    {
+        $feedback->update([
+            'comments' => $request->comments
+        ]);
+        return redirect(route('feedback.index'))->with('success', 'Feedback Successfully Updated');
+
     }
 
 }
