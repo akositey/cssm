@@ -1,7 +1,24 @@
 <template>
   <app-layout>
     <template #header>
-      Feedback
+      <div class="flex justify-between">
+        Feedback
+        <div>
+          <input
+            type="file"
+            ref="toUpload"
+            accept=".zip"
+            class="hidden btn-indigo"
+            @change="upload"
+          >
+          <button
+            class="btn-indigo"
+            @click="chooseFile"
+          >
+            Import
+          </button>
+        </div>
+      </div>
     </template>
 
     <div class="flex justify-between">
@@ -70,7 +87,7 @@
           <div class="flex items-end">
             <button
               type="submit"
-              class="btn-indigo"
+              class="btn-green"
             >
               Filter
             </button>
@@ -212,6 +229,14 @@ export default {
     reset() {
       this.filterForm = mapValues(this.filterForm, () => null);
       this.submit();
+    },
+    chooseFile() {
+      this.$refs.toUpload.click();
+    },
+    upload() {
+      let form = new FormData();
+      form.append("file", this.$refs.toUpload.files[0]);
+      this.$inertia.post(this.route("import"), form);
     },
   },
 };

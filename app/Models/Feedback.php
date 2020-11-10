@@ -13,7 +13,7 @@ class Feedback extends Model
     /**
      * @var array
      */
-    protected $fillable = ['service_id', 'comments', 'comments_path', 'signature_path', 'user_id'];
+    protected $fillable = ['service_id', 'comments', 'comments_path', 'signature_path', 'user_id', 'created_at', 'updated_at'];
 
     /**
      * @return mixed
