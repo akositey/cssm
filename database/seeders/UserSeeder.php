@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
             'go-blom' => 'X12N20070300',
             'go-pisd' => 'X12N20070258',
             'go-lsi' => 'X12N20070280',
-            'go-eesd' => 'X12N20070242',
+            'go-eesd' => 'X12N20070266', //was X12N20070242
             'go-scd' => 'X12N20070297',
             'go-pdcmd' => 'X12N20070264',
             'go-gsmac' => 'X12N20070296',
@@ -49,8 +49,8 @@ class UserSeeder extends Seeder
             'pgso' => 'X12N20070287',
             'paso' => 'X12N20070243',
             'plo' => 'X12N20070256',
-            'pho' => 'X12N20070293',
-            'nch' => 'X12N20070266',
+            // 'pho' => 'X12N20070293',
+            // 'nch' => 'X12N20070266',
             'omcdh' => 'X12N20070299',
             'omsdh' => 'X12N20070303',
             'omph' => 'X12N20070277',
@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
             'pago' => 'X12N20070292',
             'ptiedo' => 'X12N20070265',
             'ptiedo-tourism' => 'X12N20070298',
-            'enro' => 'X12N20070294',
+            'enro' => 'X12N20070293', // was X12N20070294
             'provet' => 'X12N20070288',
             'peo' => 'X12N20070241',
             'pdrrmo' => 'X12N20070279'

@@ -42,7 +42,7 @@
           </div>
           <div class="flex items-center justify-between w-full p-4 text-sm bg-white border-b md:py-0 md:px-12 md:text-md">
             <div class="mt-1 mr-4">
-              {{ $page.user.name }}
+              {{ $page.props.user.name }}
             </div>
             <dropdown
               class="mt-1"
@@ -50,7 +50,7 @@
             >
               <div class="flex items-center cursor-pointer select-none group">
                 <div class="mr-1 text-gray-700 whitespace-no-wrap group-hover:text-indigo-600 focus:text-indigo-600">
-                  <span>{{ $page.user.name }}</span>
+                  <span>{{ $page.props.user.name }}</span>
                 </div>
                 <icon
                   class="w-5 h-5 group-hover:fill-indigo-600 fill-gray-700 focus:fill-indigo-600"
@@ -63,7 +63,7 @@
               >
                 <inertia-link
                   class="block px-6 py-2 hover:bg-indigo-500 hover:text-white"
-                  :href="route('profile.show', $page.user.id)"
+                  :href="route('profile.show', $page.props.user.id)"
                 >
                   My Profile
                 </inertia-link>
@@ -98,11 +98,11 @@
 </template>
 
 <script>
-import Dropdown from '~/Shared/Dropdown';
-import FlashMessages from '~/Shared/FlashMessages';
-import Icon from '~/Shared/Icon';
-import Logo from '~/Shared/Logo';
-import MainMenu from '~/Shared/MainMenu';
+import Dropdown from "~/Shared/Dropdown";
+import FlashMessages from "~/Shared/FlashMessages";
+import Icon from "~/Shared/Icon";
+import Logo from "~/Shared/Logo";
+import MainMenu from "~/Shared/MainMenu";
 
 export default {
   components: {

@@ -21,11 +21,18 @@ class UtilController extends Controller
     /**
      * @param Request $request
      */
+    public function checkPassCode(Request $request)
+    {
+        return response()->json(['status' => $request->password === "@12345" ? true : false]);
+    }
+
+    /**
+     * @param Request $request
+     */
     public function export(Request $request)
     {
         $request->validate([
-            'month' => 'required',
-            'password' => 'required'
+            'month' => 'required'
         ]);
 
         ini_set('max_execution_time', 600); //just in case the pc/server is slow
@@ -103,18 +110,13 @@ class UtilController extends Controller
             $zip->close();
 
             if (file_exists($zipFileName)) {
-                $headers = array('Content-Type: application/zip', 'Content-Length: ' . filesize(Storage::path($imageFilename)));
+                $headers = array('Content-Type: application/zip', 'Content-Length: ' . Storage::size($imageFilename));
                 return response()->download($zipFileName, $zipFileName, $headers)->deleteFileAfterSend(true);
-                // header("Content-Description: File Transfer");
-                // header("Content-Type: application/octet-stream");
-                // header('Content-Disposition: attachment; filename="' . $zipFileName);
-                // header('Content-Length: ' . filesize(Storage::path($imageFilename)));
-                // readfile($zipFileName);
             }
 
-            return redirect(route("feedback.index"))->with("error", "Error! Did not succeed in creating archive :(");
+            return redirect(route("home"))->with("error", "Error! Did not succeed in creating archive :(");
         }
-        return redirect(route("feedback.index"))->with("error", "Unable to open archive. Zip error code: $open.");
+        return redirect(route("home"))->with("error", "Unable to open archive. Zip error code: $open.");
 
     }
 
@@ -150,6 +152,19 @@ class UtilController extends Controller
                         $ctr++;
                         $feedback = Feedback::create($entry);
                         $feedback->answers()->createMany($entry["answers"]);
+                    }
+                }
+
+                foreach (Storage::files($folder . "/signatures") as $image) {
+                    $path = "signatures/" . basename($image);
+                    if (!Storage::exists($path)) {
+                        Storage::copy($image, "signatures/" . basename($image));
+                    }
+                }
+                foreach (Storage::files($folder . "/comments") as $image) {
+                    $path = "comments/" . basename($image);
+                    if (!Storage::exists($path)) {
+                        Storage::copy($image, "comments/" . basename($image));
                     }
                 }
 

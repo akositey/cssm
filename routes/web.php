@@ -50,6 +50,7 @@ Route::prefix('admin')->middleware('auth')->group(function () { //TODO: middlewa
 
 Route::prefix('tools')->middleware('auth')->group(function () { //TODO: middleware should be role:admin
     Route::get('export', [UtilController::class, 'create'])->name('export.create');
+    Route::post('checkPassCode', [UtilController::class, 'create'])->name('export.check');
     Route::post('export', [UtilController::class, 'export'])->name('export');
     Route::post('import', [UtilController::class, 'import'])->name('import');
 });

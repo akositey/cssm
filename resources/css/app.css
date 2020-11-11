@@ -10,7 +10,6 @@
 @import "buttons";
 @import "form";
 @import "nprogress";
-/* @import "table"; */
 
 /* vue2-datepicker */
 @import 'vue2-datepicker/index.css';
@@ -21,14 +20,17 @@
   @apply .border-4 .border-gray-600
 }
 
-
-
 @layer base {
   .page-header{
     @apply mb-4 text-3xl font-bold
   }
   .section-header{
     @apply mb-2 text-2xl font-bold
+  }
+}
+@layer components {
+  .mx-datepicker{
+    width: 100% !important;
   }
 }
 /* purgecss end ignore */

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="$page.flash.success && show"
+      v-if="$page.props.flash.success && show"
       class="flex items-center justify-between w-full mb-8 bg-green-500 rounded"
     >
       <div class="flex items-center">
@@ -13,7 +13,7 @@
           <polygon points="0 11 2 9 7 14 18 3 20 5 7 18" />
         </svg>
         <div class="py-4 text-sm font-medium text-white">
-          {{ $page.flash.success }}
+          {{ $page.props.flash.success }}
         </div>
       </div>
       <button
@@ -33,7 +33,7 @@
       </button>
     </div>
     <div
-      v-if="($page.flash.error || Object.keys($page.errors).length > 0) && show"
+      v-if="($page.props.flash.error || Object.keys($page.props.errors).length > 0) && show"
       class="flex items-center justify-between w-full mb-8 bg-red-500 rounded"
     >
       <div class="flex items-center">
@@ -45,17 +45,17 @@
           <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm1.41-1.41A8 8 0 1 0 15.66 4.34 8 8 0 0 0 4.34 15.66zm9.9-8.49L11.41 10l2.83 2.83-1.41 1.41L10 11.41l-2.83 2.83-1.41-1.41L8.59 10 5.76 7.17l1.41-1.41L10 8.59l2.83-2.83 1.41 1.41z" />
         </svg>
         <div
-          v-if="$page.flash.error"
+          v-if="$page.props.flash.error"
           class="py-4 text-sm font-medium text-white"
         >
-          {{ $page.flash.error }}
+          {{ $page.props.flash.error }}
         </div>
         <div
           v-else
           class="py-4 text-sm font-medium text-white"
         >
-          <span v-if="Object.keys($page.errors).length === 1">There is one form error.</span>
-          <span v-else>There are {{ Object.keys($page.errors).length }} form errors.</span>
+          <span v-if="Object.keys($page.props.errors).length === 1">There is one form error.</span>
+          <span v-else>There are {{ Object.keys($page.props.errors).length }} form errors.</span>
         </div>
       </div>
       <button
@@ -75,13 +75,13 @@
       </button>
     </div>
     <div
-      v-if="$page.flash.bigSuccess && show"
+      v-if="$page.props.flash.bigSuccess && show"
       class="flex items-center justify-between w-full mb-8 bg-green-500 rounded"
     >
       <div class="p-8 ml-8" />
       <div class="flex items-center">
         <div class="self-center py-8 text-3xl font-bold text-center text-white md:text-5xl">
-          👍🏻 {{ $page.flash.bigSuccess }}
+          👍🏻 {{ $page.props.flash.bigSuccess }}
         </div>
       </div>
       <button
@@ -111,7 +111,7 @@ export default {
     };
   },
   watch: {
-    "$page.flash": {
+    "$page.props.flash": {
       handler() {
         this.show = true;
       },
@@ -121,7 +121,7 @@ export default {
   mounted() {
     this.$nextTick(function () {
       //after 10 seconds, hide bigSuccess
-      if (this.$page.flash.bigSuccess) {
+      if (this.$page.props.flash.bigSuccess) {
         setTimeout(() => {
           this.show = false;
         }, 10000);

@@ -314,12 +314,12 @@ export default {
       currentQuestion: 0,
       comment: {
         canvas: null,
-        pad: null
+        pad: null,
       },
       signature: {
         canvas: null,
         pad: null,
-        error: null
+        error: null,
       },
     };
   },
@@ -356,9 +356,7 @@ export default {
         this.signature.error = "Pumirma muna dito 👇🏻 bago tapusin. Salamat po!";
       } else {
         // add images to form
-        this.form.additional_comments = this.cropCanvas(
-          this.comment.canvas
-        );
+        this.form.additional_comments = this.cropCanvas(this.comment.canvas);
         this.form.signature = this.cropCanvas(this.signature.canvas);
         this.sending = true;
 
@@ -368,8 +366,8 @@ export default {
           this.signature.error = null;
 
           // validation handling
-          if (Object.keys(this.$page.errors)[0]) {
-            const unanswered = Object.keys(this.$page.errors)[0];
+          if (Object.keys(this.$page.props.errors)[0]) {
+            const unanswered = Object.keys(this.$page.props.errors)[0];
             let questionNumber = 0;
             if (unanswered.match(/(\d+)/)) {
               questionNumber = unanswered.match(/(\d+)/)[0];
@@ -437,7 +435,6 @@ export default {
       let pix = { x: [], y: [] };
       let imageData = croppedCtx.getImageData(0, 0, w, h);
       let index = 0;
-      
 
       for (let y = 0; y < h; y++) {
         for (let x = 0; x < w; x++) {
@@ -455,7 +452,8 @@ export default {
 
       w = pix.x[n] - pix.x[0];
       h = pix.y[n] - pix.y[0];
-      if(!pix.x[0]){//if image is empty
+      if (!pix.x[0]) {
+        //if image is empty
         return null;
       }
       var cut = croppedCtx.getImageData(pix.x[0], pix.y[0], w, h);
