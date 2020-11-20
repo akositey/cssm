@@ -23,7 +23,16 @@ class UtilController extends Controller
      */
     public function checkPassCode(Request $request)
     {
-        return response()->json(['status' => $request->password === "@12345" ? true : false]);
+        if (env('ADMIN_PASS_CODE')) {
+            $status = true;
+            $error = null;
+            if ($request->passCode !== env('ADMIN_PASS_CODE')) {
+                $error = 'Incorrect Pass Code';
+                $status = false;
+            }
+            return response()->json(['status' => $status, 'error' => $error]);
+        }
+        return response()->json(['error' => 'Admin Pass Code is Not Set Up']);
     }
 
     /**
@@ -108,6 +117,7 @@ class UtilController extends Controller
 
             # close zip file
             $zip->close();
+            Storage::delete($dumpFile);
 
             if (file_exists($zipFileName)) {
                 $headers = array('Content-Type: application/zip', 'Content-Length: ' . Storage::size($imageFilename));
