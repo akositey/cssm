@@ -17,7 +17,7 @@ class ServiceController extends Controller
     public function index(Request $request)
     {
         $services = Service::with('office')
-            ->filter($request->only('search', 'filter'))->paginate(10);
+            ->filter($request->only('search', 'filter'))->paginate(10)->withQueryString();
         $services->transform(function ($service) {
             return [
                 'id' => $service->id,
