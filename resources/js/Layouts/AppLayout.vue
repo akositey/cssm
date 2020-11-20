@@ -16,7 +16,7 @@
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
               <jet-nav-link
                 :href="route('dashboard')"
-                :active="$page.currentRouteName == 'dashboard'"
+                :active="$page.props.currentRouteName == 'dashboard'"
               >
                 Dashboard
               </jet-nav-link>
@@ -24,7 +24,7 @@
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
               <jet-nav-link
                 :href="route('feedback.index')"
-                :active="$page.currentRouteName == 'feedback.index'"
+                :active="$page.props.currentRouteName == 'feedback.index'"
               >
                 Feedback
               </jet-nav-link>
@@ -32,7 +32,7 @@
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
               <jet-nav-link
                 :href="route('offices.index')"
-                :active="$page.currentRouteName == 'offices.index'"
+                :active="$page.props.currentRouteName == 'offices.index'"
               >
                 Offices
               </jet-nav-link>
@@ -40,7 +40,7 @@
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
               <jet-nav-link
                 :href="route('services.index')"
-                :active="$page.currentRouteName == 'services.index'"
+                :active="$page.props.currentRouteName == 'services.index'"
               >
                 Services
               </jet-nav-link>
@@ -48,7 +48,7 @@
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
               <jet-nav-link
                 :href="route('questions.index')"
-                :active="$page.currentRouteName == 'questions.index'"
+                :active="$page.props.currentRouteName == 'questions.index'"
               >
                 Questions
               </jet-nav-link>
@@ -66,8 +66,8 @@
                   <button class="flex text-sm transition duration-150 ease-in-out border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300">
                     <img
                       class="object-cover w-8 h-8 rounded-full"
-                      :src="$page.user.profile_photo_url"
-                      :alt="$page.user.name"
+                      :src="$page.props.user.profile_photo_url"
+                      :alt="$page.props.user.name"
                     >
                   </button>
                 </template>
@@ -84,7 +84,7 @@
 
                   <jet-dropdown-link
                     href="/user/api-tokens"
-                    v-if="$page.jetstream.hasApiFeatures"
+                    v-if="$page.props.jetstream.hasApiFeatures"
                   >
                     API Tokens
                   </jet-dropdown-link>
@@ -142,7 +142,7 @@
         <div class="pt-2 pb-3 space-y-1">
           <jet-responsive-nav-link
             :href="route('dashboard')"
-            :active="$page.currentRouteName == 'dashboard'"
+            :active="$page.props.currentRouteName == 'dashboard'"
           >
             Dashboard
           </jet-responsive-nav-link>
@@ -154,17 +154,17 @@
             <div class="flex-shrink-0">
               <img
                 class="w-10 h-10 rounded-full"
-                :src="$page.user.profile_photo_url"
-                :alt="$page.user.name"
+                :src="$page.props.user.profile_photo_url"
+                :alt="$page.props.user.name"
               >
             </div>
 
             <div class="ml-3">
               <div class="text-base font-medium text-gray-800">
-                {{ $page.user.name }}
+                {{ $page.props.user.name }}
               </div>
               <div class="text-sm font-medium text-gray-500">
-                {{ $page.user.email }}
+                {{ $page.props.user.email }}
               </div>
             </div>
           </div>
@@ -172,15 +172,15 @@
           <div class="mt-3 space-y-1">
             <jet-responsive-nav-link
               href="/user/profile"
-              :active="$page.currentRouteName == 'profile.show'"
+              :active="$page.props.currentRouteName == 'profile.show'"
             >
               Profile
             </jet-responsive-nav-link>
 
             <jet-responsive-nav-link
               href="/user/api-tokens"
-              :active="$page.currentRouteName == 'api-tokens.index'"
-              v-if="$page.jetstream.hasApiFeatures"
+              :active="$page.props.currentRouteName == 'api-tokens.index'"
+              v-if="$page.props.jetstream.hasApiFeatures"
             >
               API Tokens
             </jet-responsive-nav-link>
@@ -196,7 +196,7 @@
             </form>
 
             <!-- Team Management -->
-            <template v-if="$page.jetstream.hasTeamFeatures">
+            <template v-if="$page.props.jetstream.hasTeamFeatures">
               <div class="border-t border-gray-200" />
 
               <div class="block px-4 py-2 text-xs text-gray-400">
@@ -205,15 +205,15 @@
 
               <!-- Team Settings -->
               <jet-responsive-nav-link
-                :href="'/teams/' + $page.user.current_team.id"
-                :active="$page.currentRouteName == 'teams.show'"
+                :href="'/teams/' + $page.props.user.current_team.id"
+                :active="$page.props.currentRouteName == 'teams.show'"
               >
                 Team Settings
               </jet-responsive-nav-link>
 
               <jet-responsive-nav-link
                 href="/teams/create"
-                :active="$page.currentRouteName == 'teams.create'"
+                :active="$page.props.currentRouteName == 'teams.create'"
               >
                 Create New Team
               </jet-responsive-nav-link>
@@ -225,7 +225,7 @@
                 Switch Teams
               </div>
 
-              <template v-for="team in $page.user.all_teams">
+              <template v-for="team in $page.props.user.all_teams">
                 <form
                   @submit.prevent="switchToTeam(team)"
                   :key="team.id"
@@ -233,7 +233,7 @@
                   <jet-responsive-nav-link as="button">
                     <div class="flex items-center">
                       <svg
-                        v-if="team.id == $page.user.current_team_id"
+                        v-if="team.id == $page.props.user.current_team_id"
                         class="w-5 h-5 mr-2 text-green-400"
                         fill="none"
                         stroke-linecap="round"

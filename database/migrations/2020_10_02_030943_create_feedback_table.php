@@ -23,6 +23,8 @@ class CreateFeedbackTable extends Migration
             $table->integer('user_id')->comment('author');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index('signature_path');
         });
     }
 

@@ -7,7 +7,7 @@
           <!-- Logo -->
           <div class="flex items-center justify-center flex-1 md:items-stretch md:justify-start">
             <div class="flex-shrink-0">
-              <inertia-link :href="route('feedback.index')">
+              <inertia-link :href="route('home')">
                 <logo class="block w-auto h-8 md:h-10" />
               </inertia-link>
             </div>
@@ -19,10 +19,33 @@
               </div>
             </div>
           </div>
-          <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <h2 class="items-center px-3 py-2 text-xl font-semibold leading-tight text-gray-800 ">
-              {{ $page.user.name }}
-            </h2>
+
+          <!-- Settings Dropdown -->
+          <div class="hidden sm:flex sm:items-center sm:ml-6">
+            <div class="relative ml-3">
+              <jet-dropdown
+                align="right"
+                width="48"
+              >
+                <template #trigger>
+                  <button class="flex text-sm transition duration-150 ease-in-out border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300">
+                    <h2 class="items-center px-3 py-2 text-xl font-semibold leading-tight text-gray-800 ">
+                      {{ $page.props.user.name }}
+                    </h2>
+                  </button>
+                </template>
+
+                <template #content>
+                  <div class="block px-4 py-2 text-xs text-gray-400">
+                    Tools
+                  </div>
+
+                  <jet-dropdown-link :href="route('export.create')">
+                    Export
+                  </jet-dropdown-link>
+                </template>
+              </jet-dropdown>
+            </div>
           </div>
         </div>
       </div>
@@ -50,11 +73,15 @@
 <script>
 import Logo from "~/Shared/PgomLogo";
 import FlashMessages from "~/Shared/FlashMessages";
+import JetDropdown from "~/Jetstream/Dropdown";
+import JetDropdownLink from "~/Jetstream/DropdownLink";
 
 export default {
   components: {
     Logo,
     FlashMessages,
+    JetDropdown,
+    JetDropdownLink,
   },
   props: {
     office: {

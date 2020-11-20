@@ -29,13 +29,9 @@ import FeedbackLayout from "~/Layouts/FeedbackLayout";
 export default {
   components: { FeedbackLayout },
   props: {
-    office: {
+    file: {
       type: String,
       default: "",
-    },
-    services: {
-      type: Array,
-      default: ()=>{},
     },
   },
   // data() {

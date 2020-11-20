@@ -8,6 +8,7 @@ use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\UtilController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,4 +45,12 @@ Route::prefix('admin')->middleware('auth')->group(function () { //TODO: middlewa
 
     Route::get('feedback/{feedback}/comments/edit', [CommentController::class, 'edit'])->name('comments.edit');
     Route::patch('feedback/{feedback}/comments/', [CommentController::class, 'store'])->name('comments.store');
+
+});
+
+Route::prefix('tools')->middleware('auth')->group(function () { //TODO: middleware should be role:admin
+    Route::get('export', [UtilController::class, 'create'])->name('export.create');
+    Route::post('checkPassCode', [UtilController::class, 'checkPassCode'])->name('export.check');
+    Route::post('export', [UtilController::class, 'export'])->name('export');
+    Route::post('import', [UtilController::class, 'import'])->name('import');
 });

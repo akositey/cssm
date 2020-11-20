@@ -13,7 +13,7 @@ class FeedbackAnswers extends Model
     /**
      * @var array
      */
-    protected $fillable = ['question_id', 'answer'];
+    protected $fillable = ['question_id', 'answer', 'created_at', 'updated_at'];
 
     /**
      * @return mixed
