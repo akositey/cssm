@@ -15,7 +15,7 @@ class OfficeController extends Controller
      */
     public function index(Request $request)
     {
-        $offices = Office::filter($request->only('search', 'trashed'))->paginate(10);
+        $offices = Office::filter($request->only('search', 'trashed'))->paginate(10)->withQueryString();
         $offices->transform(function ($office) {
             return [
                 'id' => $office->id,

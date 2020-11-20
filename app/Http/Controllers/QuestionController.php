@@ -16,7 +16,7 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $types = ['mandatory', 'optional: positive', 'optional: negative', 'optional: etc'];
-        $questions = Question::filter($request->only('search', 'trashed'))->paginate(10);
+        $questions = Question::filter($request->only('search', 'trashed'))->paginate(10)->withQueryString();
         $questions->transform(function ($question) use ($types) {
             $qType = !$question->type ? 0 : $question->type;
             return [

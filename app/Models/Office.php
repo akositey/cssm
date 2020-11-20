@@ -54,7 +54,7 @@ class Office extends Model
     public function scopeFilter($query, array $filters)
     {
         $query->when($filters['search'] ?? null, function ($query, $search) {
-            $query->where('name', 'like', "%$search")
+            $query->where('name', 'like', "%$search%")
                 ->orWhere('abbr', 'like', "%$search%");
         })->when($filters['trashed'] ?? null, function ($query, $trashed) {
             if ($trashed === 'with') {
