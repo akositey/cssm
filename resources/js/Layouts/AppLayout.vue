@@ -53,6 +53,14 @@
                 Questions
               </jet-nav-link>
             </div>
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+              <jet-nav-link
+                :href="route('reports.index')"
+                :active="$page.props.currentRouteName == 'reports.index'"
+              >
+                Reports
+              </jet-nav-link>
+            </div>
           </div>
 
           <!-- Settings Dropdown -->

@@ -6,6 +6,7 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\UtilController;
@@ -45,6 +46,8 @@ Route::prefix('admin')->middleware('auth')->group(function () { //TODO: middlewa
 
     Route::get('feedback/{feedback}/comments/edit', [CommentController::class, 'edit'])->name('comments.edit');
     Route::patch('feedback/{feedback}/comments/', [CommentController::class, 'store'])->name('comments.store');
+
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
 
 });
 
