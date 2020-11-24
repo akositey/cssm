@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Feedback;
+use App\Models\Service;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FeedbackFactory extends Factory
@@ -22,7 +24,10 @@ class FeedbackFactory extends Factory
     public function definition()
     {
         return [
-            'ip_id' => $this->faker->numberBetween(1, 30)
+            'service_id' => $this->faker->numberBetween(1, Service::all()->count()),
+            'user_id' => $this->faker->numberBetween(1, User::all()->count()),
+            'comments_image_path' => random_int(0, 1) ? 'comments/comment_admin_1_dummy.png' : null,
+            'signature_image_path' => 'signatures/signature_admin_1_dummy.png'
         ];
     }
 }

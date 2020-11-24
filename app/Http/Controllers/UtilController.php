@@ -55,15 +55,15 @@ class UtilController extends Controller
         $comments = $signatures = [];
         $feedback = Feedback::where('created_at', 'like', $request->month . '%')->get()
             ->transform(function ($row) use (&$comments, &$signatures) {
-                $comments[$row->id] = $row->comments_path ?? $row->comments_path;
-                $signatures[$row->id] = $row->signature_path;
+                $comments[$row->id] = $row->comments_image_path ?? $row->comments_image_path;
+                $signatures[$row->id] = $row->signature_image_path;
 
                 return [
                     // 'id' => null,//can be omitted
                     'service_id' => $row->service_id,
                     'comments' => $row->comments,
-                    'comments_path' => $row->comments_path,
-                    'signature_path' => $row->signature_path,
+                    'comments_image_path' => $row->comments_image_path,
+                    'signature_image_path' => $row->signature_image_path,
                     'user_id' => $row->user_id,
                     'created_at' => $row->created_at->format("Y-m-d H:i:s"),
                     'updated_at' => $row->updated_at->format("Y-m-d H:i:s"),
@@ -157,7 +157,7 @@ class UtilController extends Controller
                 $entries = json_decode($json, true);
                 foreach ($entries as $entry) {
                     # check if entry already exists
-                    $count = Feedback::where('signature_path', $entry["signature_path"])->where('created_at', $entry["created_at"])->count();
+                    $count = Feedback::where('signature_image_path', $entry["signature_image_path"])->where('created_at', $entry["created_at"])->count();
                     if ($count === 0) {
                         $ctr++;
                         $feedback = Feedback::create($entry);

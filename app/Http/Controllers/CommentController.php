@@ -15,7 +15,11 @@ class CommentController extends Controller
     {
         // dd($feedback);
         return Inertia::render('Feedback/Comment/Edit', [
-            'feedback' => $feedback
+            'feedback' => [
+                'id' => $feedback->id,
+                'positiveComments' => $feedback->positive_comments,
+                'negativeComments' => $feedback->negative_comments
+            ]
         ]);
     }
 }

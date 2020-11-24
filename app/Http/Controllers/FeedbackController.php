@@ -24,8 +24,9 @@ class FeedbackController extends Controller
                 'id' => $row->id,
                 'officeName' => $row->service->office->name,
                 'serviceName' => $row->service->name,
-                'comments' => $row->comments,
-                'comments_path' => $row->comments_path,
+                'positiveComments' => $row->positive_comments,
+                'negativeComments' => $row->negative_comments,
+                'commentsImgPath' => $row->comments_image_path,
                 'date' => $row->created_at->format('M j, Y g:i a')
             ];
         });
@@ -62,9 +63,10 @@ class FeedbackController extends Controller
             'serviceName' => $feedback->service->name,
             'date' => $feedback->created_at->format('M j, Y g:i a'),
             'officeName' => $feedback->service->office->name,
-            'comments' => $feedback->comments,
-            'commentsPath' => $feedback->comments_path,
-            'signaturePath' => $feedback->signature_path,
+            'positiveComments' => $feedback->positive_comments,
+            'negativeComments' => $feedback->negative_comments,
+            'commentsImgPath' => $feedback->comments_image_path,
+            'signatureImgPath' => $feedback->signature_image_path,
             'authorName' => $feedback->user->name
         ];
 
@@ -95,7 +97,8 @@ class FeedbackController extends Controller
     public function update(Request $request, Feedback $feedback)
     {
         $feedback->update([
-            'comments' => $request->comments
+            'positive_comments' => $request->positiveComments,
+            'negative_comments' => $request->negativeComments
         ]);
         return redirect(route('feedback.index'))->with('success', 'Feedback Successfully Updated');
 

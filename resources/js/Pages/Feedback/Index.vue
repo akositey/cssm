@@ -75,13 +75,13 @@
               key="true"
               value="with"
             >
-              Has Optional Comment
+              Has Comments/Suggestions
             </option>
             <option
               key="false"
               value="without"
             >
-              No Optional Comment
+              No Comments/Suggestions
             </option>
           </select-input>
           <div class="flex items-end">
@@ -133,7 +133,9 @@
           {{ feedback.from + i }}
         </td>
         <td class="p-3">
-          {{ row.officeName }}
+          <p class="max-w-xs truncate">
+            {{ row.officeName }}
+          </p>
         </td>
         <td class="p-3">
           <p class="max-w-xs truncate">
@@ -142,11 +144,11 @@
         </td>
         <td class="p-3 green">
           <span
-            v-if="(row.comments_path && !row.comments)"
+            v-if="(row.commentsImgPath && (!row.positiveComments || !row.negativeComments))"
             class="text-orange-500"
           >untranscribed</span>
           <span
-            v-if="(row.comments_path && row.comments)"
+            v-if="(row.commentsImgPath && (row.positiveComments || row.negativeComments))"
             class="text-green-500"
           >transcribed</span>
         </td>

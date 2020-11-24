@@ -37,7 +37,7 @@
           </div>
           <div class="w-1/2">
             <img
-              :src="'/'+feedback.signaturePath"
+              :src="'/'+feedback.signatureImgPath"
               alt=""
             >
           </div>
@@ -69,32 +69,43 @@
       </page-section>
       <page-section
         class=""
-        v-if="feedback.commentsPath"
+        v-if="feedback.commentsImgPath"
       >
         <h2 class="section-header">
           Additional Comments / Suggestions
         </h2>
         <div class="w-full">
           <img
-            :src="'/'+feedback.commentsPath"
+            :src="'/'+feedback.commentsImgPath"
             alt=""
           >
         </div>
         <div class="w-full text-right">
           <div
-            v-if="feedback.comments"
+            v-if="feedback.positiveComments"
             class="text-left"
           >
             <p class="font-bold">
-              Transcription:
+              Positive:
             </p>
-            {{ feedback.comments }}
+            {{ feedback.positiveComments }}
+          </div>
+          <div
+            v-if="feedback.negativeComments"
+            class="text-left"
+          >
+            <p class="font-bold">
+              Negative:
+            </p>
+            <p class="text-red-700">
+              {{ feedback.negativeComments }}
+            </p>
           </div>
           <inertia-link
             :href="route('comments.edit', feedback.id)"
             class="btn-indigo"
           >
-            Transcribe
+            Transcription
           </inertia-link>
         </div>
       </page-section>

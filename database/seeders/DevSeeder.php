@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Feedback;
+use App\Models\FeedbackAnswers;
+use App\Models\Question;
 use Illuminate\Database\Seeder;
 
 class DevSeeder extends Seeder
@@ -33,6 +36,40 @@ class DevSeeder extends Seeder
         ]];
         foreach ($testServices as $service) {
             \App\Models\Service::create($service);
+        }
+
+        $feedback = Feedback::factory()->count(100)->create();
+        $maxQuestions = Question::all()->count();
+        foreach ($feedback as $f) {
+            $mandatoryAnswers = [[
+                'feedback_id' => $f->id,
+                'question_id' => 1,
+                'answer' => rand(1, 5)
+            ], [
+                'feedback_id' => $f->id,
+                'question_id' => 2,
+                'answer' => rand(1, 5)
+            ], [
+                'feedback_id' => $f->id,
+                'question_id' => 3,
+                'answer' => rand(1, 5)
+            ]];
+            foreach ($mandatoryAnswers as $answer) {
+                FeedbackAnswers::factory()->create($answer);
+            }
+            $answeredQuestions = [];
+            for ($i = 0; $i < rand(1, $maxQuestions); $i++) {
+                $randomNumber = rand(4, $maxQuestions);
+                $exists = isset($answeredQuestions[$randomNumber]);
+                if (!$exists) {
+                    $answeredQuestions[$randomNumber] = $randomNumber;
+                    FeedbackAnswers::factory()->create([
+                        'feedback_id' => $f->id,
+                        'question_id' => $randomNumber
+                    ]);
+                }
+            }
+
         }
 
     }
