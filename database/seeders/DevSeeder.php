@@ -38,7 +38,7 @@ class DevSeeder extends Seeder
             \App\Models\Service::create($service);
         }
 
-        $feedback = Feedback::factory()->count(100)->create();
+        $feedback = Feedback::factory()->count(1000)->create();
         $maxQuestions = Question::all()->count();
         foreach ($feedback as $f) {
             $mandatoryAnswers = [[

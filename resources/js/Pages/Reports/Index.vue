@@ -14,8 +14,11 @@
             class="pr-6"
             label="Office"
           >
-            <option :value="null">
-              All
+            <option
+              :value="null"
+              disabled
+            >
+              -- SELECT OFFICE --
             </option>
             <option
               v-for="(office,i) in offices"
