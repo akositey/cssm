@@ -100,7 +100,7 @@ class FeedbackController extends Controller
             'positive_comments' => $request->positiveComments,
             'negative_comments' => $request->negativeComments
         ]);
-        return redirect(route('feedback.index'))->with('success', 'Feedback Successfully Updated');
+        return back()->with('success', 'Feedback Successfully Updated');
 
     }
 

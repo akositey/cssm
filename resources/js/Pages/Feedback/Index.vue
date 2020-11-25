@@ -143,14 +143,18 @@
           </p>
         </td>
         <td class="p-3 green">
-          <span
-            v-if="(row.commentsImgPath && (!row.positiveComments || !row.negativeComments))"
+          <p
+            v-if="(row.commentsImgPath && (!row.positiveComments && !row.negativeComments))"
             class="text-orange-500"
-          >untranscribed</span>
-          <span
+          >
+            untranscribed
+          </p>
+          <p
             v-if="(row.commentsImgPath && (row.positiveComments || row.negativeComments))"
             class="text-green-500"
-          >transcribed</span>
+          >
+            transcribed
+          </p>
         </td>
         <td class="p-3">
           {{ row.date }}

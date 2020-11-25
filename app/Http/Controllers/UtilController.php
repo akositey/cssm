@@ -23,16 +23,14 @@ class UtilController extends Controller
      */
     public function checkPassCode(Request $request)
     {
-        if (env('ADMIN_PASS_CODE')) {
-            $status = true;
-            $error = null;
-            if ($request->passCode !== env('ADMIN_PASS_CODE')) {
-                $error = 'Incorrect Pass Code';
-                $status = false;
-            }
-            return response()->json(['status' => $status, 'error' => $error]);
+        $status = true;
+        $error = null;
+        if ($request->passCode !== env('ADMIN_PASS_CODE', '1230')) {
+            $error = 'Incorrect Pass Code';
+            $status = false;
         }
-        return response()->json(['error' => 'Admin Pass Code is Not Set Up']);
+        return response()->json(['status' => $status, 'error' => $error]);
+        // return response()->json(['error' => 'Admin Pass Code is Not Set Up']);
     }
 
     /**

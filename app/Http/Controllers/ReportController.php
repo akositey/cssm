@@ -25,70 +25,149 @@ class ReportController extends Controller
                 'total' => []
             ]
         ];
-        $mandatoryQuestions = Question::where('is_required', 1);
-        $mandatoryQuestionIds = $mandatoryQuestions->pluck('id')->toArray();
+        if ($request->office && $request->month) {
 
-        $services = Service::where('office_id', $request->only('office'))->with('feedback')->with('feedback.answers')->get();
-        // dd($services);
-        foreach ($services as $service) {
+            $mandatoryQuestions = Question::where('is_required', 1);
+            $mandatoryQuestionIds = $mandatoryQuestions->pluck('id')->toArray();
 
-            $allFeedback = $service->feedback;
+            $services = Service::where('office_id', $request->office)->where('created_at', 'like', $request->month . "%")->with('feedback')->get();
 
-            if ($allFeedback->count()) {
-                $totalAnswers = 0;
-                $goodScore = 0;
-                $tallyPerQuestion = [];
-                $tallyPerRating = array_fill_keys([1, 2, 3, 4, 5], 0);
+            $totalClients = 0;
+            $totalGoodScore = 0;
+            $totalAnswers = 0;
+            $totalGoodPercent = 0;
 
-                # Fill tallyPerQuestion with empty data
-                foreach ($mandatoryQuestionIds as $qId) {
-                    for ($i = 1; $i <= 5; $i++) {
-                        $tallyPerQuestion[$qId][$i] = 0;
-                    }
-                }
+            foreach ($services as $service) {
 
-                # count stuff during loop
-                foreach ($allFeedback as $feedback) {
+                $allFeedback = $service->feedback;
 
-                    foreach ($feedback->answers as $answer) {
-                        if (in_array($answer->question_id, $mandatoryQuestionIds)) {
-                            $totalAnswers++;
-                            $tallyPerQuestion[$answer->question_id][$answer->answer]++;
-                            $tallyPerRating[$answer->answer]++;
-                        }
-                        if (in_array($answer->answer, [4, 5])) {
-                            $goodScore++;
+                if ($allFeedback->count()) {
+                    $ctrAnswers = 0;
+                    $ctrGoodScore = 0;
+                    $tallyPerQuestion = [];
+                    $tallyPerRating = array_fill_keys([1, 2, 3, 4, 5], 0);
+
+                    # fill tallyPerQuestion with empty data
+                    foreach ($mandatoryQuestionIds as $qId) {
+                        for ($i = 1; $i <= 5; $i++) {
+                            $tallyPerQuestion[$qId][$i] = 0;
                         }
                     }
-                }
 
-                # % of VS & O Ratings
-                $goodPercent = ($goodScore / $totalAnswers) * 100;
+                    # count stuff during loop
+                    foreach ($allFeedback as $feedback) {
 
-                # questions - rating
-                $questions = [];
-                foreach ($mandatoryQuestions->get() as $q) {
-                    $questions[] = [
-                        'question' => $q->question,
-                        'ratings' => $tallyPerQuestion[$q->id]
+                        foreach ($feedback->answers as $answer) {
+                            if (in_array($answer->question_id, $mandatoryQuestionIds)) {
+                                $ctrAnswers++;
+                                $tallyPerQuestion[$answer->question_id][$answer->answer]++;
+                                $tallyPerRating[$answer->answer]++;
+                            }
+                            if (in_array($answer->answer, [4, 5])) {
+                                $ctrGoodScore++;
+                            }
+                        }
+                    }
+
+                    # % of VS & O Ratings
+                    $goodPercent = number_format(($ctrGoodScore / $ctrAnswers) * 100, 2);
+
+                    # questions - rating
+                    $questions = [];
+                    foreach ($mandatoryQuestions->get() as $q) {
+                        $questions[] = [
+                            'question' => $q->question,
+                            'ratings' => $tallyPerQuestion[$q->id]
+                        ];
+                    }
+
+                    # comments
+                    $positiveComments = [];
+                    $negativeComments = [];
+                    $untranscribedComments = [];
+                    foreach ($allFeedback as $feedback) {
+                        if (!is_null($feedback->positive_comments)) {
+                            $positiveComments[] = [
+                                'id' => $feedback->id,
+                                'comment' => $feedback->positive_comments
+                            ];
+                        }
+                        if (!is_null($feedback->negative_comments)) {
+                            $negativeComments[] = [
+                                'id' => $feedback->id,
+                                'comment' => $feedback->negative_comments
+                            ];
+                        }
+                        if ($feedback->comments_image_path && is_null($feedback->positive_comments) && is_null($feedback->negative_comments)) {
+                            $untranscribedComments[] = [
+                                'id' => $feedback->id,
+                                'comment' => '-- untranscribed comment/suggestion --'
+                            ];
+                        }
+                    }
+                    // $positiveComments = $allFeedback->filter(function ($feedback) {
+                    //     return !is_null($feedback->positive_comments);
+                    // })->transform(function ($feedback) {
+                    //     return [
+                    //         'id' => $feedback->id,
+                    //         'comment' => $feedback->positive_comments
+                    //     ];
+                    // })->all()->toArray();
+                    // $negativeComments = $allFeedback->filter(function ($feedback) {
+                    //     return !is_null($feedback->negative_comments);
+                    // })->transform(function ($feedback) {
+                    //     return [
+                    //         'id' => $feedback->id,
+                    //         'comment' => $feedback->negative_comments
+                    //     ];
+                    // })->all()->toArray();
+                    // $untranscribedComments = $allFeedback->filter(function ($feedback) {
+                    //     return $feedback->comments_image_path && is_null($feedback->positive_comments) && is_null($feedback->negative_comments);
+                    // })->transform(function ($feedback) {
+                    //     return [
+                    //         'id' => $feedback->id,
+                    //         'comment' => '-- untranscribed comment/suggestion --'
+                    //     ];
+                    // })->all()->toArray();
+                    // $positiveComments = $allFeedback->pluck('positive_comments')->filter()->flatten()->all();
+                    // $negativeComments = $allFeedback->pluck('negative_comments')->filter()->flatten()->all();
+                    // $untranscribedComments = $allFeedback->filter(function ($feedback) {
+                    //     return $feedback->comments_image_path && is_null($feedback->positive_comments) && is_null($feedback->negative_comments);
+                    // })->pluck('id')->all();
+                    // dd($untranscribedComments);
+                    # num of clients
+                    $ctrClients = $allFeedback->count();
+
+                    $stats['ratings']['services'][] = [
+                        'service' => $service->name,
+                        'clients' => $ctrClients,
+                        'goodPercent' => $goodPercent,
+                        'averagePercent' => $tallyPerRating,
+                        'questions' => $questions,
+                        'comments' => [
+                            'positive' => $positiveComments,
+                            'negative' => $negativeComments,
+                            'untranscribed' => $untranscribedComments
+                        ]
                     ];
+                    $totalClients += $ctrClients;
+                    $totalGoodScore += $ctrGoodScore;
+                    $totalAnswers += $ctrAnswers;
+                    // dd($stats);
                 }
-                $stats['ratings']['services'][] = [
-                    'service' => $service->name,
-                    'clients' => $allFeedback->count(),
-                    'goodPercent' => number_format($goodPercent, 2),
-                    'averagePercent' => $tallyPerRating,
-                    'questions' => $questions,
-                    'comments' => [
-                        'positive' => ['Comment1', 'Comment2', 'Comment3', 'Comment4', 'Comment5', 'Comment6'],
-                        'negative' => ['NegativeComment1', 'NegativeComment2']
-                    ]
-                ];
 
-                // dd($stats);
             }
 
+            # totals
+            $totalGoodPercent = number_format(($totalGoodScore / $totalAnswers) * 100, 2);
+
+            $stats['ratings']['total'] = [
+                'clients' => $totalAnswers,
+                'goodPercent' => $totalGoodPercent
+            ];
+
         }
+
         // $stats = [
         //     'ratings' => [
         //         'services' =>

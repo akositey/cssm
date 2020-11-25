@@ -18,7 +18,8 @@ class CommentController extends Controller
             'feedback' => [
                 'id' => $feedback->id,
                 'positiveComments' => $feedback->positive_comments,
-                'negativeComments' => $feedback->negative_comments
+                'negativeComments' => $feedback->negative_comments,
+                'commentsImgPath' => $feedback->comments_image_path
             ]
         ]);
     }

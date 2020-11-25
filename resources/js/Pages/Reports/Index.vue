@@ -125,7 +125,7 @@
           >
             {{ service.service }}
           </td>
-          <td class="border">
+          <td class="px-2 border">
             {{ question.question }}
           </td>
           <td
@@ -172,53 +172,95 @@
             class="h-2"
           />
         </tr>
-        <tr v-if="service.comments.positive">
-          <td />
-          <td
-            colspan="8"
-            class="font-bold border-b border-black border-double"
-          >
-            Positive Comments/Suggestions
-          </td>
-        </tr>
-        <tr
-          v-for="(comment,x) in service.comments.positive"
-          :key="'pos'+x"
-        >
-          <td />
-          <td
-            colspan="8"
-            class="border"
-          >
-            {{ comment }}
-          </td>
-        </tr>
         <tr>
           <td />
           <td
             colspan="9"
-            class="h-2"
-          />
-        </tr>
-        <tr v-if="service.comments.negative">
-          <td />
-          <td
-            colspan="8"
-            class="font-bold border-b border-black border-double"
+            class="p-2 font-bold text-center bg-gray-200 border border-black border-double"
           >
-            Negative Comments/Suggestions
+            Comments/Suggestions
+          </td>
+        </tr>
+        <tr>
+          <td />
+          <td class="font-bold text-center bg-gray-200 border border-black border-double">
+            Positive
+          </td>
+          <td
+            class="font-bold text-center bg-gray-200 border border-black border-double"
+            colspan="7"
+          >
+            Negative
           </td>
         </tr>
         <tr
-          v-for="(comment,x) in service.comments.negative"
-          :key="'neg'+x"
+          v-for="(rows,y) in maxCommentsRows(service.comments)"
+          :key="'rows'+y"
+        >
+          <td />
+          <td class="border">
+            <p
+              v-if="service.comments.positive.length"
+              class="px-2 "
+            >
+              {{ service.comments.positive[y].comment }}
+              <inertia-link
+                class="float-right text-sm text-gray-700 focus:text-indigo-500"
+                :href="route('comments.edit', service.comments.positive[y].id)"
+                tabindex="-1"
+              >
+                <icon
+                  name="pencil"
+                  class="w-4 h-4"
+                />
+              </inertia-link>
+            </p>
+          </td>
+          <td
+            colspan="7"
+            class="border"
+          >
+            <p
+              v-if="service.comments.negative.length"
+              class="px-2 text-red-700"
+            >
+              {{ service.comments.negative[y].comment }}
+
+              <inertia-link
+                class="float-right text-sm text-gray-700 focus:text-indigo-500"
+                :href="route('comments.edit', service.comments.negative[y].id)"
+                tabindex="-1"
+              >
+                <icon
+                  name="pencil"
+                  class="w-4 h-4"
+                />
+              </inertia-link>
+            </p>
+          </td>
+        </tr>
+        <tr
+          v-for="(untranscribed,ii) in service.comments.untranscribed.length"
+          :key="'untranscribed'+ii"
         >
           <td />
           <td
             colspan="8"
-            class="text-red-600 border"
+            class="text-center border"
           >
-            {{ comment }}
+            <span class="text-red-700">
+              {{ service.comments.untranscribed[ii].comment }}
+            </span>
+            <inertia-link
+              class="float-right text-sm text-gray-700 focus:text-indigo-500"
+              :href="route('comments.edit', service.comments.untranscribed[ii].id)"
+              tabindex="-1"
+            >
+              <icon
+                name="pencil"
+                class="w-4 h-4"
+              />
+            </inertia-link>
           </td>
         </tr>
         <tr>
@@ -276,6 +318,7 @@
 import AppLayout from "~/Layouts/AppLayout";
 import SelectInput from "~/Shared/SelectInput";
 import DateInput from "~/Shared/DateInput";
+import Icon from "~/Shared/Icon";
 import mapValues from "lodash/mapValues";
 
 export default {
@@ -288,6 +331,7 @@ export default {
     AppLayout,
     SelectInput,
     DateInput,
+    Icon
   },
   data() {
     return {
@@ -296,6 +340,9 @@ export default {
         month: this.filters.month,
       },
     };
+  },
+  computed: {
+    
   },
   watch: {},
   methods: {
@@ -309,6 +356,11 @@ export default {
       this.filterForm = mapValues(this.filterForm, () => null);
       this.submit();
     },
+    maxCommentsRows(comments){
+      let posiLen = Object.keys(comments.positive).length;
+      let negaLen = Object.keys(comments.negative).length;
+      return posiLen > negaLen ? posiLen: negaLen
+    }
   },
 };
 </script>

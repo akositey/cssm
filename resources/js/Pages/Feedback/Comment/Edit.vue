@@ -16,13 +16,12 @@
       </inertia-link>
       Comment
     </template>
-
     <page-section>
       <form @submit.prevent="submit">
         <div class="grid grid-cols-2 gap-4">
           <div class="col-span-2">
             <img
-              :src="'/'+feedback.comments_image_path"
+              :src="'/'+feedback.commentsImgPath"
               alt=""
             >
           </div>
