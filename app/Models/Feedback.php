@@ -65,6 +65,9 @@ class Feedback extends Model
                     $query->where('id', $id);
                 });
             })
+            ->when($filters['date'] ?? null, function ($query, $date) {
+                $query->where('created_at', 'like', $date . "%");
+            })
             ->when($filters['month'] ?? null, function ($query, $month) {
                 $query->whereBetween('created_at', [date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))]);
             })

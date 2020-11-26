@@ -60,8 +60,15 @@
             type="month"
             format="YYYY-MM"
             v-model="filterForm.month"
-            class="pr-6"
+            class="hidden pr-6 "
             label="Month"
+          />
+          <date-input
+            type="date"
+            format="YYYY-MM-DD"
+            v-model="filterForm.date"
+            class="pr-6"
+            label="Date"
           />
           <select-input
             v-model="filterForm.hasComments"
@@ -213,6 +220,7 @@ export default {
         office: this.filters.office,
         service: this.filters.service,
         month: this.filters.month,
+        date: this.filters.date,
         hasComments: this.filters.hasComments,
       },
     };

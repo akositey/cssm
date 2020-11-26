@@ -17,7 +17,7 @@ class FeedbackController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->only('office', 'service', 'month', 'hasComments');
+        $filters = $request->only('office', 'service', 'date', 'month', 'hasComments');
         $feedback = Feedback::filter($filters)->orderBy('created_at', 'DESC')->paginate(10)->withQueryString();
         $feedback->transform(function ($row) {
             return [

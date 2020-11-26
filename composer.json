@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3",
+        "carlos-meneses/laravel-mpdf": "^2.1",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -18,6 +19,7 @@
         "laravel/jetstream": "^1.3",
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.0",
+        "spatie/browsershot": "^3.40",
         "spatie/laravel-image-optimizer": "^1.6",
         "tightenco/ziggy": "^0.9.4"
     },

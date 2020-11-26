@@ -48,6 +48,7 @@ Route::prefix('admin')->middleware('auth')->group(function () { //TODO: middlewa
     Route::patch('feedback/{feedback}/comments/', [CommentController::class, 'store'])->name('comments.store');
 
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::post('reports/print', [ReportController::class, 'print'])->name('reports.print');
 
 });
 

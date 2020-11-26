@@ -54,35 +54,35 @@
       </form>
     </div>
 
-    <table class="w-full my-4 whitespace-no-wrap bg-white">
-      <thead class="bg-gray-200 border border-black border-double">
+    <table class="w-full my-4 whitespace-no-wrap bg-white border border-black">
+      <thead class="bg-gray-200 border border-black">
         <tr class="border">
           <th
-            class="p-2 border border-black border-double"
+            class="p-2 border border-black"
             rowspan="3"
           >
             Service
           </th>
           <th
-            class="p-2 border border-black border-double"
+            class="p-2 border border-black"
             rowspan="3"
           >
             Question
           </th>
           <th
-            class="w-0 p-2 text-sm whitespace-normal border border-black border-double"
+            class="w-0 p-2 text-sm whitespace-normal border border-black"
             rowspan="3"
           >
             Clients Served
           </th>
           <th
-            class="p-2 border border-black border-double"
+            class="p-2 border border-black"
             colspan="5"
           >
             Quality in Service
           </th>
           <th
-            class="p-2 border border-black border-double"
+            class="p-2 border border-black"
             rowspan="3"
           >
             % in VS &amp; O
@@ -90,7 +90,7 @@
         </tr>
         <tr class="border">
           <th
-            class="border border-black border-double"
+            class="border border-black"
             v-for="num in 5"
             :key="num"
             width="30"
@@ -100,7 +100,7 @@
         </tr>
         <tr class="border">
           <th
-            class="border border-black border-double"
+            class="border border-black"
             v-for="letter in ['P','F','S','VS','O']"
             :key="letter"
             width="30"
@@ -110,7 +110,7 @@
         </tr>
       </thead>
       <tbody
-        class="border border-black border-double"
+        class="border border-black"
         v-for="(service,i) in stats.ratings.services"
         :key="i"
       >
@@ -119,17 +119,17 @@
           :key="x"
         >
           <td
-            class="font-bold text-center"
+            class="px-2 font-bold whitespace-normal align-top border-b-0 border-r border-black"
             rowspan="3"
             v-if="x===0"
           >
             {{ service.service }}
           </td>
-          <td class="px-2 border">
+          <td class="px-2 border border-b-0 border-l-0">
             {{ question.question }}
           </td>
           <td
-            class="text-center border"
+            class="text-center border border-b-0"
             rowspan="3"
             v-if="x===0"
           >
@@ -138,12 +138,12 @@
           <td
             v-for="(rating,y) in question.ratings"
             :key="y"
-            class="text-center border"
+            class="text-center border border-b-0"
           >
             {{ rating }}
           </td>
           <td
-            class="text-center border"
+            class="text-center border border-b-0 border-black"
             rowspan="3"
             v-if="x===0"
           >
@@ -151,43 +151,43 @@
           </td>
         </tr>
         <tr>
-          <td />
-          <td class="text-center bg-yellow-300 border">
+          <td class="border-r border-black" />
+          <td class="text-center bg-yellow-300 border border-l-0 border-black ">
             Average (% Rating)
           </td>
-          <td class="bg-yellow-300 border" />
+          <td class="bg-yellow-300 border border-black" />
           <td
             v-for="(average,x) in service.averagePercent"
             :key="'avg'+x"
-            class="text-center bg-yellow-300 border"
+            class="text-center bg-yellow-300 border border-black"
           >
             {{ average }}
           </td>
-          <td class="bg-yellow-300 border" />
+          <td class="bg-yellow-300 border border-black" />
         </tr>
         <tr>
-          <td />
+          <td class="border-r border-black" />
           <td
             colspan="9"
-            class="h-2"
+            class="h-2 border-l-0"
           />
         </tr>
         <tr>
-          <td />
+          <td class="border-r border-black" />
           <td
             colspan="9"
-            class="p-2 font-bold text-center bg-gray-200 border border-black border-double"
+            class="p-2 font-bold text-center bg-gray-200 border border-black"
           >
             Comments/Suggestions
           </td>
         </tr>
         <tr>
-          <td />
-          <td class="font-bold text-center bg-gray-200 border border-black border-double">
+          <td class="border-r border-black" />
+          <td class="font-bold text-center bg-gray-200 border border-black">
             Positive
           </td>
           <td
-            class="font-bold text-center bg-gray-200 border border-black border-double"
+            class="font-bold text-center bg-gray-200 border border-black"
             colspan="7"
           >
             Negative
@@ -196,9 +196,10 @@
         <tr
           v-for="(rows,y) in maxCommentsRows(service.comments)"
           :key="'rows'+y"
+          class="border-r border-black"
         >
-          <td />
-          <td class="border">
+          <td class="border-r border-black" />
+          <td class="border border-b-0 border-l-0 border-r-0">
             <p
               v-if="service.comments.positive.length"
               class="px-2 "
@@ -218,7 +219,7 @@
           </td>
           <td
             colspan="7"
-            class="border"
+            class="border border-b-0 border-r-0"
           >
             <p
               v-if="service.comments.negative.length"
@@ -266,34 +267,77 @@
         <tr>
           <td
             colspan="9"
-            class="h-2 border border-black border-double"
+            class="h-2 border border-black"
           />
         </tr>
       </tbody>
       <tfoot
-        class="border border-black border-double"
+        class="border border-black"
         v-if="stats.ratings.total"
       >
         <tr class="bg-orange-400">
-          <th class="border border-black border-double" />
-          <th class="border border-black border-double">
+          <th class="border border-black" />
+          <th class="border border-black">
             Total
           </th>
-          <th class="border border-black border-double">
+          <th class="border border-black">
             {{ stats.ratings.total.clients }}
           </th>
           <th
-            class="border border-black border-double"
+            class="border border-black"
             colspan="5"
           />
-          <th class="border border-black border-double">
+          <th class="border border-black">
             {{ stats.ratings.total.goodPercent }}
           </th>
         </tr>
       </tfoot>
     </table>
 
-    <div
+    <div class="flex justify-end">
+      <form
+        :action="route('reports.print')"
+        method="post"
+        target="_blank"
+      >
+        <input
+          type="hidden"
+          name="_token"
+          id="_token"
+          :value="csrf_token"
+        >
+        <input
+          type="hidden"
+          name="office"
+          id="office"
+          :value="filters.office"
+        >
+        <input
+          type="hidden"
+          name="month"
+          id="month"
+          :value="filters.month"
+        >
+        <input
+          type="hidden"
+          name="stats"
+          id="stats"
+          :value="JSON.stringify(stats)"
+        >
+        <button
+          type="submit"
+          class="btn-indigo"
+        >
+          <icon
+            name="printer"
+            class="inline w-4 h-4 fill-white"
+          />
+          Print
+        </button>
+      </form>
+    </div>
+
+    <!-- <div
       v-for="(comment,i) in stats.comments"
       :key="i"
     >
@@ -310,7 +354,7 @@
           <li>{{ asd }}</li>
         </ul>
       </ul>
-    </div>
+    </div> -->
   </app-layout>
 </template>
 
@@ -339,6 +383,7 @@ export default {
         office: this.filters.office,
         month: this.filters.month,
       },
+      csrf_token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
   computed: {
@@ -360,6 +405,9 @@ export default {
       let posiLen = Object.keys(comments.positive).length;
       let negaLen = Object.keys(comments.negative).length;
       return posiLen > negaLen ? posiLen: negaLen
+    },
+    print(){
+      
     }
   },
 };
