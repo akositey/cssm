@@ -7,7 +7,7 @@
     </template>
 
     <div class="flex justify-between">
-      <form @submit.prevent="submit">
+      <form @submit.prevent="viewReport">
         <div class="grid grid-cols-5">
           <select-input
             v-model="filterForm.office"
@@ -36,12 +36,13 @@
             label="Month"
           />
           <div class="flex items-end">
-            <button
-              type="submit"
+            <loading-button
+              :loading="sending"
               class="btn-green"
+              type="submit"
             >
               View Report
-            </button>
+            </loading-button>
             <button
               class="p-3 text-sm text-gray-500 hover:text-gray-700 focus:text-indigo-500"
               type="button"
@@ -53,8 +54,14 @@
         </div>
       </form>
     </div>
-
-    <table class="w-full my-4 whitespace-no-wrap bg-white border border-black">
+    <dummy-table
+      v-if="sending"
+      :rows="5"
+    />
+    <table
+      v-if="!sending"
+      class="w-full my-4 whitespace-no-wrap bg-white border border-black"
+    >
       <thead class="bg-gray-200 border border-black">
         <tr class="border">
           <th
@@ -212,7 +219,7 @@
               >
                 <icon
                   name="pencil"
-                  class="w-4 h-4"
+                  class="w-4 h-4 fill-white"
                 />
               </inertia-link>
             </p>
@@ -234,7 +241,7 @@
               >
                 <icon
                   name="pencil"
-                  class="w-4 h-4"
+                  class="w-4 h-4 fill-white"
                 />
               </inertia-link>
             </p>
@@ -259,7 +266,7 @@
             >
               <icon
                 name="pencil"
-                class="w-4 h-4"
+                class="w-4 h-4 fill-white"
               />
             </inertia-link>
           </td>
@@ -273,7 +280,7 @@
       </tbody>
       <tfoot
         class="border border-black"
-        v-if="stats.ratings.total"
+        v-if="stats.ratings.total && !sending"
       >
         <tr class="bg-orange-400">
           <th class="border border-black" />
@@ -293,8 +300,10 @@
         </tr>
       </tfoot>
     </table>
-
-    <div class="flex justify-end">
+    <div
+      v-if="!sending"
+      class="flex justify-end"
+    >
       <form
         :action="route('reports.print')"
         method="post"
@@ -336,25 +345,6 @@
         </button>
       </form>
     </div>
-
-    <!-- <div
-      v-for="(comment,i) in stats.comments"
-      :key="i"
-    >
-      <h3>{{ Object.keys(comment)[i].charAt(0).toUpperCase() + Object.keys(comment)[i].slice(1) }} Comments/Suggestions</h3>
-      <ul
-        v-for="(service,x) in comment.positive.services"
-        :key="x"
-      >
-        <li>{{ service.service }}</li>
-        <ul
-          v-for="(asd,y) in service.comments"
-          :key="y"
-        >
-          <li>{{ asd }}</li>
-        </ul>
-      </ul>
-    </div> -->
   </app-layout>
 </template>
 
@@ -363,6 +353,8 @@ import AppLayout from "~/Layouts/AppLayout";
 import SelectInput from "~/Shared/SelectInput";
 import DateInput from "~/Shared/DateInput";
 import Icon from "~/Shared/Icon";
+import LoadingButton from "~/Shared/LoadingButton";
+import DummyTable from "./DummyTable";
 import mapValues from "lodash/mapValues";
 
 export default {
@@ -375,6 +367,8 @@ export default {
     AppLayout,
     SelectInput,
     DateInput,
+    LoadingButton,
+    DummyTable,
     Icon
   },
   data() {
@@ -383,6 +377,7 @@ export default {
         office: this.filters.office,
         month: this.filters.month,
       },
+      sending: false,
       csrf_token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
@@ -391,24 +386,32 @@ export default {
   },
   watch: {},
   methods: {
-    submit() {
-      // console.log(this.filterForm);
-      this.$inertia.replace(this.route("reports.index"), {
+    viewReport() {
+      this.sending = true,
+      this.$inertia.visit(this.route("reports.index"), {
         data: this.filterForm,
+        replace: true,
+        onStart: visit => {
+          console.log('visit',visit);
+        },
+        onProgress: progress => {
+          console.log('progress',progress);
+        },
+        onFinish: () => {
+          console.log('fin');
+          this.sending = false;
+        },
       });
     },
     reset() {
       this.filterForm = mapValues(this.filterForm, () => null);
-      this.submit();
+      this.viewReport();
     },
     maxCommentsRows(comments){
       let posiLen = Object.keys(comments.positive).length;
       let negaLen = Object.keys(comments.negative).length;
       return posiLen > negaLen ? posiLen: negaLen
     },
-    print(){
-      
-    }
   },
 };
 </script>
