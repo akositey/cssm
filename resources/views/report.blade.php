@@ -24,7 +24,7 @@
               Clients Served
             </th>
             <th class='px-2 border border-black ' colspan='5'>
-              Quality in Service
+              Quality of Service
             </th>
             <th class='px-2 border border-black ' rowspan='3'>
               % in VS &amp; O

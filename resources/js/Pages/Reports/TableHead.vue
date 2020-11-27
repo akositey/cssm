@@ -23,7 +23,7 @@
         class="w-1/5 p-2 border border-black"
         colspan="5"
       >
-        Quality in Service
+        Quality of Service
       </th>
       <th
         class="w-1/5 p-2 border border-black"
