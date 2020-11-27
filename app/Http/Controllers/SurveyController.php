@@ -99,8 +99,8 @@ class SurveyController extends Controller
         DB::transaction(function () use ($fields, $user, $commentsFolder, &$commentsFilename, $sigFolder, &$sigFilename) {
             # save to database
             $fields = $fields + [
-                'comments_path' => $fields['additional_comments'] ? $commentsFolder . '/' . $commentsFilename : null,
-                'signature_path' => $sigFolder . '/' . $sigFilename,
+                'comments_image_path' => $fields['additional_comments'] ? $commentsFolder . '/' . $commentsFilename : null,
+                'signature_image_path' => $sigFolder . '/' . $sigFilename,
                 'user_id' => $user->id
             ];
             $feedback = Feedback::create($fields);

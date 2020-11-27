@@ -16,33 +16,50 @@
       </inertia-link>
       Comment
     </template>
-
     <page-section>
       <form @submit.prevent="submit">
         <div class="grid grid-cols-2 gap-4">
-          <div>
+          <div class="col-span-2">
             <img
-              :src="'/'+feedback.comments_path"
+              :src="'/'+feedback.commentsImgPath"
               alt=""
             >
           </div>
           <div>
             <textarea-input
-              v-model="form.comments"
-              :error="errors.comments"
+              v-model="form.positiveComments"
+              :error="errors.positiveComments"
               class="w-full pb-8 pr-6"
-              label="Transcribe Comments"
+              label="Positive Comments"
               rows="7"
             />
-            <div class="flex items-center justify-end px-8 py-4">
-              <loading-button
-                :loading="sending"
-                class="btn-indigo"
-                type="submit"
-              >
-                Save
-              </loading-button>
-            </div>
+          </div>
+          <div>
+            <textarea-input
+              v-model="form.negativeComments"
+              :error="errors.negativeComments"
+              class="w-full pb-8 pr-6"
+              label="Negative Comments"
+              rows="7"
+            />
+          </div>
+          <div class="flex items-center justify-between col-span-2 px-8 py-4">
+            <loading-button
+              :loading="sending"
+              class="btn-green"
+              type="button"
+              @click="saveEmpty"
+            >
+              Save Empty
+            </loading-button>
+
+            <loading-button
+              :loading="sending"
+              class="btn-indigo"
+              type="submit"
+            >
+              Save
+            </loading-button>
           </div>
         </div>
       </form>
@@ -73,11 +90,17 @@ export default {
       sending: false,
       form: {
         id: this.feedback.id,
-        comments: this.feedback.comments,
+        positiveComments: this.feedback.positiveComments,
+        negativeComments: this.feedback.negativeComments,
       },
     };
   },
   methods: {
+    saveEmpty(){
+      this.form.positiveComments='--none--';
+      this.form.negativeComments='--none--';
+      this.submit();
+    },
     submit() {
       this.sending = true;
       this.$inertia

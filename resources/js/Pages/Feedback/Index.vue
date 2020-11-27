@@ -60,8 +60,15 @@
             type="month"
             format="YYYY-MM"
             v-model="filterForm.month"
-            class="pr-6"
+            class="hidden pr-6 "
             label="Month"
+          />
+          <date-input
+            type="date"
+            format="YYYY-MM-DD"
+            v-model="filterForm.date"
+            class="pr-6"
+            label="Date"
           />
           <select-input
             v-model="filterForm.hasComments"
@@ -75,13 +82,13 @@
               key="true"
               value="with"
             >
-              Has Optional Comment
+              Has Comments/Suggestions
             </option>
             <option
               key="false"
               value="without"
             >
-              No Optional Comment
+              No Comments/Suggestions
             </option>
           </select-input>
           <div class="flex items-end">
@@ -133,7 +140,9 @@
           {{ feedback.from + i }}
         </td>
         <td class="p-3">
-          {{ row.officeName }}
+          <p class="max-w-xs truncate">
+            {{ row.officeName }}
+          </p>
         </td>
         <td class="p-3">
           <p class="max-w-xs truncate">
@@ -141,14 +150,24 @@
           </p>
         </td>
         <td class="p-3 green">
-          <span
-            v-if="(row.comments_path && !row.comments)"
+          <p
+            v-if="(row.commentsImgPath && (!row.positiveComments && !row.negativeComments) && row.positiveComments!=='--none--' && row.negativeComments!=='--none--')"
             class="text-orange-500"
-          >untranscribed</span>
-          <span
-            v-if="(row.comments_path && row.comments)"
+          >
+            untranscribed
+          </p>
+          <p
+            v-if="(row.commentsImgPath && (row.positiveComments || row.negativeComments) && row.positiveComments!=='--none--' && row.negativeComments!=='--none--')"
             class="text-green-500"
-          >transcribed</span>
+          >
+            transcribed
+          </p>
+          <p
+            v-if="(row.positiveComments=='--none--' || row.negativeComments=='--none--')"
+            class="text-blue-500"
+          >
+            ignored
+          </p>
         </td>
         <td class="p-3">
           {{ row.date }}
@@ -207,6 +226,7 @@ export default {
         office: this.filters.office,
         service: this.filters.service,
         month: this.filters.month,
+        date: this.filters.date,
         hasComments: this.filters.hasComments,
       },
     };

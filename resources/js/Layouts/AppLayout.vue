@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-gray-100">
-    <nav class="bg-white border-b border-gray-100">
+    <nav class="bg-white border-b border-gray-100 shadow-md">
       <!-- Primary Navigation Menu -->
       <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -51,6 +51,14 @@
                 :active="$page.props.currentRouteName == 'questions.index'"
               >
                 Questions
+              </jet-nav-link>
+            </div>
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+              <jet-nav-link
+                :href="route('reports.index')"
+                :active="$page.props.currentRouteName == 'reports.index'"
+              >
+                Reports
               </jet-nav-link>
             </div>
           </div>

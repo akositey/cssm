@@ -13,7 +13,7 @@ class Feedback extends Model
     /**
      * @var array
      */
-    protected $fillable = ['service_id', 'comments', 'comments_path', 'signature_path', 'user_id', 'created_at', 'updated_at'];
+    protected $fillable = ['service_id', 'positive_comments', 'negative_comments', 'comments_image_path', 'signature_image_path', 'user_id', 'created_at', 'updated_at'];
 
     /**
      * @return mixed
@@ -65,14 +65,17 @@ class Feedback extends Model
                     $query->where('id', $id);
                 });
             })
+            ->when($filters['date'] ?? null, function ($query, $date) {
+                $query->where('created_at', 'like', $date . "%");
+            })
             ->when($filters['month'] ?? null, function ($query, $month) {
                 $query->whereBetween('created_at', [date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))]);
             })
             ->when($filters['hasComments'] ?? null, function ($query, $yesNo) {
                 if ($yesNo === "with") {
-                    $query->whereNotNull('comments_path');
+                    $query->whereNotNull('comments_image_path');
                 } else {
-                    $query->whereNull('comments_path');
+                    $query->whereNull('comments_image_path');
                 }
             });
     }
