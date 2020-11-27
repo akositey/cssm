@@ -43,7 +43,16 @@
               rows="7"
             />
           </div>
-          <div class="flex items-center justify-end col-span-2 px-8 py-4">
+          <div class="flex items-center justify-between col-span-2 px-8 py-4">
+            <loading-button
+              :loading="sending"
+              class="btn-green"
+              type="button"
+              @click="saveEmpty"
+            >
+              Save Empty
+            </loading-button>
+
             <loading-button
               :loading="sending"
               class="btn-indigo"
@@ -87,6 +96,11 @@ export default {
     };
   },
   methods: {
+    saveEmpty(){
+      this.form.positiveComments='--none--';
+      this.form.negativeComments='--none--';
+      this.submit();
+    },
     submit() {
       this.sending = true;
       this.$inertia

@@ -110,18 +110,25 @@ class ReportData
                 # comments
                 $positiveComments = [];
                 $negativeComments = [];
+                $ignoredComments = [];
                 $untranscribedComments = [];
                 foreach ($allFeedback as $feedback) {
-                    if (!is_null($feedback->positive_comments)) {
+                    if (!is_null($feedback->positive_comments) && $feedback->positive_comments !== '--none--') {
                         $positiveComments[] = [
                             'id' => $feedback->id,
                             'comment' => $feedback->positive_comments
                         ];
                     }
-                    if (!is_null($feedback->negative_comments)) {
+                    if (!is_null($feedback->negative_comments) && $feedback->negative_comments !== '--none--') {
                         $negativeComments[] = [
                             'id' => $feedback->id,
                             'comment' => $feedback->negative_comments
+                        ];
+                    }
+                    if ($feedback->positive_comments === '--none--' || $feedback->negative_comments === '--none--') {
+                        $ignoredComments[] = [
+                            'id' => $feedback->id,
+                            'comment' => '-- ignored comment/suggestion --'
                         ];
                     }
                     if ($feedback->comments_image_path && is_null($feedback->positive_comments) && is_null($feedback->negative_comments)) {
@@ -132,8 +139,10 @@ class ReportData
                     }
                 }
 
+                $maxRows = count($positiveComments) > count($negativeComments) ? count($positiveComments) : count($negativeComments);
+
                 $stats['services'][] = [
-                    'service' => $service->name,
+                    'name' => $service->name,
                     'clients' => $ctrClients,
                     'goodRatingPercentage' => $goodRatingPercentage,
                     'totalRatingPercentages' => $totalRatingPercentages,
@@ -141,7 +150,9 @@ class ReportData
                     'comments' => [
                         'positive' => $positiveComments,
                         'negative' => $negativeComments,
-                        'untranscribed' => $untranscribedComments
+                        'ignored' => $ignoredComments,
+                        'untranscribed' => $untranscribedComments,
+                        'maxRows' => $maxRows
                     ]
                 ];
                 $totalGoodScore += $ctrGoodScore;

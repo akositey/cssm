@@ -60,7 +60,7 @@
       :rows="5"
     />
 
-    <div v-else>
+    <div v-if="!sending && stats.services">
       <table class="w-full my-4 whitespace-no-wrap bg-white border border-black">
         <table-head />
         <tbody
@@ -77,7 +77,7 @@
               rowspan="3"
               v-if="x===0"
             >
-              {{ service.service }}
+              {{ service.name }}
             </td>
             <td class="px-2 border border-b-0 border-l-0">
               {{ question.question }}
@@ -148,14 +148,14 @@
             </td>
           </tr>
           <tr
-            v-for="(rows,y) in maxCommentsRows(service.comments)"
+            v-for="(rows,y) in service.comments.maxRows"
             :key="'rows'+y"
-            class="border-r border-black"
+            class=""
           >
             <td class="border-r border-black" />
-            <td class="border border-b-0 border-l-0 border-r-0">
+            <td class="border border-l-0">
               <p
-                v-if="service.comments.positive.length"
+                v-if="y in service.comments.positive"
                 class="px-2 "
               >
                 {{ service.comments.positive[y].comment }}
@@ -173,10 +173,10 @@
             </td>
             <td
               colspan="7"
-              class="border border-b-0 border-r-0"
+              class="border-r border-black"
             >
               <p
-                v-if="service.comments.negative.length"
+                v-if="y in service.comments.negative"
                 class="px-2 text-red-700"
               >
                 {{ service.comments.negative[y].comment }}
@@ -195,20 +195,46 @@
             </td>
           </tr>
           <tr
-            v-for="(untranscribed,ii) in service.comments.untranscribed.length"
-            :key="'untranscribed'+ii"
+            v-for="(ignored,y) in service.comments.ignored.length"
+            :key="'ignored'+y"
+            class="border-r border-black"
           >
-            <td />
+            <td class="border-r border-black" />
             <td
               colspan="8"
-              class="text-center border"
+              class="px-2 text-center border-r border-black"
             >
-              <span class="text-red-700">
-                {{ service.comments.untranscribed[ii].comment }}
+              <span class="text-blue-700">
+                {{ service.comments.ignored[y].comment }}
               </span>
               <inertia-link
                 class="float-right text-sm text-gray-700 focus:text-indigo-500"
-                :href="route('comments.edit', service.comments.untranscribed[ii].id)"
+                :href="route('comments.edit', service.comments.ignored[y].id)"
+                tabindex="-1"
+              >
+                <icon
+                  name="pencil"
+                  class="w-4 h-4 fill-white"
+                />
+              </inertia-link>
+            </td>
+          </tr>
+          <tr
+            v-for="(untranscribed,y) in service.comments.untranscribed.length"
+            :key="'untranscribed'+y"
+            class="border-r border-black"
+          >
+            <td class="border-r border-black" />
+            <td
+              colspan="8"
+              class="px-2 text-center border-r border-black"
+            >
+              <span class="text-orange-700">
+                {{ service.comments.untranscribed[y].comment }}
+              </span>
+              <inertia-link
+                class="float-right text-sm text-gray-700 focus:text-indigo-500"
+                :href="route('comments.edit', service.comments.untranscribed[y].id)"
                 tabindex="-1"
               >
                 <icon
@@ -221,7 +247,7 @@
           <tr>
             <td
               colspan="9"
-              class="h-2 border border-black"
+              class="h-2 border border-black border-double"
             />
           </tr>
         </tbody>
@@ -247,7 +273,10 @@
           </tr>
         </tfoot>
       </table>
-      <div class="flex justify-end">
+      <div
+        v-if="stats.services"
+        class="flex justify-end"
+      >
         <form
           :action="route('reports.print')"
           method="post"
@@ -353,11 +382,6 @@ export default {
     reset() {
       this.filterForm = mapValues(this.filterForm, () => null);
       this.viewReport();
-    },
-    maxCommentsRows(comments){
-      let posiLen = Object.keys(comments.positive).length;
-      let negaLen = Object.keys(comments.negative).length;
-      return posiLen > negaLen ? posiLen: negaLen
     },
   },
 };

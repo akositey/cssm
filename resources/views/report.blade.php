@@ -49,7 +49,7 @@
           <tr>
             @if ($x === 0)
             <td class='px-2 font-bold whitespace-normal align-top border border-b-0 border-black' rowspan='3'>
-              {{ $service['service'] }}
+              {{ $service['name'] }}
             </td>
             @endif
             <td class='px-2 border border-b-0 border-l-0'>
@@ -76,7 +76,7 @@
           <tr>
             <td class='border-r border-black'></td>
             <td class='text-center bg-yellow-300 border border-black'>
-              Average (% Rating)
+              % Per Rating
             </td>
             <td class='bg-yellow-300 border border-black'></td>
             @foreach ($service['totalRatingPercentages'] as $x => $average)
@@ -110,17 +110,17 @@
       </table>
     </div>
 
-    <div>
-      <table class='w-full my-4 whitespace-no-wrap bg-white '>
-        <thead class='bg-gray-200 border border-black '>
+    <div class="border-r border-black">
+      <table class='w-full my-4 whitespace-no-wrap bg-white'>
+        <thead class='bg-gray-200 '>
           <tr class='border border-black'>
-            <th class='px-2'>
+            <th class='px-2 py-1 border-b border-black'>
               Service
             </th>
-            <th class='px-2'>
+            <th class='px-2 py-1 border-b border-black'>
               Positive Comments
             </th>
-            <th class='px-2'>
+            <th class='px-2 py-1 border-b border-black'>
               Negative Comments
             </th>
           </tr>
@@ -128,35 +128,36 @@
         <tbody class="">
           @foreach ($services as $x => $service)
           {{-- @php dd($services); @endphp --}}
-          @for ($i = 0; $i < getMaxCommentsRows($service['comments']); $i++)
-            <tr class="">
+          @for ($i = 0; $i < $service['comments']['maxRows']; $i++)
+            <tr class="border border-black">
               @if ($i===0)
-              <td class="px-2 align-top border border-t-0 border-b-0 border-black " rowspan="{{ getMaxCommentsRows($service['comments']) }}">
-                {{ $service['service'] }}
+              <td class="px-2 font-bold align-top border-t border-r " rowspan="{{ $service['comments']['maxRows'] }}">
+                {{ $service['name'] }}
               </td>
               @endif
-              <td class="px-1 border border-t-0 border-b-0">
+              <td class="px-1 border-t border-l border-r-0">
                 @isset($service['comments']['positive'][$i]['comment'])
                 &bull; {{ $service['comments']['positive'][$i]['comment'] }}
                 @endisset
               </td>
-              <td class="px-1 text-red-700 border border-t-0 border-b-0 border-black ">
+              <td class="px-1 text-red-700 border-t border-l border-r-0">
                 @isset($service['comments']['negative'][$i]['comment'])
                 &bull; {{ $service['comments']['negative'][$i]['comment'] }}
                 @endisset
               </td>
             </tr>
           @endfor
-          <tr>
+          <tr class="border border-black">
             <td
               colspan="9"
-              class="h-1 border border-black "
+              class="h-1 border border-black"
             ></td>
           </tr>
           @endforeach
         </tbody>
       </table>
     </div>
+
   </main>
 </body>
 

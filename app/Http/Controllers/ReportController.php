@@ -50,6 +50,9 @@ class ReportController extends Controller
     function print(Request $request) {
         // dd(json_decode($request->stats, true));
 
+        $nodeBin = env('NODE_BIN');
+        $npmBin = env('NPM_BIN');
+
         $stats = json_decode($request->stats, true);
 
         # debugging: output to browser
@@ -59,41 +62,32 @@ class ReportController extends Controller
 
         # debugging: output html
         // return Browsershot::html($content)
-        //     ->setNodeBinary('/Users/teym/.nvm/versions/node/v14.15.0/bin/node')
-        //     ->setNpmBinary('/Users/teym/.nvm/versions/node/v14.15.0/bin/npm')
+        //     ->setNodeBinary($nodeBin)
+        //     ->setNpmBinary($npmBin)
         //     ->margins(18, 18, 18, 18)
         //     ->format('Letter')
         //     ->bodyHtml();
 
         # output as pdf
-        return response()->stream(function () use ($content) {
+        return response()->stream(function () use ($content, $nodeBin, $npmBin) {
             echo Browsershot::html($content)
-                ->setNodeBinary('/Users/teym/.nvm/versions/node/v14.15.0/bin/node')
-                ->setNpmBinary('/Users/teym/.nvm/versions/node/v14.15.0/bin/npm')
-                ->margins(18, 18, 18, 18)
+                ->setNodeBinary($nodeBin)
+                ->setNpmBinary($npmBin)
+                ->margins(15, 15, 15, 22)
                 ->format('Letter')
                 ->pdf();
         }, 200, ['Content-Type' => 'application/pdf']);
 
         # download as pdf
-        $filename = Office::find($request->office)->abbr . '-' . $request->month . '.pdf';
-        return response()->streamDownload(function () use ($content) {
-            echo Browsershot::html($content)
-                ->setNodeBinary('/Users/teym/.nvm/versions/node/v14.15.0/bin/node')
-                ->setNpmBinary('/Users/teym/.nvm/versions/node/v14.15.0/bin/npm')
-                ->margins(18, 18, 18, 18)
-                ->format('Letter')
-                ->pdf();
-        }, $filename, ['Content-Type' => 'application/pdf']);
-
-        // // $pdf = \App::make('dompdf.wrapper');
-        // $pdf = \PDF::loadHTML($html)->setPaper('letter');
-        // // $pdf->setOptions(['dpi' => '150', 'paper' => 'letter', 'defaultFont' => 'Arial']);
-        // $pdf->loadHTML($html);
-        // return $pdf->stream();
-        // $pdf = \PDF::loadHTML($html);
-        // $pdf->loadHTML($html);
-        // return $pdf->stream();
+        // $filename = Office::find($request->office)->abbr . '-' . $request->month . '.pdf';
+        // return response()->streamDownload(function () use ($content,$nodeBin,$npmBin) {
+        //     echo Browsershot::html($content)
+        //         ->setNodeBinary($nodeBin)
+        //         ->setNpmBinary($npmBin)
+        //         ->margins(18, 18, 18, 18)
+        //         ->format('Letter')
+        //         ->pdf();
+        // }, $filename, ['Content-Type' => 'application/pdf']);
 
     }
 }

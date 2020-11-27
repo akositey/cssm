@@ -151,16 +151,22 @@
         </td>
         <td class="p-3 green">
           <p
-            v-if="(row.commentsImgPath && (!row.positiveComments && !row.negativeComments))"
+            v-if="(row.commentsImgPath && (!row.positiveComments && !row.negativeComments) && row.positiveComments!=='--none--' && row.negativeComments!=='--none--')"
             class="text-orange-500"
           >
             untranscribed
           </p>
           <p
-            v-if="(row.commentsImgPath && (row.positiveComments || row.negativeComments))"
+            v-if="(row.commentsImgPath && (row.positiveComments || row.negativeComments) && row.positiveComments!=='--none--' && row.negativeComments!=='--none--')"
             class="text-green-500"
           >
             transcribed
+          </p>
+          <p
+            v-if="(row.positiveComments=='--none--' || row.negativeComments=='--none--')"
+            class="text-blue-500"
+          >
+            ignored
           </p>
         </td>
         <td class="p-3">
