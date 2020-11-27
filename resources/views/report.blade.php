@@ -14,19 +14,19 @@
       <table class='w-full my-4 whitespace-no-wrap bg-white'>
         <thead class='bg-gray-200 border border-black '>
           <tr class='border'>
-            <th class='p-2 border border-black ' rowspan='3'>
+            <th class='px-2 border border-black ' rowspan='3'>
               Service
             </th>
-            <th class='p-2 border border-black ' rowspan='3'>
+            <th class='px-2 border border-black ' rowspan='3'>
               Question
             </th>
-            <th class='w-0 p-2 text-sm whitespace-normal border border-black ' rowspan='3'>
+            <th class='w-0 px-2 text-sm whitespace-normal border border-black ' rowspan='3'>
               Clients Served
             </th>
-            <th class='p-2 border border-black ' colspan='5'>
+            <th class='px-2 border border-black ' colspan='5'>
               Quality in Service
             </th>
-            <th class='p-2 border border-black ' rowspan='3'>
+            <th class='px-2 border border-black ' rowspan='3'>
               % in VS &amp; O
             </th>
           </tr>
@@ -43,7 +43,7 @@
           </tr>
         </thead>
 
-        @foreach ( $ratings['services'] as $service)
+        @foreach ( $services as $service)
         <tbody class='border border-black '>
           @foreach ($service['questions'] as $x => $question)
           <tr>
@@ -56,18 +56,18 @@
               {{$question['question']}}
             </td>
             @if ($x === 0)
-            <td class='text-center border border-b-0' rowspan='3'>
+            <td class='px-2 text-center border border-b-0' rowspan='3'>
               {{ $service['clients'] }}
             </td>
             @endif
             @foreach ($question['ratings'] as $y => $rating)
-            <td class='text-center border border-b-0'>
+            <td class='px-2 text-center border border-b-0'>
               {{ $rating }}
             </td>
             @endforeach
             @if ($x === 0)
-            <td class='text-center border border-b-0 border-r-0' rowspan='3'>
-              {{ $service['goodPercent'] }}
+            <td class='px-2 text-center border border-b-0 border-r-0' rowspan='3'>
+              {{ $service['goodRatingPercentage'] }}
             </td>
             @endif
           </tr>
@@ -79,7 +79,7 @@
               Average (% Rating)
             </td>
             <td class='bg-yellow-300 border border-black'></td>
-            @foreach ($service['averagePercent'] as $x => $average)
+            @foreach ($service['totalRatingPercentages'] as $x => $average)
             <td class='text-center bg-yellow-300 border border-black'>
               {{$average}}
             </td>
@@ -99,11 +99,11 @@
               Total
             </th>
             <th class='border border-black '>
-              {{ $ratings['total']['clients']}}
+              {{ $total['clients']}}
             </th>
             <th class='border border-black ' colspan='5'></th>
             <th class='border border-black '>
-              {{ $ratings['total']['goodPercent']}}
+              {{ $total['goodRatingPercentage']}}
             </th>
           </tr>
         </tfoot>
@@ -113,21 +113,21 @@
     <div>
       <table class='w-full my-4 whitespace-no-wrap bg-white '>
         <thead class='bg-gray-200 border border-black '>
-          <tr class='border'>
-            <th class='p-2 border border-black '>
+          <tr class='border border-black'>
+            <th class='px-2'>
               Service
             </th>
-            <th class='p-2 border border-black '>
+            <th class='px-2'>
               Positive Comments
             </th>
-            <th class='p-2 border border-black '>
+            <th class='px-2'>
               Negative Comments
             </th>
           </tr>
         </thead>
         <tbody class="">
-          @foreach ($ratings['services'] as $x => $service)
-          {{-- @php dd($ratings['services']); @endphp --}}
+          @foreach ($services as $x => $service)
+          {{-- @php dd($services); @endphp --}}
           @for ($i = 0; $i < getMaxCommentsRows($service['comments']); $i++)
             <tr class="">
               @if ($i===0)

@@ -65,7 +65,7 @@
         <table-head />
         <tbody
           class="border border-black"
-          v-for="(service,i) in stats.ratings.services"
+          v-for="(service,i) in stats.services"
           :key="i"
         >
           <tr
@@ -101,17 +101,17 @@
               rowspan="3"
               v-if="x===0"
             >
-              {{ service.goodPercent }}
+              {{ service.goodRatingPercentage }}
             </td>
           </tr>
           <tr>
             <td class="border-r border-black" />
             <td class="text-center bg-yellow-300 border border-l-0 border-black ">
-              Average (% Rating)
+              % in Total Rating
             </td>
             <td class="bg-yellow-300 border border-black" />
             <td
-              v-for="(average,x) in service.averagePercent"
+              v-for="(average,x) in service.totalRatingPercentages"
               :key="'avg'+x"
               class="text-center bg-yellow-300 border border-black"
             >
@@ -227,7 +227,7 @@
         </tbody>
         <tfoot
           class="border border-black"
-          v-if="stats.ratings.total && !sending"
+          v-if="stats.total && !sending"
         >
           <tr class="bg-orange-400">
             <th class="border border-black" />
@@ -235,14 +235,14 @@
               Total
             </th>
             <th class="border border-black">
-              {{ stats.ratings.total.clients }}
+              {{ stats.total.clients }}
             </th>
             <th
               class="border border-black"
               colspan="5"
             />
             <th class="border border-black">
-              {{ stats.ratings.total.goodPercent }}
+              {{ stats.total.goodRatingPercentage }}
             </th>
           </tr>
         </tfoot>

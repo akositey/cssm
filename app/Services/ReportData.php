@@ -33,10 +33,8 @@ class ReportData
     public function get(string $office, string $month): array
     {
         $stats = [
-            'ratings' => [
-                'services' => [],
-                'total' => []
-            ]
+            'services' => [],
+            'total' => []
         ];
 
         $mandatoryQuestions = $this->question->where('is_required', 1);
@@ -46,8 +44,7 @@ class ReportData
 
         $totalClients = 0;
         $totalGoodScore = 0;
-        $totalAnswers = 0;
-        $totalGoodPercent = 0;
+        $goodRatings = [];
 
         foreach ($services as $service) {
 
@@ -61,6 +58,7 @@ class ReportData
 
                 # num of clients
                 $ctrClients = $allFeedback->count();
+                $totalClients += $ctrClients;
 
                 # fill tallyPerQuestion with empty data
                 foreach ($mandatoryQuestionIds as $qId) {
@@ -85,10 +83,10 @@ class ReportData
                 }
 
                 # % of VS & O Ratings
-                $goodPercent = number_format(($ctrGoodScore / $ctrAnswers) * 100, 2);
+                $goodRatingPercentage = number_format(($ctrGoodScore / $ctrAnswers) * 100, 2);
 
                 # average percent per rating
-                $averagePercent = [];
+                $totalRatingPercentages = [];
                 $sumPerRating = array_fill_keys([1, 2, 3, 4, 5], 0);
                 foreach ($tallyPerQuestion as $qId => $rating) {
                     foreach ($rating as $rate => $count) {
@@ -97,7 +95,7 @@ class ReportData
                 }
                 foreach ($sumPerRating as $rate => $count) {
                     $average = $count / count($mandatoryQuestionIds);
-                    $averagePercent[$rate] = number_format(($average / $ctrClients) * 100, 2);
+                    $totalRatingPercentages[$rate] = number_format(($average / $ctrClients) * 100, 2);
                 }
 
                 # questions - rating
@@ -134,11 +132,11 @@ class ReportData
                     }
                 }
 
-                $stats['ratings']['services'][] = [
+                $stats['services'][] = [
                     'service' => $service->name,
                     'clients' => $ctrClients,
-                    'goodPercent' => $goodPercent,
-                    'averagePercent' => $averagePercent,
+                    'goodRatingPercentage' => $goodRatingPercentage,
+                    'totalRatingPercentages' => $totalRatingPercentages,
                     'questions' => $questions,
                     'comments' => [
                         'positive' => $positiveComments,
@@ -146,20 +144,18 @@ class ReportData
                         'untranscribed' => $untranscribedComments
                     ]
                 ];
-                $totalClients += $ctrClients;
                 $totalGoodScore += $ctrGoodScore;
-                $totalAnswers += $ctrAnswers;
+                $goodRatings[] = $goodRatingPercentage;
                 // dd($stats);
             }
 
         }
 
         # totals
-        $totalGoodPercent = number_format(($totalGoodScore / $totalAnswers) * 100, 2);
-
-        $stats['ratings']['total'] = [
-            'clients' => $ctrClients,
-            'goodPercent' => $totalGoodPercent
+        $totalGoodRatingPercentage = number_format(array_sum($goodRatings) / count($goodRatings), 2);
+        $stats['total'] = [
+            'clients' => $totalClients,
+            'goodRatingPercentage' => $totalGoodRatingPercentage
         ];
 
         return $stats;
