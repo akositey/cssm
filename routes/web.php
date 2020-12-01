@@ -8,6 +8,7 @@ use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SignatorySettingsController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\UtilController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,9 @@ Route::prefix('admin')->middleware('auth', 'admin')->group(function () { //TODO:
 
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
     Route::post('reports/print', [ReportController::class, 'print'])->name('reports.print');
+
+    Route::get('signatories', [SignatorySettingsController::class, 'index'])->name('signatories.index');
+    Route::patch('signatories/update', [SignatorySettingsController::class, 'update'])->name('signatories.update');
 
 });
 

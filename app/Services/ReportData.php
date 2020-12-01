@@ -163,7 +163,7 @@ class ReportData
         }
 
         # totals
-        $totalGoodRatingPercentage = number_format(array_sum($goodRatings) / count($goodRatings), 2);
+        $totalGoodRatingPercentage = number_format(count($goodRatings) ? array_sum($goodRatings) / count($goodRatings) : 0, 2);
         $stats['total'] = [
             'clients' => $totalClients,
             'goodRatingPercentage' => $totalGoodRatingPercentage

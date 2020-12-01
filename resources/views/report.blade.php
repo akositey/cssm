@@ -1,3 +1,5 @@
+{{-- @php dd($_POST); 
+@endphp --}}
 <!DOCTYPE html>
 <html lang='en'>
 
@@ -11,7 +13,39 @@
 <body class="font-sans antialiased">
   <main>
     <div class=''>
-      <table class='w-full my-4 whitespace-no-wrap bg-white'>
+      <table class='w-full whitespace-no-wrap bg-white'>
+        <tbody class='text-center line'>
+          <tr>
+            <td class="w-3/12" rowspan="6">
+              <img class="h-20 m-auto" src="{{asset('img/pgom–logo-100.png')}}" alt="">
+            </td>
+            <td class="h-4"></td>
+            <td class="w-3/12" rowspan="6"></td>
+          </tr>
+          <tr>
+            <td class="w-6/12 leading-none ">Republic of the Philippines</td>
+          </tr>
+          <tr>
+            <td class="leading-none ">Province of Oriental Mindoro</td>
+          </tr>
+          <tr>
+            <td class="leading-none ">City of Calapan</td>
+          </tr>
+          <tr>
+            <td class="text-xl font-bold leading-none">Provincial Administrator's Office</td>
+          </tr>
+          <tr>
+            <td class="h-4"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="my-8 text-xl font-bold text-center">
+        <div class="text-xl font-bold leading-none">CONSOLIDATED CLIENT SATISFACTION SURVEY RESULTS</div>
+        <div class="text-lg leading-none">for the month of {{ date('F Y', strtotime($month)) }}</div>
+      </div>
+      <div class="text-xl font-bold">{{$office}}</div>
+      <table class='w-full whitespace-no-wrap bg-white'>
         <thead class='bg-gray-200 border border-black '>
           <tr class='border'>
             <th class='px-2 border border-black ' rowspan='3'>
@@ -43,7 +77,7 @@
           </tr>
         </thead>
 
-        @foreach ( $services as $service)
+        @foreach ( $stats['services'] as $service)
         <tbody class='border border-black '>
           @foreach ($service['questions'] as $x => $question)
           <tr>
@@ -92,21 +126,21 @@
         </tbody>
         @endforeach
 
-        <tfoot class='border border-black '>
+        <tbody class='border border-black '>
           <tr class='bg-orange-400'>
             <th class='border border-black '></th>
             <th class='border border-black '>
               Total
             </th>
             <th class='border border-black '>
-              {{ $total['clients']}}
+              {{ $stats['total']['clients']}}
             </th>
             <th class='border border-black ' colspan='5'></th>
             <th class='border border-black '>
-              {{ $total['goodRatingPercentage']}}
+              {{ $stats['total']['goodRatingPercentage']}}
             </th>
           </tr>
-        </tfoot>
+        </tbody>
       </table>
     </div>
 
@@ -126,46 +160,97 @@
           </tr>
         </thead>
         <tbody class="">
-          @foreach ($services as $x => $service)
-          {{-- @php dd($services); @endphp --}}
-          @for ($i = 0; $i < $service['comments']['maxRows']; $i++)
-            <tr class="border border-black">
-              @if ($i===0)
-              <td class="px-2 font-bold align-top border-t border-r " rowspan="{{ $service['comments']['maxRows'] }}">
-                {{ $service['name'] }}
-              </td>
-              @endif
-              <td class="px-1 border-t border-l border-r-0">
-                @isset($service['comments']['positive'][$i]['comment'])
-                &bull; {{ $service['comments']['positive'][$i]['comment'] }}
-                @endisset
-              </td>
-              <td class="px-1 text-red-700 border-t border-l border-r-0">
-                @isset($service['comments']['negative'][$i]['comment'])
-                &bull; {{ $service['comments']['negative'][$i]['comment'] }}
-                @endisset
-              </td>
+          @php
+          $rowCtr=0;
+          $untranscribedCtr = 0;
+          @endphp
+          @foreach ($stats['services'] as $x => $service)
+          {{-- @php dd($stats['services']); @endphp --}}
+          @php 
+          $rowCtr+=$service['comments']['maxRows'];
+          $untranscribedCtr+=count($service['comments']['untranscribed']);
+           @endphp
+          @for ($i = 0; $i < $service['comments']['maxRows']; $i++) <tr class="border border-black">
+            @if ($i===0)
+            <td class="px-2 font-bold align-top border-t border-r " rowspan="{{ $service['comments']['maxRows'] }}">
+              {{ $service['name'] }}
+            </td>
+            @endif
+            <td class="px-1 border-t border-l border-r-0">
+              @isset($service['comments']['positive'][$i]['comment'])
+              &bull; {{ $service['comments']['positive'][$i]['comment'] }}
+              @endisset
+            </td>
+            <td class="px-1 text-red-700 border-t border-l border-r-0">
+              @isset($service['comments']['negative'][$i]['comment'])
+              &bull; {{ $service['comments']['negative'][$i]['comment'] }}
+              @endisset
+            </td>
             </tr>
-          @endfor
-          <tr class="border border-black">
-            <td
-              colspan="9"
-              class="h-1 border border-black"
-            ></td>
-          </tr>
-          @endforeach
+            <tr class="border border-black">
+              <td colspan="9" class="h-1 border border-black"></td>
+            </tr>
+            @endfor
+            @endforeach
+            @if ($rowCtr===0)
+            <tr class="border border-black">
+              <td colspan="9" class="h-1 text-center border border-black">--no additional comments/suggestions--</td>
+            </tr>
+            @endif
         </tbody>
       </table>
     </div>
+    
+    <div class="font-bold text-red-700">{{$untranscribedCtr > 0 ? "* ".$untranscribedCtr." untranscribed comments/suggestions" : ""}}</div>
 
+    <div class="flex mt-8">
+      <div class="flex-1">
+        <div class="mb-10">
+          Prepared by:
+        </div>
+        <div class="font-bold">
+          {{$preparer['name']}}
+        </div>
+        <div class="text-sm">
+          {{$preparer['position']}}
+        </div>
+        <div class="">
+          <span class="text-sm">Date:</span>
+          <span class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+      </div>
+      <div class="flex-1">
+        <div class="mb-10">
+          Reviewed by:
+        </div>
+        <div class="font-bold">
+          {{$reviewer['name']}}
+        </div>
+        <div class="text-sm">
+          {{$reviewer['position']}}
+        </div>
+        <div class="">
+          <span class="text-sm">Date:</span>
+          <span class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+      </div>
+      <div class="flex-1">
+        <div class="mb-10">
+          Noted by:
+        </div>
+        <div class="font-bold">
+          {{$noter['name']}}
+        </div>
+        <div class="text-sm">
+          {{$noter['position']}}
+        </div>
+        <div class="">
+          <span class="text-sm">Date:</span>
+          <span class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+      </div>
+    </div>
   </main>
 </body>
 
 </html>
-<?php
-
-function getMaxCommentsRows($comments){
-  $positiveLen = count($comments['positive']);
-  $negativeLen = count($comments['negative']);
-  return $positiveLen >= $negativeLen ? $positiveLen: $negativeLen;
-}

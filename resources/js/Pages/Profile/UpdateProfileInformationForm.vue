@@ -35,7 +35,7 @@
           <img
             :src="$page.props.user.profile_photo_url"
             alt="Current Profile Photo"
-            class="rounded-full h-20 w-20 object-cover"
+            class="object-cover w-20 h-20 rounded-full"
           >
         </div>
 
@@ -45,10 +45,9 @@
           v-show="photoPreview"
         >
           <span
-            class="block rounded-full w-20 h-20"
+            class="block w-20 h-20 rounded-full"
             :style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'"
-          >
-          </span>
+          />
         </div>
 
         <jet-secondary-button
@@ -83,12 +82,30 @@
         <jet-input
           id="name"
           type="text"
-          class="mt-1 block w-full"
+          class="block w-full mt-1"
           v-model="form.name"
           autocomplete="name"
         />
         <jet-input-error
           :message="form.error('name')"
+          class="mt-2"
+        />
+      </div>
+
+      <div class="col-span-6 sm:col-span-4">
+        <jet-label
+          for="position"
+          value="Position"
+        />
+        <jet-input
+          id="position"
+          type="text"
+          class="block w-full mt-1"
+          v-model="form.position"
+          autocomplete="position"
+        />
+        <jet-input-error
+          :message="form.error('position')"
           class="mt-2"
         />
       </div>
@@ -102,7 +119,7 @@
         <jet-input
           id="email"
           type="email"
-          class="mt-1 block w-full"
+          class="block w-full mt-1"
           v-model="form.email"
         />
         <jet-input-error
@@ -150,14 +167,18 @@ export default {
     JetSecondaryButton,
   },
 
-  props: ["name", "email"],
-
+  props: {
+    name: { type: String, default: "" },
+    position: { type: String, default: "" },
+    email: { type: String, default: "" },
+  },
   data() {
     return {
       form: this.$inertia.form(
         {
           _method: "PUT",
           name: this.name,
+          position: this.$page.props.user.position,
           email: this.email,
           photo: null,
         },

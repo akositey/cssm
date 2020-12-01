@@ -61,6 +61,14 @@
                 Reports
               </jet-nav-link>
             </div>
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+              <jet-nav-link
+                :href="route('signatories.index')"
+                :active="$page.props.currentRouteName == 'signatories.index'"
+              >
+                Signatories
+              </jet-nav-link>
+            </div>
           </div>
 
           <!-- Settings Dropdown -->
