@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Office;
 use App\Models\Question;
 use App\Models\Service;
+use App\Models\SignatorySettings;
 use App\Services\ReportData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Spatie\Browsershot\Browsershot;
 
@@ -54,11 +56,41 @@ class ReportController extends Controller
         $npmBin = env('NPM_BIN');
 
         $stats = json_decode($request->stats, true);
+        $signatory = SignatorySettings::first();
+        if (!$signatory->count()) {
+            $signatory = [
+                'reviewer' => [
+                    'name' => '--NOT SET--',
+                    'position' => '--NOT SET--'
+                ],
+                'noter' => [
+                    'name' => '--NOT SET--',
+                    'position' => '--NOT SET--'
+                ]
+            ];
+        }
+        $data = [
+            'stats' => $stats,
+            'office' => Office::find($request->office)->name,
+            'month' => $request->month,
+            'preparer' => [
+                'name' => Auth::user()->name,
+                'position' => Auth::user()->position
+            ],
+            'reviewer' => [
+                'name' => $signatory->reviewer_name,
+                'position' => $signatory->reviewer_position
+            ],
+            'noter' => [
+                'name' => $signatory->noter_name,
+                'position' => $signatory->noter_position
+            ]
+        ];
 
         # debugging: output to browser
-        // return view('report', $stats);
+        // return view('report', $data);
 
-        $content = view('report', $stats)->render();
+        $content = view('report', $data)->render();
 
         # debugging: output html
         // return Browsershot::html($content)

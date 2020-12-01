@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             OfficeSeeder::class,
             UserSeeder::class,
             ServiceSeeder::class,
-            QuestionSeeder::class
+            QuestionSeeder::class,
+            SignatorySettingsSeeder::class
         ]);
         if (App::environment('local', 'testing', 'staging')) {
             $this->call([
