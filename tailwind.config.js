@@ -38,5 +38,5 @@ module.exports = {
     textColor: ["responsive", "hover", "focus", "group-hover"],
     zIndex: ["responsive", "focus"],
   },
-  plugins: [],
+  // plugins: [],
 };

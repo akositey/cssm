@@ -69,7 +69,7 @@ class Feedback extends Model
                 $query->where('created_at', 'like', $date . "%");
             })
             ->when($filters['month'] ?? null, function ($query, $month) {
-                $query->whereBetween('created_at', [date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))]);
+                $query->whereBetween('feedback.created_at', [date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))]);
             })
             ->when($filters['hasComments'] ?? null, function ($query, $yesNo) {
                 if ($yesNo === "with") {

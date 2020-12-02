@@ -17,7 +17,7 @@
 /* pretty checkbox*/
 @import "pretty-checkbox/dist/pretty-checkbox.min.css"; 
 .pretty input:not(:checked) .state label::after, .pretty .state label::before {
-  @apply .border-4 .border-gray-600
+  @apply border-4 border-gray-600
 }
 
 @layer base {
