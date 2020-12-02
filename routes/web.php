@@ -19,6 +19,7 @@ Route::resource('survey', SurveyController::class)->middleware('auth');
 
 Route::prefix('admin')->middleware('auth', 'admin')->group(function () { //TODO: middleware should be role:admin
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/stats/office', [DashboardController::class, 'officeStats'])->name('dashboard.office');
 
     Route::put('offices/{office}/restore', [OfficeController::class, 'restore'])->name('offices.restore');
     Route::resource('offices', OfficeController::class);

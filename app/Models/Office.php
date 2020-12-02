@@ -28,7 +28,7 @@ class Office extends Model
      */
     public function feedback()
     {
-        return $this->hasMany('App\Models\Feedback');
+        return $this->hasManyThrough('App\Models\Feedback', 'App\Models\Service');
     }
 
     /**
@@ -62,6 +62,8 @@ class Office extends Model
             } elseif ($trashed === 'only') {
                 $query->onlyTrashed();
             }
+        })->when($filters['office'] ?? null, function ($query, $id) {
+            $query->where('id', $id);
         });
     }
 }
