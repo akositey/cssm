@@ -49,10 +49,10 @@ class DashboardController extends Controller
             'labels' => [],
             'data' => []
         ];
-        if (isset($filters['office'])) {
+        if (!empty($filters['office'])) {
 
             # stats within a specific month
-            if (isset($filters['month']) && !isset($filters['office'])) {
+            if (!empty($filters['month'])) {
                 $feedback = Office::find($filters['office'])
                     ->feedback()->filter($filters)
                     ->get();
@@ -67,7 +67,6 @@ class DashboardController extends Controller
 
                 $chartData['labels'] = (array_keys($chartDataByDay));
                 $chartData['data'] = (array_values($chartDataByDay));
-
                 return response()->json($chartData);
             }
 

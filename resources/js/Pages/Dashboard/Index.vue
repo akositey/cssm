@@ -21,13 +21,6 @@
             >
               Filter
             </button>
-            <button
-              class="p-3 text-sm text-gray-500 hover:text-gray-700 focus:text-indigo-500"
-              type="button"
-              @click="reset"
-            >
-              Reset
-            </button>
           </div>
         </div>
       </form>
@@ -84,7 +77,6 @@
 <script>
 import AppLayout from "~/Layouts/AppLayout";
 import DateInput from "~/Shared/DateInput";
-import mapValues from "lodash/mapValues";
 import LineChart from "./LineChart";
 import axios from "axios";
 
@@ -111,7 +103,7 @@ export default {
         month: this.filters.month,
       },
       chartForm: {
-        month: this.filters.month,
+        month: null,
         office: null,
       },
       chartLoaded: false,
@@ -138,11 +130,8 @@ export default {
         data: this.filterForm,
       });
     },
-    reset() {
-      this.filterForm = mapValues(this.filterForm, () => null);
-      this.submit();
-    },
     selectOffice(id) {
+      this.chartForm.month = this.filterForm.month;
       this.chartForm.office = id;
 
       axios
