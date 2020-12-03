@@ -27,10 +27,6 @@ class DashboardController extends Controller
         })->sortBy('feedbackCount')->reverse()->toArray();
         // dd(array_values($mostFeedback));
 
-        $chartData = [
-            'labels' => [],
-            'datasets' => []
-        ];
         $data = [
             'filters' => $filters,
             'mostFeedback' => array_values($mostFeedback)

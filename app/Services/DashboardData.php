@@ -70,12 +70,12 @@ class DashboardData
         });
         // dd($feedback->pluck('created_at'));
         $chartDataByMonth = [];
+        $now = Carbon::now();
+        for ($i = 0; $i < 12; $i++) {
+            $chartDataByMonth[$now->subMonth()->format('Y-m')] = 0;
+        }
         foreach ($feedback->pluck('created_at') as $date) {
-            $month = $date->format('Y-m');
-            if (!isset($chartDataByMonth[$month])) {
-                $chartDataByMonth[$month] = 0;
-            }
-            $chartDataByMonth[$month] += 1;
+            $chartDataByMonth[$date->format('Y-m')] += 1;
         }
         ksort($chartDataByMonth);
         $chartData['labels'] = array_keys($chartDataByMonth);
