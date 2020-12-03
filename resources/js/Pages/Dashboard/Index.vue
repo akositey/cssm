@@ -21,24 +21,20 @@
             >
               Filter
             </button>
-            <button
-              class="p-3 text-sm text-gray-500 hover:text-gray-700 focus:text-indigo-500"
-              type="button"
-              @click="reset"
-            >
-              Reset
-            </button>
           </div>
         </div>
       </form>
     </div>
     <div class="flex justify-between my-4">
-      <div class="w-1/2 md:w-1/3">
-        <div class="">
+      <div class="grid w-full grid-cols-3">
+        <div class="col-span-1">
           <div class="my-2 font-bold leading-6">
             Most Feedback
           </div>
-          <div class="overflow-y-auto h-96">
+          <div
+            class="overflow-y-auto"
+            style="height: calc(100vh - 300px)"
+          >
             <div class="flex bg-white border-t border-b border-l">
               <div class="w-1/12 px-2 py-1 border-b border-r">
                 #
@@ -51,10 +47,11 @@
               </div>
             </div>
             <div
-              class="flex bg-white border-t border-l"
+              class="flex bg-white border-t border-l cursor-pointer"
+              :class="{'text-white bg-indigo-600':chartForm.office===row.id}"
               v-for="(row,i) in mostFeedback"
               :key="i"
-              @click="getOfficeStats"
+              @click="selectOffice(row.id)"
             >
               <div class="w-1/12 px-2 py-1 border-b border-r">
                 {{ +i+1 }}
@@ -68,10 +65,10 @@
             </div>
           </div>
         </div>
-        <div>
+        <div class="col-span-2">
           <line-chart
-            v-if="chartLoaded"
-            :chartdata="chartData"
+            v-show="chartLoaded"
+            :chartData="chartData"
             :options="chartOptions"
           />
         </div>
@@ -83,8 +80,8 @@
 <script>
 import AppLayout from "~/Layouts/AppLayout";
 import DateInput from "~/Shared/DateInput";
-import mapValues from "lodash/mapValues";
 import LineChart from "./LineChart";
+import axios from "axios";
 
 export default {
   components: {
@@ -98,29 +95,31 @@ export default {
       default: () => {},
     },
     filters: { type: [Object, Array], default: () => {} },
-    chartData: {
-      type: Object,
-      default: null,
-    },
-    chartOptions: {
-      type: Object,
-      default: null,
-    },
+    // chartData: {
+    //   type: Object,
+    //   default: null,
+    // },
   },
   data() {
     return {
       filterForm: {
         month: this.filters.month,
-        office: this.filters.office,
       },
-      selectedOffice: {},
+      chartForm: {
+        month: null,
+        office: null,
+      },
       chartLoaded: false,
+      chartData: null,
+      chartOptions: null,
+      chartGradient: null,
+      chartGradient2: null,
     };
   },
-  watch: {
-    chartData() {
-      this.$data._chart.update();
-    },
+  watch: {},
+  mounted() {
+    // this.$nextTick(function () {
+    // });
   },
   methods: {
     filter() {
@@ -128,12 +127,68 @@ export default {
         data: this.filterForm,
       });
     },
-    reset() {
-      this.filterForm = mapValues(this.filterForm, () => null);
-      this.submit();
+    selectOffice(id) {
+      this.chartForm.month = this.filterForm.month;
+      this.chartForm.office = id;
+
+      axios
+        .post(this.route("dashboard.office"), this.chartForm, {
+          headers: {
+            "X-CSRF-TOKEN": document.head.querySelector(
+              'meta[name="csrf-token"]'
+            ).content,
+            "X-Requested-With": "XMLHttpRequest",
+          },
+          // responseType: "blob", // important
+        })
+        .then((response) => {
+          this.sending = false;
+          this.chartLoaded = true;
+          if (!this.chartGradient) {
+            this.applyGradient();
+          }
+          // console.log("response.data", response.data);
+
+          (this.chartData = {
+            labels: response.data.labels,
+            datasets: [
+              {
+                label: "Number of Feedback",
+                data: response.data.data,
+                backgroundColor: this.chartGradient,
+                borderColor: "#05CBE1",
+                pointBackgroundColor: "white",
+              },
+            ],
+          }),
+            (this.chartOptions = {
+              responsive: true,
+              maintainAspectRatio: false,
+            });
+        })
+        .catch((e) => {
+          this.sending = false;
+          console.log("error", e);
+          console.log("error.response", e.response);
+        });
     },
-    getOfficeStats() {
-      // this.$inertia.post(this.route("dashboard.office"), this.filterForm);
+    applyGradient() {
+      this.chartGradient = document
+        .querySelector("canvas")
+        .getContext("2d")
+        .createLinearGradient(0, 0, 0, 450);
+      this.chartGradient2 = document
+        .querySelector("canvas")
+        .getContext("2d")
+        .createLinearGradient(0, 0, 0, 450);
+
+      this.chartGradient.addColorStop(0, "rgba(0, 231, 255, 0.9)");
+      this.chartGradient.addColorStop(0.5, "rgba(0, 231, 255, 0.25)");
+      this.chartGradient.addColorStop(1, "rgba(0, 231, 255, 0)");
+
+      this.chartGradient2.addColorStop(0, "rgba(255, 0,0, 0.5)");
+      this.chartGradient2.addColorStop(0.5, "rgba(255, 0, 0, 0.25)");
+      this.chartGradient2.addColorStop(1, "rgba(255, 0, 0, 0)");
     },
   },
 };

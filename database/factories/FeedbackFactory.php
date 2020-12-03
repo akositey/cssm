@@ -27,7 +27,8 @@ class FeedbackFactory extends Factory
             'service_id' => $this->faker->numberBetween(1, Service::all()->count()),
             'user_id' => $this->faker->numberBetween(1, User::all()->count()),
             'comments_image_path' => random_int(0, 1) ? 'comments/comment_admin_1_dummy.png' : null,
-            'signature_image_path' => 'signatures/signature_admin_1_dummy.png'
+            'signature_image_path' => 'signatures/signature_admin_1_dummy.png',
+            'created_at' => $this->faker->dateTimeThisYear()
         ];
     }
 }

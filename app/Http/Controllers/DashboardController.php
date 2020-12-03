@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Feedback;
 use App\Models\Office;
+use App\Services\DashboardData;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -26,11 +27,15 @@ class DashboardController extends Controller
         })->sortBy('feedbackCount')->reverse()->toArray();
         // dd(array_values($mostFeedback));
 
-        return Inertia::render('Dashboard/Index', [
+        $chartData = [
+            'labels' => [],
+            'datasets' => []
+        ];
+        $data = [
             'filters' => $filters,
             'mostFeedback' => array_values($mostFeedback)
-        ]
-        );
+        ];
+        return Inertia::render('Dashboard/Index', $data);
     }
 
     /**
@@ -38,10 +43,29 @@ class DashboardController extends Controller
      */
     public function officeStats(Request $request)
     {
-        // $filters = $request->only('office', 'month');
-        // # get office stats per week
-        // $office = Office::find($filters['office']);
-        // return []
+        $filters = $request->only('office', 'month');
+        # office stats for the month
+        $chartData = [
+            'labels' => [],
+            'data' => []
+        ];
+        if (!empty($filters['office'])) {
+            // dd($filters['office'], Office::find($filters['office']));
+            $dashboardData = new DashboardData(Office::find($filters['office']));
+
+            # stats within a specific month
+            if (!empty($filters['month'])) {
+                $chartData = $dashboardData->getStatsThisMonth($filters['month']);
+                return response()->json($chartData);
+            }
+
+            $chartData = $dashboardData->getStatsThisPastYear($filters['month']);
+
+            return response()->json($chartData);
+
+        }
+        // dd($chartData);
+        return response()->json($chartData);
 
     }
 }
