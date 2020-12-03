@@ -175,9 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
-        App\Providers\JetstreamServiceProvider::class,
-
-        Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class
+        App\Providers\JetstreamServiceProvider::class
 
     ],
 
@@ -229,9 +227,7 @@ return [
         'Str' => Illuminate\Support\Str::class,
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
-        'View' => Illuminate\Support\Facades\View::class,
-
-        'PDF' => Meneses\LaravelMpdf\Facades\LaravelMpdf::class
+        'View' => Illuminate\Support\Facades\View::class
 
     ]
 

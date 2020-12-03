@@ -25,18 +25,6 @@ class UserSeeder extends Seeder
             'password' => bcrypt('@12345'), // password
             'remember_token' => Str::random(10)
         ]);
-        \App\Models\User::create([
-            'name' => 'JENNIFER D. NASI',
-            'position' => 'Administrative Aide IV',
-            'username' => 'jenn',
-            'email' => '',
-            'email_verified_at' => now(),
-            'is_admin' => 1, //admin
-            'office_id' => \App\Models\Office::where('abbr', 'PA')->first()->id,
-            'password' => bcrypt('@12345'), // password
-            'remember_token' => Str::random(10)
-
-        ]);
 
         $boundDevices = [
             'go' => 'X12N20070260',
@@ -93,6 +81,18 @@ class UserSeeder extends Seeder
                 dd($officeAbbr, $serial);
             }
         }
+
+        \App\Models\User::create([
+            'name' => 'JENNIFER D. NASI',
+            'position' => 'Administrative Aide IV',
+            'username' => 'jenn',
+            'email' => '',
+            'email_verified_at' => now(),
+            'is_admin' => 1, //admin
+            'office_id' => \App\Models\Office::where('abbr', 'PA')->first()->id,
+            'password' => bcrypt('@12345'), // password
+            'remember_token' => Str::random(10)
+        ]);
 
     }
 }
