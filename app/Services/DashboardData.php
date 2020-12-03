@@ -70,10 +70,11 @@ class DashboardData
         });
         // dd($feedback->pluck('created_at'));
         $chartDataByMonth = [];
-        $now = Carbon::now();
-        for ($i = 0; $i < 12; $i++) {
+        $now = Carbon::now()->addMonth();
+        for ($i = 0; $i <= 12; $i++) {
             $chartDataByMonth[$now->subMonth()->format('Y-m')] = 0;
         }
+        // dd($now->format('Y-m'), $chartDataByMonth);
         foreach ($feedback->pluck('created_at') as $date) {
             $chartDataByMonth[$date->format('Y-m')] += 1;
         }
