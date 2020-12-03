@@ -59,7 +59,7 @@ class DashboardController extends Controller
                 return response()->json($chartData);
             }
 
-            $chartData = $dashboardData->getStatsThisPastYear($filters['month']);
+            $chartData = $dashboardData->getStatsThisPastYear();
 
             return response()->json($chartData);
 
