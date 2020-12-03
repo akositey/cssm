@@ -31,7 +31,10 @@
           <div class="my-2 font-bold leading-6">
             Most Feedback
           </div>
-          <div class="overflow-y-auto h-96">
+          <div
+            class="overflow-y-auto"
+            style="height: calc(100vh - 300px)"
+          >
             <div class="flex bg-white border-t border-b border-l">
               <div class="w-1/12 px-2 py-1 border-b border-r">
                 #
@@ -110,16 +113,10 @@ export default {
       chartData: null,
       chartOptions: null,
       chartGradient: null,
+      chartGradient2: null,
     };
   },
-  watch: {
-    // chartData() {
-    //   console.log("chartData changed");
-    //   console.log(this.chartData);
-    //   // this.lineChartData = this.chartData;
-    //   // this.$data._chart.update();
-    // },
-  },
+  watch: {},
   mounted() {
     // this.$nextTick(function () {
     // });
@@ -180,10 +177,18 @@ export default {
         .querySelector("canvas")
         .getContext("2d")
         .createLinearGradient(0, 0, 0, 450);
+      this.chartGradient2 = document
+        .querySelector("canvas")
+        .getContext("2d")
+        .createLinearGradient(0, 0, 0, 450);
 
       this.chartGradient.addColorStop(0, "rgba(0, 231, 255, 0.9)");
       this.chartGradient.addColorStop(0.5, "rgba(0, 231, 255, 0.25)");
       this.chartGradient.addColorStop(1, "rgba(0, 231, 255, 0)");
+
+      this.chartGradient2.addColorStop(0, "rgba(255, 0,0, 0.5)");
+      this.chartGradient2.addColorStop(0.5, "rgba(255, 0, 0, 0.25)");
+      this.chartGradient2.addColorStop(1, "rgba(255, 0, 0, 0)");
     },
   },
 };
