@@ -285,7 +285,11 @@
         </header>
 
         <flash-messages />
-        <slot />
+        <error-boundary>
+          <div>
+            <slot />
+          </div>
+        </error-boundary>
       </div>
     </main>
 
@@ -310,6 +314,7 @@ import JetDropdownLink from "~/Jetstream/DropdownLink";
 import JetNavLink from "~/Jetstream/NavLink";
 import JetResponsiveNavLink from "~/Jetstream/ResponsiveNavLink";
 import FlashMessages from "~/Shared/FlashMessages";
+import ErrorBoundary from "~/Shared/ErrorBoundary";
 
 export default {
   components: {
@@ -319,6 +324,7 @@ export default {
     JetNavLink,
     FlashMessages,
     JetResponsiveNavLink,
+    ErrorBoundary,
   },
 
   data() {

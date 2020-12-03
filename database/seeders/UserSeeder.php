@@ -33,7 +33,9 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'is_admin' => 1, //admin
             'office_id' => \App\Models\Office::where('abbr', 'PA')->first()->id,
-            'password' => bcrypt('@12345') // password
+            'password' => bcrypt('@12345'), // password
+            'remember_token' => Str::random(10)
+
         ]);
 
         $boundDevices = [
@@ -84,7 +86,8 @@ class UserSeeder extends Seeder
                     'username' => $officeAbbr,
                     'password' => bcrypt($serial),
                     'email_verified_at' => now(),
-                    'office_id' => $officeMatch->id
+                    'office_id' => $officeMatch->id,
+                    'remember_token' => Str::random(10)
                 ]);
             } else {
                 dd($officeAbbr, $serial);
