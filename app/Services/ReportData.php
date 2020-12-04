@@ -40,7 +40,9 @@ class ReportData
         $mandatoryQuestions = $this->question->where('is_required', 1);
         $mandatoryQuestionIds = $mandatoryQuestions->pluck('id')->toArray();
 
-        $services = $this->service->where('office_id', $office)->where('created_at', 'like', $month . "%")->with('feedback')->get();
+        $services = $this->service->where('office_id', $office)->with(['feedback' => function ($query) use ($month) {
+            $query->whereBetween('created_at', [date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))]);
+        }])->get();
 
         $totalClients = 0;
         $totalGoodScore = 0;
