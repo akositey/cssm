@@ -12,12 +12,12 @@
     />
 
     <transition
-      enter-active-class="transition duration-200 ease-out"
-      enter-class="transform scale-95 opacity-0"
-      enter-to-class="transform scale-100 opacity-100"
-      leave-active-class="transition duration-75 ease-in"
-      leave-class="transform scale-100 opacity-100"
-      leave-to-class="transform scale-95 opacity-0"
+      enterActiveClass="transition duration-200 ease-out"
+      enterClass="transform scale-95 opacity-0"
+      enterToClass="transform scale-100 opacity-100"
+      leaveActiveClass="transition duration-75 ease-in"
+      leaveClass="transform scale-100 opacity-100"
+      leaveToClass="transform scale-95 opacity-0"
     >
       <div
         v-show="open"
@@ -40,7 +40,7 @@
 <script>
 export default {
   props: {
-    align:  {
+    align: {
       type: String,
       default: "right",
     },
@@ -74,9 +74,9 @@ export default {
     document.addEventListener("keydown", closeOnEscape);
   },
   watch: {
-    open(open){
-      console.log('is ' + (open?'':'not ')+'open')
-    }
+    // open(open){
+    //   console.log('is ' + (open?'':'not ')+'open')
+    // }
   },
 
   computed: {

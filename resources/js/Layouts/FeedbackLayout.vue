@@ -43,6 +43,16 @@
                   <jet-dropdown-link :href="route('export.create')">
                     Export
                   </jet-dropdown-link>
+
+                  <div class="border-t border-gray-100" />
+
+                  <!-- Authentication -->
+                  <jet-dropdown-link
+                    as="button"
+                    @click.native="initLogout"
+                  >
+                    Logout
+                  </jet-dropdown-link>
                 </template>
               </jet-dropdown>
             </div>
@@ -50,7 +60,6 @@
         </div>
       </div>
     </nav>
-
     <!-- Page Content -->
     <main>
       <div
@@ -60,7 +69,46 @@
         <flash-messages />
         <slot />
       </div>
+
+      <dialog-modal
+        :show="showModal"
+        maxWidth="sm"
+        @close="showModal=false"
+      >
+        <template #title>
+          Input Admin Pass Code to Log Out
+        </template>
+        <template #content>
+          <text-input
+            type="password"
+            pattern="[0-9]{4}"
+            maxlength="4"
+            v-model="form.passCode"
+            :error="error"
+            class="w-full py-4"
+            label="Admin Passcode"
+            @change.native="checkPassCode"
+            required
+          />
+        </template>
+        <template #footer>
+          <form @submit.prevent="logout">
+            <button
+              class="btn-indigo"
+              :disabled="disabled"
+            >
+              Log Out
+            </button>
+          </form>
+        </template>
+      </dialog-modal>
     </main>
+
+    <!-- Modal Portal -->
+    <portal-target
+      name="modal"
+      multiple
+    />
 
     <!-- Dropdown Portal -->
     <portal-target
@@ -75,6 +123,9 @@ import Logo from "~/Shared/PgomLogo";
 import FlashMessages from "~/Shared/FlashMessages";
 import JetDropdown from "~/Jetstream/Dropdown";
 import JetDropdownLink from "~/Jetstream/DropdownLink";
+import TextInput from "~/Shared/TextInput";
+import DialogModal from "~/Jetstream/DialogModal";
+import axios from "axios";
 
 export default {
   components: {
@@ -82,6 +133,8 @@ export default {
     FlashMessages,
     JetDropdown,
     JetDropdownLink,
+    TextInput,
+    DialogModal,
   },
   props: {
     office: {
@@ -92,14 +145,42 @@ export default {
   data() {
     return {
       showingNavigationDropdown: false,
+      disabled: true,
+      showModal: false,
+      form: {
+        passCode: "",
+      },
+      error: null,
     };
   },
-
-  methods: {},
 
   computed: {
     path() {
       return window.location.pathname;
+    },
+  },
+  methods: {
+    checkPassCode() {
+      console.info("checking passcode...");
+      axios
+        .post(this.route("export.check"), this.form, {
+          headers: {
+            "X-CSRF-TOKEN": document.head.querySelector(
+              'meta[name="csrf-token"]'
+            ).content,
+            "X-Requested-With": "XMLHttpRequest",
+          },
+        })
+        .then((response) => {
+          this.disabled = !response.data.status;
+          this.error = response.data.error || "";
+        });
+    },
+    initLogout() {
+      this.showModal = true;
+    },
+    logout() {
+      this.$inertia.post(this.route("logout"));
     },
   },
 };
