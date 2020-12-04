@@ -328,7 +328,7 @@ import SelectInput from "~/Shared/SelectInput";
 import DateInput from "~/Shared/DateInput";
 import Icon from "~/Shared/Icon";
 import LoadingButton from "~/Shared/LoadingButton";
-import TableHead from './TableHead';
+import TableHead from "./TableHead";
 import DummyTable from "./DummyTable";
 import mapValues from "lodash/mapValues";
 
@@ -345,7 +345,7 @@ export default {
     LoadingButton,
     TableHead,
     DummyTable,
-    Icon
+    Icon,
   },
   data() {
     return {
@@ -354,30 +354,23 @@ export default {
         month: this.filters.month,
       },
       sending: false,
-      csrf_token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      csrf_token: document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content"),
     };
   },
-  computed: {
-    
-  },
+  computed: {},
   watch: {},
   methods: {
     viewReport() {
-      this.sending = true,
-      this.$inertia.visit(this.route("reports.index"), {
-        data: this.filterForm,
-        replace: true,
-        onStart: visit => {
-          console.log('visit',visit);
-        },
-        onProgress: progress => {
-          console.log('progress',progress);
-        },
-        onFinish: () => {
-          console.log('fin');
-          this.sending = false;
-        },
-      });
+      (this.sending = true),
+        this.$inertia.visit(this.route("reports.index"), {
+          data: this.filterForm,
+          replace: true,
+          onFinish: () => {
+            this.sending = false;
+          },
+        });
     },
     reset() {
       this.filterForm = mapValues(this.filterForm, () => null);
