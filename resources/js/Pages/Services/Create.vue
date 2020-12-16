@@ -36,7 +36,25 @@
                 {{ row.abbr }}
               </option>
             </select-input>
-            <input type="checkbox" :id="`checkbox-${Math.random()}`" v-model="form.another" class="hidden">
+            <select-input
+              v-model="form.is_active"
+              :error="errors.is_active"
+              class="w-full pb-8 pr-6 lg:w-1/2"
+              label="Active"
+            >
+              <option value="1">
+                Yes
+              </option>
+              <option value="0">
+                No
+              </option>
+            </select-input>
+            <input
+              type="checkbox"
+              :id="`checkbox-${Math.random()}`"
+              v-model="form.another"
+              class="hidden"
+            >
           </div>
           <div class="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
             <loading-button
@@ -76,7 +94,6 @@ export default {
   props: {
     errors: { type: Object, default: () => {} },
     offices: { type: [Object, Array], default: () => {} },
-
   },
   remember: "form",
   data() {
@@ -85,16 +102,17 @@ export default {
       form: {
         name: null,
         office_id: null,
-        another: false
+        is_active: null,
+        another: false,
       },
     };
   },
   methods: {
-    saveAndNew(){
+    saveAndNew() {
       this.form.another = true;
       this.submit();
     },
-    saveOnly(){
+    saveOnly() {
       this.form.another = false;
       this.submit();
     },

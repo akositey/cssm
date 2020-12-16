@@ -42,6 +42,19 @@
               {{ row.abbr }}
             </option>
           </select-input>
+          <select-input
+            v-model="form.is_active"
+            :error="errors.is_active"
+            class="w-full pb-8 pr-6 lg:w-1/2"
+            label="Active"
+          >
+            <option value="1">
+              Yes
+            </option>
+            <option value="0">
+              No
+            </option>
+          </select-input>
         </div>
         <div class="flex items-center justify-between px-8 py-4 bg-gray-100 border-t border-gray-200">
           <button
@@ -93,6 +106,7 @@ export default {
       form: {
         name: this.service.name,
         office_id: this.service.office_id,
+        is_active: this.service.is_active,
       },
     };
   },

@@ -23,6 +23,7 @@ class ServiceController extends Controller
                 'id' => $service->id,
                 'name' => $service->name,
                 'office' => $service->office->abbr,
+                'is_active' => $service->is_active,
                 'deleted_at' => $service->deleted_at
             ];
         });
@@ -56,7 +57,8 @@ class ServiceController extends Controller
         Service::create($request->validate(
             [
                 'name' => 'required',
-                'office_id' => 'required'
+                'office_id' => 'required',
+                'is_active' => 'required'
             ]
         ));
         return redirect(route('services.' . ($request->only('another') ? 'create' : 'index')))->with('success', 'Successfully Created New Service');
@@ -99,7 +101,8 @@ class ServiceController extends Controller
         $service->update($request->validate(
             [
                 'name' => 'required',
-                'office_id' => 'required'
+                'office_id' => 'required',
+                'is_active' => 'required'
             ]
         ));
         return redirect(route('services.index'))->with('success', 'Successfully Updated Service');

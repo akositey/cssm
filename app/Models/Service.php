@@ -13,7 +13,7 @@ class Service extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'office_id'];
+    protected $fillable = ['name', 'office_id', 'is_active'];
 
     /**
      * @return mixed
