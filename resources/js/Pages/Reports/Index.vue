@@ -31,9 +31,16 @@
           <date-input
             type="month"
             format="YYYY-MM"
-            v-model="filterForm.month"
+            v-model="filterForm.month_from"
             class="pr-6"
-            label="Month"
+            label="From (month)"
+          />
+          <date-input
+            type="month"
+            format="YYYY-MM"
+            v-model="filterForm.month_to"
+            class="pr-6"
+            label="To (month)"
           />
           <div class="flex items-end">
             <loading-button
@@ -296,15 +303,15 @@
           >
           <input
             type="hidden"
-            name="month"
-            id="month"
-            :value="filters.month"
+            name="month_from"
+            id="month_from"
+            :value="filters.month_from"
           >
           <input
             type="hidden"
-            name="stats"
-            id="stats"
-            :value="JSON.stringify(stats)"
+            name="month_to"
+            id="month_to"
+            :value="filters.month_to"
           >
           <button
             type="submit"
@@ -351,7 +358,8 @@ export default {
     return {
       filterForm: {
         office: this.filters.office,
-        month: this.filters.month,
+        month_from: this.filters.month_from,
+        month_to: this.filters.month_to,
       },
       sending: false,
       csrf_token: document

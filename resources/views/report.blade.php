@@ -12,7 +12,7 @@
 
 <body class="font-sans antialiased">
   <main>
-    <div class=''>
+    <div class='' style="page-break-after:always;">
       <table class='w-full whitespace-no-wrap bg-white'>
         <tbody class='text-center line'>
           <tr>
@@ -42,7 +42,12 @@
 
       <div class="my-8 text-xl font-bold text-center">
         <div class="text-xl font-bold leading-none">CONSOLIDATED CLIENT SATISFACTION SURVEY RESULTS</div>
-        <div class="text-lg leading-none">for the month of {{ date('F Y', strtotime($month)) }}</div>
+        <div class="text-lg leading-none">for
+          @php
+          echo date('F', strtotime($month['from'])) . ($month['to'] ? date(' - F Y', strtotime($month['to'])) :
+          date('Y', strtotime($month['from'])));
+          @endphp
+        </div>
       </div>
       <div class="text-xl font-bold">{{$office}}</div>
       <table class='w-full whitespace-no-wrap bg-white'>
@@ -144,109 +149,115 @@
       </table>
     </div>
 
-    <div class="border-r border-black">
-      <table class='w-full my-4 whitespace-no-wrap bg-white'>
-        <thead class='bg-gray-200 '>
-          <tr class='border border-black'>
-            <th class='px-2 py-1 border-b border-black'>
-              Service
-            </th>
-            <th class='px-2 py-1 border-b border-black'>
-              Positive Comments
-            </th>
-            <th class='px-2 py-1 border-b border-black'>
-              Negative Comments
-            </th>
-          </tr>
-        </thead>
-        <tbody class="">
-          @php
-          $rowCtr=0;
-          $untranscribedCtr = 0;
-          @endphp
-          @foreach ($stats['services'] as $x => $service)
-          {{-- @php dd($stats['services']); @endphp --}}
-          @php 
-          $rowCtr+=$service['comments']['maxRows'];
-          $untranscribedCtr+=count($service['comments']['untranscribed']);
-           @endphp
-          @for ($i = 0; $i < $service['comments']['maxRows']; $i++) <tr class="border border-black">
-            @if ($i===0)
-            <td class="px-2 font-bold align-top border-t border-r " rowspan="{{ $service['comments']['maxRows'] }}">
-              {{ $service['name'] }}
-            </td>
-            @endif
-            <td class="px-1 border-t border-l border-r-0">
-              @isset($service['comments']['positive'][$i]['comment'])
-              &bull; {{ $service['comments']['positive'][$i]['comment'] }}
-              @endisset
-            </td>
-            <td class="px-1 text-red-700 border-t border-l border-r-0">
-              @isset($service['comments']['negative'][$i]['comment'])
-              &bull; {{ $service['comments']['negative'][$i]['comment'] }}
-              @endisset
-            </td>
+    <div style="page-break-inside: avoid;">
+      <div class="border-r border-black">
+        <table class='w-full my-4 whitespace-no-wrap bg-white'>
+          <thead class='bg-gray-200 '>
+            <tr class='border border-black'>
+              <th class='px-2 py-1 border-b border-black'>
+                Service
+              </th>
+              <th class='px-2 py-1 border-b border-black'>
+                Positive Comments
+              </th>
+              <th class='px-2 py-1 border-b border-black'>
+                Negative Comments
+              </th>
             </tr>
-            <tr class="border border-black">
-              <td colspan="9" class="h-1 border border-black"></td>
-            </tr>
-            @endfor
-            @endforeach
-            @if ($rowCtr===0)
-            <tr class="border border-black">
-              <td colspan="9" class="h-1 text-center border border-black">--no additional comments/suggestions--</td>
-            </tr>
-            @endif
-        </tbody>
-      </table>
-    </div>
-    
-    <div class="font-bold text-red-700">{{$untranscribedCtr > 0 ? "* ".$untranscribedCtr." untranscribed comments/suggestions" : ""}}</div>
+          </thead>
+          <tbody class="">
+            @php
+            $rowCtr=0;
+            $untranscribedCtr = 0;
+            @endphp
+            @foreach ($stats['services'] as $x => $service)
+            {{-- @php dd($stats['services']); @endphp --}}
+            @php
+            $rowCtr+=$service['comments']['maxRows'];
+            $untranscribedCtr+=count($service['comments']['untranscribed']);
+            @endphp
+            @for ($i = 0; $i < $service['comments']['maxRows']; $i++) <tr class="border border-black">
+              @if ($i===0)
+              <td class="px-2 font-bold align-top border-t border-r " rowspan="{{ $service['comments']['maxRows'] }}">
+                {{ $service['name'] }}
+              </td>
+              @endif
+              <td class="px-1 border-t border-l border-r-0">
+                @isset($service['comments']['positive'][$i]['comment'])
+                &bull; {{ $service['comments']['positive'][$i]['comment'] }}
+                @endisset
+              </td>
+              <td class="px-1 text-red-700 border-t border-l border-r-0">
+                @isset($service['comments']['negative'][$i]['comment'])
+                &bull; {{ $service['comments']['negative'][$i]['comment'] }}
+                @endisset
+              </td>
+              </tr>
+              <tr class="border border-black">
+                <td colspan="9" class="h-1 border border-black"></td>
+              </tr>
+              @endfor
+              @endforeach
+              @if ($rowCtr===0)
+              <tr class="border border-black">
+                <td colspan="9" class="h-1 text-center border border-black">--no additional comments/suggestions--</td>
+              </tr>
+              @endif
+          </tbody>
+        </table>
+      </div>
 
-    <div class="flex mt-8">
-      <div class="flex-1">
-        <div class="mb-10">
-          Prepared by:
+      <div class="font-bold text-red-700">
+        {{$untranscribedCtr > 0 ? "* ".$untranscribedCtr." untranscribed comments/suggestions" : ""}}</div>
+
+      <div style="page-break-inside: avoid;" class="flex mt-8">
+        <div class="flex-1">
+          <div class="mb-10">
+            Prepared by:
+          </div>
+          <div class="font-bold">
+            {{$preparer['name']}}
+          </div>
+          <div class="text-sm">
+            {{$preparer['position']}}
+          </div>
+          <div class="">
+            <span class="text-sm">Date:</span>
+            <span
+              class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </div>
         </div>
-        <div class="font-bold">
-          {{$preparer['name']}}
+        <div class="flex-1">
+          <div class="mb-10">
+            Reviewed by:
+          </div>
+          <div class="font-bold">
+            {{$reviewer['name']}}
+          </div>
+          <div class="text-sm">
+            {{$reviewer['position']}}
+          </div>
+          <div class="">
+            <span class="text-sm">Date:</span>
+            <span
+              class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </div>
         </div>
-        <div class="text-sm">
-          {{$preparer['position']}}
-        </div>
-        <div class="">
-          <span class="text-sm">Date:</span>
-          <span class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        </div>
-      </div>
-      <div class="flex-1">
-        <div class="mb-10">
-          Reviewed by:
-        </div>
-        <div class="font-bold">
-          {{$reviewer['name']}}
-        </div>
-        <div class="text-sm">
-          {{$reviewer['position']}}
-        </div>
-        <div class="">
-          <span class="text-sm">Date:</span>
-          <span class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        </div>
-      </div>
-      <div class="flex-1">
-        <div class="mb-10">
-          Noted by:
-        </div>
-        <div class="font-bold">
-          {{$noter['name']}}
-        </div>
-        <div class="text-sm">
-          {{$noter['position']}}
-        </div>
-        <div class="">
-          <span class="text-sm">Date:</span>
-          <span class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <div class="flex-1">
+          <div class="mb-10">
+            Noted by:
+          </div>
+          <div class="font-bold">
+            {{$noter['name']}}
+          </div>
+          <div class="text-sm">
+            {{$noter['position']}}
+          </div>
+          <div class="">
+            <span class="text-sm">Date:</span>
+            <span
+              class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          </div>
         </div>
       </div>
     </div>

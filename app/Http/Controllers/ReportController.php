@@ -21,19 +21,15 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
-        $filters = $request->only('office', 'month');
+        $filters = $request->only('office', 'month_from', 'month_to');
 
         $stats = [
-            'ratings' => [
-                'services' => [],
-                'total' => []
-            ]
+            'services' => [],
+            'total' => []
         ];
-        if ($request->office && $request->month) {
-
+        if ($request->office && $request->month_from) {
             $data = new ReportData(new Question(), new Service());
-            $stats = $data->get($request->office, $request->month);
-
+            $stats = $data->get($request->office, $request->month_from, $request->month_to);
         }
 
         return Inertia::render('Reports/Index', [
@@ -46,7 +42,6 @@ class ReportController extends Controller
             }),
             'stats' => $stats
         ]);
-
     }
 
     function print(Request $request) {
@@ -55,7 +50,16 @@ class ReportController extends Controller
         $nodeBin = env('NODE_BIN');
         $npmBin = env('NPM_BIN');
 
-        $stats = json_decode($request->stats, true);
+        // $stats = json_decode($request->stats, true);
+        $stats = [
+            'services' => [],
+            'total' => []
+        ];
+        if ($request->office && $request->month_from) {
+            $data = new ReportData(new Question(), new Service());
+            $stats = $data->get($request->office, $request->month_from, $request->month_to);
+        }
+
         $signatory = SignatorySettings::first();
         if (!$signatory->count()) {
             $signatory = [
@@ -72,7 +76,10 @@ class ReportController extends Controller
         $data = [
             'stats' => $stats,
             'office' => Office::find($request->office)->name,
-            'month' => $request->month,
+            'month' => [
+                'from' => $request->month_from,
+                'to' => $request->month_to ? $request->month_to : null
+            ],
             'preparer' => [
                 'name' => Auth::user()->name,
                 'position' => Auth::user()->position
@@ -101,12 +108,18 @@ class ReportController extends Controller
         //     ->bodyHtml();
 
         # output as pdf
+        $footerHtml="";
         return response()->stream(function () use ($content, $nodeBin, $npmBin) {
             echo Browsershot::html($content)
+                // ->showBackground()
+                // ->showBrowserHeaderAndFooter()
+                // ->headerHtml("")
+                // ->footerHtml("<div class='w-full text-center'><span class='pageNumber'></span> of <span class='totalPages'></span></div>")
                 ->setNodeBinary($nodeBin)
                 ->setNpmBinary($npmBin)
-                ->margins(15, 15, 15, 22)
+                ->margins(8, 15, 15, 22)
                 ->format('Letter')
+                ->landscape()
                 ->pdf();
         }, 200, ['Content-Type' => 'application/pdf']);
 
