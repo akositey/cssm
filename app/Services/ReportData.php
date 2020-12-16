@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\Question;
@@ -26,11 +27,12 @@ class ReportData
     }
 
     /**
-     * @param  string  $office
-     * @param  string  $month
+     * @param string $office
+     * @param string $monthFrom
+     * @param string $monthTo
      * @return mixed
      */
-    public function get(string $office, string $month): array
+    public function get(string $office, string $monthFrom, string $monthTo = null): array
     {
         $stats = [
             'services' => [],
@@ -40,8 +42,9 @@ class ReportData
         $mandatoryQuestions = $this->question->where('is_required', 1);
         $mandatoryQuestionIds = $mandatoryQuestions->pluck('id')->toArray();
 
-        $services = $this->service->where('office_id', $office)->with(['feedback' => function ($query) use ($month) {
-            $query->whereBetween('created_at', [date('Y-m-01', strtotime($month)), date('Y-m-t', strtotime($month))]);
+        $services = $this->service->where('office_id', $office)->with(['feedback' => function ($query) use ($monthFrom, $monthTo) {
+            $monthTo = !$monthTo ?: $monthFrom;
+            $query->whereBetween('created_at', [date('Y-m-01', strtotime($monthFrom)), date('Y-m-t', strtotime($monthTo))]);
         }])->get();
 
         $totalClients = 0;
@@ -161,7 +164,6 @@ class ReportData
                 $goodRatings[] = $goodRatingPercentage;
                 // dd($stats);
             }
-
         }
 
         # totals
@@ -172,6 +174,5 @@ class ReportData
         ];
 
         return $stats;
-
     }
 }
