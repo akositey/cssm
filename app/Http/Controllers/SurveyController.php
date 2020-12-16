@@ -34,7 +34,7 @@ class SurveyController extends Controller
     {
         return Inertia::render('Feedback/Create', [
             'questions' => Question::all(),
-            'services' => Auth::user()->office->services
+            'services' => Auth::user()->office->services->where('is_active', 1)
         ]);
     }
 

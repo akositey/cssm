@@ -46,6 +46,9 @@
           Office
         </th>
         <th class="p-4 text-center">
+          Active
+        </th>
+        <th class="p-4 text-center">
           Action
         </th>
       </tr>
@@ -67,6 +70,12 @@
         </td>
         <td class="p-3">
           {{ row.office }}
+        </td>
+        <td
+          class="p-3"
+          :class="{ 'text-red-700':!row.is_active}"
+        >
+          {{ row.is_active ? "Yes": "No" }}
         </td>
         <td class="p-3">
           <inertia-link
