@@ -15,8 +15,7 @@ class CreateFeedbackTable extends Migration
     {
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
-            // $table->integer('office_id');
-            $table->integer('service_id'); //this will replace office_id later
+            $table->integer('service_id');
             $table->string('positive_comments')->nullable()->comment('transcribed from image'); //admin user will transcribe the image to this
             $table->string('negative_comments')->nullable()->comment('transcribed from image'); //admin user will transcribe the image to this
             $table->string('comments_image_path')->nullable();
