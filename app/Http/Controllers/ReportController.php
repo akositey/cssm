@@ -108,7 +108,7 @@ class ReportController extends Controller
         //     ->bodyHtml();
 
         # output as pdf
-        $footerHtml="";
+        // $footerHtml="";
         return response()->stream(function () use ($content, $nodeBin, $npmBin) {
             echo Browsershot::html($content)
                 // ->showBackground()
@@ -120,6 +120,7 @@ class ReportController extends Controller
                 ->margins(8, 15, 15, 22)
                 ->format('Letter')
                 ->landscape()
+                ->noSandbox()
                 ->pdf();
         }, 200, ['Content-Type' => 'application/pdf']);
 
