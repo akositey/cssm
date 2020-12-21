@@ -42,11 +42,10 @@ class ReportData
         $mandatoryQuestions = $this->question->where('is_required', 1);
         $mandatoryQuestionIds = $mandatoryQuestions->pluck('id')->toArray();
 
-        $services = $this->service->where('office_id', $office)->with(['feedback' => function ($query) use ($monthFrom, $monthTo) {
-            $monthTo = !$monthTo ?: $monthFrom;
+        $services = $this->service->where('office_id', $office)->with(['feedback.answers' => function ($query) use ($monthFrom, $monthTo) {
+            $monthTo = $monthTo ?? $monthFrom;
             $query->whereBetween('created_at', [date('Y-m-01', strtotime($monthFrom)), date('Y-m-t', strtotime($monthTo))]);
         }])->get();
-
         $totalClients = 0;
         $totalGoodScore = 0;
         $goodRatings = [];
