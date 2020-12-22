@@ -1,0 +1,72 @@
+version: "3.5"
+
+networks:
+  project_network:
+    driver: bridge
+
+services:
+  project_web_server:
+    image: nginx:stable-alpine
+    container_name: project_web_server
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www
+      - ./server-config/nginx/conf.d/:/etc/nginx/conf.d/
+    ports:
+      - 80:80
+    networks:
+      - project_network
+
+  project_laravel:
+    build:
+      context: ./
+      dockerfile: Dockerfile     
+    container_name: project_laravel
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/
+      - ./server-config/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - project_network
+
+  project_phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: project_phpmyadmin
+    ports:
+      - 8182:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=project_mysql
+    restart: always
+    depends_on:
+      - project_mysql
+    networks:
+      - project_network 
+
+  project_mysql:
+    image: mariadb:10.5.5
+    container_name: project_mysql        
+    restart: unless-stopped
+    # expose:
+    #   - 3306
+    environment:
+      - MYSQL_DATABASE=pgom_css
+      - MYSQL_ROOT_PASSWORD=John1028
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db-data:/var/lib/mysql
+    networks:
+      - project_network
+  
+  project_npm:
+    image: node:14.15
+    container_name: project_npm
+    volumes:
+      - ./src:/var/www/
+    working_dir: /var/www/
+
+# #Volumes
+#   volumes:
+#     dbdata:
+#       driver: local    
