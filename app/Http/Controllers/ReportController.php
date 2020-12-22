@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Nesk\Puphpeteer\Puppeteer;
+use Nesk\Rialto\Exceptions\Node;
 
 class ReportController extends Controller
 {
@@ -109,20 +110,24 @@ class ReportController extends Controller
             '--no-sandbox',
             '--disable-setuid-sandbox'
         ]);
-
-        $page = $browser->newPage();
-        $page->setContent($content);
-        $page->pdf([
-            'path' => $filePath,
-            'format' => 'Letter',
-            'landscape' => true,
-            'margin' => [
-                'top' => 50,
-                'right' => 50,
-                'bottom' => 50,
-                'left' => 70]
-        ]);
-        $browser->close();
+        try {
+            $page = $browser->newPage();
+            $page->setContent($content);
+            $page->tryCatch->pdf([
+                'path' => $filePath,
+                'format' => 'Letter',
+                'landscape' => true,
+                'margin' => [
+                    'top' => 50,
+                    'right' => 50,
+                    'bottom' => 50,
+                    'left' => 70]
+            ]);
+            $browser->close();
+        } catch (Node\Exception $exception) {
+            // Handle the exception...
+            dd($exception);
+        }
         return response()->file($filePath);
 
         # debugging: output html
