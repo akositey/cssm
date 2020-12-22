@@ -10,8 +10,7 @@ use App\Services\ReportData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use Nesk\Puphpeteer\Puppeteer;
-use Nesk\Rialto\Exceptions\Node;
+use Spatie\Browsershot\Browsershot;
 
 class ReportController extends Controller
 {
@@ -48,8 +47,8 @@ class ReportController extends Controller
     function print(Request $request) {
         // dd(json_decode($request->stats, true));
 
-        $nodeBin = env('NODE_BIN');
-        $npmBin = env('NPM_BIN');
+        $nodeBin = env('NODE_BIN', '/usr/bin/node');
+        $npmBin = env('NPM_BIN', '/usr/bin/npm');
 
         // $stats = json_decode($request->stats, true);
         $stats = [
@@ -99,65 +98,78 @@ class ReportController extends Controller
         // return view('report', $data);
 
         $content = view('report', $data)->render();
-        $filename = Office::find($request->office)->abbr . '-' . $request->month_from . ($request->month_to ? '-' . $request->month_to : '') . '.pdf';
-        $filePath = storage_path('/app/reports/' . $filename);
+        // $filename = Office::find($request->office)->abbr . '-' . $request->month_from . ($request->month_to ? '-' . $request->month_to : '') . '.pdf';
+        // $filePath = storage_path('/app/reports/' . $filename);
         //dd($nodeBin);
-        $puppeteer = new Puppeteer([
-        //    'executable_path' => $nodeBin,
+        // $puppeteer = new Puppeteer([
+        //     'executable_path' => $nodeBin
         //    'log_node_console' => true,
         //    'log_browser_console' => true
-        ]);
-        $browser = $puppeteer->launch(
-            [
-                'executabablePath'=>'/usr/bin/google-chrome-stable',
-                'args' => [
-                    '--no-sandbox',
-                    '--disable-setuid-sandbox'
-                ]
-            ]
-        );
+        // ]);
+        // dd('a');
+        // $browser = $puppeteer->launch(
+        //     [
+        // 'executabablePath'=>'/usr/bin/google-chrome-stable',
+        //         'args' => [
+        //             '--no-sandbox',
+        //             '--disable-setuid-sandbox'
+        //         ]
+        //     ]
+        // );
 
-        try {
-            
-            $page = $browser->newPage();
-            $page->setContent($content);
-            $page->tryCatch->pdf([
-                'path' => $filePath,
-                'format' => 'Letter',
-                'landscape' => true,
-                'margin' => [
-                    'top' => 50,
-                    'right' => 50,
-                    'bottom' => 50,
-                    'left' => 70]
-            ]);
-            $browser->close();
-        } catch (Node\Exception $exception) {
-            // Handle the exception...
-            dd($exception);
-        }
-        return response()->file($filePath);
+        // try {
+
+        //     $page = $browser->newPage();
+        //     $page->setContent($content);
+        //     $page->tryCatch->pdf([
+        //         'path' => $filePath,
+        //         'format' => 'Letter',
+        //         'landscape' => true,
+        //         'margin' => [
+        //             'top' => 50,
+        //             'right' => 50,
+        //             'bottom' => 50,
+        //             'left' => 70]
+        //     ]);
+        //     $browser->close();
+        // } catch (Node\Exception $exception) {
+        //     // Handle the exception...
+        //     dd($exception);
+        // }
+        // return response()->file($filePath);
 
         # debugging: output html
-        // return Browsershot::html($content)
-        //     ->setNodeBinary($nodeBin)
-        //     ->setNpmBinary($npmBin)
-        //     ->margins(18, 18, 18, 18)
-        //     ->format('Letter')
-        //     ->bodyHtml();
+        // dd($nodeBin);
+        return Browsershot::html($content)
+            ->noSandbox()
+        // ->setOption('args', [
+        //     '--no-sandbox',
+        //     '--disable-setuid-sandbox'
+        // '--disable-dev-shm-usage'
+        // ])
+            ->ignoreHttpsErrors()
+        // ->setChromePath(env('CHROME_PATH'))
+            ->setChromePath('google-chrome-stable')
+        // ->setChromePath('/usr/lib/node_modules/puppeteer/.local-chromium/linux-818858/chrome-linux')
+        // ->setNodeBinary($nodeBin)
+        // ->setNpmBinary($npmBin)
+            ->margins(8, 15, 15, 22)
+            ->format('Letter')
+            ->landscape()
+            ->pdf();
 
         # output as pdf
         // $footerHtml="";
-        // return response()->stream(function () use ($content, $nodeBin, $npmBin) {
-        //     echo Browsershot::html($content)
-        //         ->setNodeBinary($nodeBin)
-        //         ->setNpmBinary($npmBin)
-        //         ->noSandbox()
-        //         ->margins(8, 15, 15, 22)
-        //         ->format('Letter')
-        //         ->landscape()
-        //         ->pdf();
-        // }, 200, ['Content-Type' => 'application/pdf']);
+        return response()->stream(function () use ($content, $nodeBin, $npmBin) {
+            echo Browsershot::html($content)
+                ->noSandbox()
+                ->setNodeBinary($nodeBin)
+                ->setNpmBinary($npmBin)
+                ->margins(8, 15, 15, 22)
+                ->format('Letter')
+                ->landscape()
+                ->pdf();
+        }, 200, ['Content-Type' => 'application/pdf']);
 
         # download as pdf
         // $filename = Office::find($request->office)->abbr . '-' . $request->month . '.pdf';
