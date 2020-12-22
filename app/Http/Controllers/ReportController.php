@@ -10,7 +10,7 @@ use App\Services\ReportData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use Spatie\Browsershot\Browsershot;
+use Nesk\Puphpeteer\Puppeteer;
 
 class ReportController extends Controller
 {
@@ -98,6 +98,32 @@ class ReportController extends Controller
         // return view('report', $data);
 
         $content = view('report', $data)->render();
+        $filename = Office::find($request->office)->abbr . '-' . $request->month_from . ($request->month_to ? '-' . $request->month_to : '') . '.pdf';
+        $filePath = storage_path('/app/reports/' . $filename);
+        $puppeteer = new Puppeteer([
+            'executable_path' => $nodeBin,
+            'log_node_console' => true,
+            'log_browser_console' => true
+        ]);
+        $browser = $puppeteer->launch([
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+        ]);
+
+        $page = $browser->newPage();
+        $page->setContent($content);
+        $page->pdf([
+            'path' => $filePath,
+            'format' => 'Letter',
+            'landscape' => true,
+            'margin' => [
+                'top' => 50,
+                'right' => 50,
+                'bottom' => 50,
+                'left' => 70]
+        ]);
+        $browser->close();
+        return response()->file($filePath);
 
         # debugging: output html
         // return Browsershot::html($content)
@@ -109,20 +135,16 @@ class ReportController extends Controller
 
         # output as pdf
         // $footerHtml="";
-        return response()->stream(function () use ($content, $nodeBin, $npmBin) {
-            echo Browsershot::html($content)
-                // ->showBackground()
-                // ->showBrowserHeaderAndFooter()
-                // ->headerHtml("")
-                // ->footerHtml("<div class='w-full text-center'><span class='pageNumber'></span> of <span class='totalPages'></span></div>")
-                ->setNodeBinary($nodeBin)
-                ->setNpmBinary($npmBin)
-                ->margins(8, 15, 15, 22)
-                ->format('Letter')
-                ->landscape()
-                ->noSandbox()
-                ->pdf();
-        }, 200, ['Content-Type' => 'application/pdf']);
+        // return response()->stream(function () use ($content, $nodeBin, $npmBin) {
+        //     echo Browsershot::html($content)
+        //         ->setNodeBinary($nodeBin)
+        //         ->setNpmBinary($npmBin)
+        //         ->noSandbox()
+        //         ->margins(8, 15, 15, 22)
+        //         ->format('Letter')
+        //         ->landscape()
+        //         ->pdf();
+        // }, 200, ['Content-Type' => 'application/pdf']);
 
         # download as pdf
         // $filename = Office::find($request->office)->abbr . '-' . $request->month . '.pdf';

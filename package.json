@@ -42,6 +42,7 @@
         "ziggy-js": "^0.9.4"
     },
     "dependencies": {
+        "@nesk/puphpeteer": "^2.0.0",
         "autoprefixer": "^9.8.6",
         "postcss": "^7.0.35",
         "puppeteer": "^5.5.0",
