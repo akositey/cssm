@@ -102,20 +102,22 @@ class ReportController extends Controller
         $filename = Office::find($request->office)->abbr . '-' . $request->month_from . ($request->month_to ? '-' . $request->month_to : '') . '.pdf';
         $filePath = storage_path('/app/reports/' . $filename);
         
+        $puppeteer = new Puppeteer([
+            'executable_path' => $nodeBin,
+            'log_node_console' => true,
+            'log_browser_console' => true
+        ]);
+        $browser = $puppeteer->launch([
+            'headless' => true,
+            'ignoreHTTPSErrors' => true,
+            'args' => [
+                '--no-sandbox',
+                '--disable-setuid-sandbox'
+            ]
+        ]);
+        
         try {
-            $puppeteer = new Puppeteer([
-                'executable_path' => $nodeBin,
-                'log_node_console' => true,
-                'log_browser_console' => true
-            ]);
-            $browser = $puppeteer->launch([
-                'headless' => true,
-                'ignoreHTTPSErrors' => true,
-                'args' => [
-                    '--no-sandbox',
-                    '--disable-setuid-sandbox'
-                ]
-            ]);
+            
             $page = $browser->newPage();
             $page->setContent($content);
             $page->tryCatch->pdf([
