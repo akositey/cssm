@@ -109,8 +109,7 @@ class ReportController extends Controller
                 'log_browser_console' => true
             ]);
             $browser = $puppeteer->launch([
-                '--no-sandbox',
-                '--disable-setuid-sandbox'
+                'args' => ['--no-sandbox','--disable-setuid-sandbox']
             ]);
             $page = $browser->newPage();
             $page->setContent($content);
