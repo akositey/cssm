@@ -104,16 +104,17 @@ class ReportController extends Controller
         //dd($nodeBin);
         $puppeteer = new Puppeteer([
         //    'executable_path' => $nodeBin,
-            'log_node_console' => true,
-            'log_browser_console' => true
+        //    'log_node_console' => true,
+        //    'log_browser_console' => true
         ]);
         $browser = $puppeteer->launch(
-        //     [
-        //     'args' => [
-        //         '--no-sandbox',
-        //         '--disable-setuid-sandbox'
-        //     ]
-        // ]
+            [
+                'executabablePath'=>'/usr/bin/google-chrome-stable',
+                'args' => [
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox'
+                ]
+            ]
         );
 
         try {
