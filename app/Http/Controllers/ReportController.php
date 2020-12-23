@@ -142,14 +142,14 @@ class ReportController extends Controller
         // dd($nodeBin);
         return Browsershot::html($content)
             ->noSandbox()
-        // ->setOption('args', [
+        ->setOption('args', [
         //     '--no-sandbox',
         //     '--disable-setuid-sandbox'
-        // '--disable-dev-shm-usage'
-        // ])
+        '--disable-dev-shm-usage'
+        ])
             ->ignoreHttpsErrors()
         // ->setChromePath(env('CHROME_PATH'))
-            ->setChromePath('google-chrome-stable')
+            ->setChromePath('chromium-browser')
         // ->setChromePath('/usr/lib/node_modules/puppeteer/.local-chromium/linux-818858/chrome-linux')
         // ->setNodeBinary($nodeBin)
         // ->setNpmBinary($npmBin)

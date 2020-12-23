@@ -15,12 +15,25 @@ services:
             LARAVEL_SAIL: 1
         volumes:
             - '.:/var/www/html'
+            - ~/.composer/docker-cache/:/root/.composer:cached
         networks:
             - sail
         depends_on:
             - mysql
             # - redis
             # - selenium
+    chrome:
+        build:
+            context: ./sail
+            dockerfile: chrome.dockerfile
+        init: true
+        security_opt: 
+            context: ./sail
+            - seccomp=chrome.json
+        networks:
+            - sail
+        depends_on:
+            - laravel.test
     # selenium:
     #     image: 'selenium/standalone-chrome'
     #     volumes:
@@ -36,8 +49,8 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_DATABASE: '${DB_DATABASE}'
-            # MYSQL_USER: '${DB_USERNAME}'
-            # MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         volumes:
             - 'sailmysql:/var/lib/mysql'
