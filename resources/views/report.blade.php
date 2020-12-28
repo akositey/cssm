@@ -1,35 +1,35 @@
-{{-- @php dd($_POST); 
-@endphp --}}
 <!DOCTYPE html>
 <html lang='en'>
 
 <head>
   <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
   <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <link type='text/css' href='{{ asset('css/app.css') }}' rel='stylesheet'>
-  <link type='text/css' href='{{ asset('css/print.css') }}' rel='stylesheet' media="print">
+  {{-- <link type='text/css' href='{{ asset('css/app.css') }}' rel='stylesheet'> --}}
+  {{-- <link type='text/css' href='{{ asset('css/print.css') }}' rel='stylesheet' media="print"> --}}
 </head>
 
 <body class="font-sans antialiased">
   <main>
-    <div class='' style="page-break-after:always;">
+    <div style="page-break-after:always;">
       <table class='w-full whitespace-no-wrap bg-white'>
         <tbody class='text-center line'>
           <tr>
             <td class="w-3/12" rowspan="6">
-              <img class="h-20 m-auto" src="{{asset('img/pgom–logo-100.png')}}" alt="">
+              <div class="h-20 m-auto">
+                {!! file_get_contents('img/pgom-logo-100.svg') !!}
+              </div>
             </td>
             <td class="h-4"></td>
             <td class="w-3/12" rowspan="6"></td>
           </tr>
           <tr>
-            <td class="w-6/12 leading-none ">Republic of the Philippines</td>
+            <td class="w-6/12 leading-none">Republic of the Philippines</td>
           </tr>
           <tr>
-            <td class="leading-none ">Province of Oriental Mindoro</td>
+            <td class="leading-none">Province of Oriental Mindoro</td>
           </tr>
           <tr>
-            <td class="leading-none ">City of Calapan</td>
+            <td class="leading-none">City of Calapan</td>
           </tr>
           <tr>
             <td class="text-xl font-bold leading-none">Provincial Administrator's Office</td>

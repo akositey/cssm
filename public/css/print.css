@@ -3,7 +3,7 @@
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  body{ 
+  body { 
     font-size: 11px;
     font-family: Arial, Helvetica, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
