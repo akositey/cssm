@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Nesk\Puphpeteer\Puppeteer;
-use Nesk\Rialto\Exceptions\Node;
+use Nesk\Rialto\Exceptions\Node\Exception;
 
 class ReportController extends Controller
 {
@@ -48,8 +48,8 @@ class ReportController extends Controller
     function print(Request $request) {
         // dd(json_decode($request->stats, true));
 
-        $nodeBin = env('NODE_BIN');
-        $npmBin = env('NPM_BIN');
+        $nodeBin = env('NODE_BIN', '/usr/bin/node');
+        $npmBin = env('NPM_BIN', '/usr/bin/npm');
 
         // $stats = json_decode($request->stats, true);
         $stats = [
@@ -99,31 +99,35 @@ class ReportController extends Controller
         // return view('report', $data);
 
         $content = view('report', $data)->render();
+        // exit($content);
         $filename = Office::find($request->office)->abbr . '-' . $request->month_from . ($request->month_to ? '-' . $request->month_to : '') . '.pdf';
         $filePath = storage_path('/app/reports/' . $filename);
-        //dd($nodeBin);
+        // dd($nodeBin);
         $puppeteer = new Puppeteer([
-        //    'executable_path' => $nodeBin,
-        //    'log_node_console' => true,
-        //    'log_browser_console' => true
+            // 'executable_path' => $nodeBin,
+            'log_node_console' => true,
+            'log_browser_console' => true
         ]);
-        $browser = $puppeteer->launch(
-            [
-                'executabablePath'=>'/usr/bin/google-chrome-stable',
-                'args' => [
-                    '--no-sandbox',
-                    '--disable-setuid-sandbox'
-                ]
-            ]
-        );
+        $browser = $puppeteer->connect([
+            'browserWSEndpoint' => 'ws://browserless:3000'
+        ]);
 
         try {
-            
+            // dd($content);
             $page = $browser->newPage();
-            $page->setContent($content);
+            $page->goto('data:text/html,' . $content, [
+                'waitUntil' => 'networkidle0'
+            ]);
+            $page->addStyleTag([
+                'path' => public_path('css/app.css')
+            ]);
+            $page->addStyleTag([
+                'path' => public_path('css/print.css')
+            ]);
             $page->tryCatch->pdf([
                 'path' => $filePath,
                 'format' => 'Letter',
+                'printBackground' => true,
                 'landscape' => true,
                 'margin' => [
                     'top' => 50,
@@ -132,43 +136,11 @@ class ReportController extends Controller
                     'left' => 70]
             ]);
             $browser->close();
-        } catch (Node\Exception $exception) {
+        } catch (Exception $exception) {
             // Handle the exception...
             dd($exception);
         }
         return response()->file($filePath);
-
-        # debugging: output html
-        // return Browsershot::html($content)
-        //     ->setNodeBinary($nodeBin)
-        //     ->setNpmBinary($npmBin)
-        //     ->margins(18, 18, 18, 18)
-        //     ->format('Letter')
-        //     ->bodyHtml();
-
-        # output as pdf
-        // $footerHtml="";
-        // return response()->stream(function () use ($content, $nodeBin, $npmBin) {
-        //     echo Browsershot::html($content)
-        //         ->setNodeBinary($nodeBin)
-        //         ->setNpmBinary($npmBin)
-        //         ->noSandbox()
-        //         ->margins(8, 15, 15, 22)
-        //         ->format('Letter')
-        //         ->landscape()
-        //         ->pdf();
-        // }, 200, ['Content-Type' => 'application/pdf']);
-
-        # download as pdf
-        // $filename = Office::find($request->office)->abbr . '-' . $request->month . '.pdf';
-        // return response()->streamDownload(function () use ($content,$nodeBin,$npmBin) {
-        //     echo Browsershot::html($content)
-        //         ->setNodeBinary($nodeBin)
-        //         ->setNpmBinary($npmBin)
-        //         ->margins(18, 18, 18, 18)
-        //         ->format('Letter')
-        //         ->pdf();
-        // }, $filename, ['Content-Type' => 'application/pdf']);
 
     }
 }
