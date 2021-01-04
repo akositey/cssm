@@ -2,7 +2,6 @@ version: '3'
 services:
     browserless:
         image: browserless/chrome:latest
-        container_name: "browserless"
         environment:
             - MAX_PAYLOAD_SIZE=100mb
             - HOST=browserless
@@ -10,10 +9,9 @@ services:
             - '3000:3000'
         networks:
             - sail
-    laravel_app:
-        container_name: "laravel"
+    laravel.test:
         build:
-            context: ./sail/runtimes/7.4
+            context: ./docker/runtimes/7.4
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
@@ -40,9 +38,8 @@ services:
     #     networks:
     #         - sail
     #     depends_on:
-    #         - laravel_app
+    #         - laravel.test
     mysql:
-        container_name: mariadb
         image: 'mariadb:10.5.8'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
