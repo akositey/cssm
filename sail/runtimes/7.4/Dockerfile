@@ -6,12 +6,16 @@ WORKDIR /var/www/html
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=ASIA/MANILA
+<<<<<<< HEAD
 RUN export CHROME_PATH='/usr/bin/chromium-browser'
+=======
+>>>>>>> bfbb49f17687b42dd08fd70c02b6d4cc53707cd4
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN sed -i 's|archive.ubuntu.com|mirror.rise.ph|g' /etc/apt/sources.list
 
+<<<<<<< HEAD
 # chromium
 # RUN apt-get -y update \
 #     && apt-get -y install gnupg2 apt-utils wget
@@ -29,6 +33,8 @@ RUN sed -i 's|archive.ubuntu.com|mirror.rise.ph|g' /etc/apt/sources.list
 #     && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 \
 #       --no-install-recommends
 
+=======
+>>>>>>> bfbb49f17687b42dd08fd70c02b6d4cc53707cd4
 RUN apt-get update \
     && apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor sqlite3 libcap2-bin libpng-dev python2 \
     && mkdir -p ~/.gnupg \
@@ -58,9 +64,12 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+<<<<<<< HEAD
 # global puppeteer
 # RUN npm i -g puppeteer
 
+=======
+>>>>>>> bfbb49f17687b42dd08fd70c02b6d4cc53707cd4
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php7.4
 
 RUN groupadd --force -g $WWWGROUP sail

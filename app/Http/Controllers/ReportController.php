@@ -10,7 +10,12 @@ use App\Services\ReportData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+<<<<<<< HEAD
 use Spatie\Browsershot\Browsershot;
+=======
+use Nesk\Puphpeteer\Puppeteer;
+use Nesk\Rialto\Exceptions\Node\Exception;
+>>>>>>> bfbb49f17687b42dd08fd70c02b6d4cc53707cd4
 
 class ReportController extends Controller
 {
@@ -98,6 +103,7 @@ class ReportController extends Controller
         // return view('report', $data);
 
         $content = view('report', $data)->render();
+<<<<<<< HEAD
         // $filename = Office::find($request->office)->abbr . '-' . $request->month_from . ($request->month_to ? '-' . $request->month_to : '') . '.pdf';
         // $filePath = storage_path('/app/reports/' . $filename);
         //dd($nodeBin);
@@ -182,5 +188,50 @@ class ReportController extends Controller
         //         ->pdf();
         // }, $filename, ['Content-Type' => 'application/pdf']);
 
+=======
+        // exit($content);
+        $filename = Office::find($request->office)->abbr . '-' . $request->month_from . ($request->month_to ? '-' . $request->month_to : '') . '.pdf';
+        $filePath = storage_path('/app/reports/' . $filename);
+        // dd($nodeBin);
+        $puppeteer = new Puppeteer([
+            // 'executable_path' => $nodeBin,
+            'log_node_console' => true,
+            'log_browser_console' => true
+        ]);
+        $browser = $puppeteer->connect([
+            'browserWSEndpoint' => 'ws://browserless:3000'
+        ]);
+
+        try {
+            // dd($content);
+            $page = $browser->newPage();
+            $page->goto('data:text/html,' . $content, [
+                'waitUntil' => 'networkidle0'
+            ]);
+            $page->addStyleTag([
+                'path' => public_path('css/app.css')
+            ]);
+            $page->addStyleTag([
+                'path' => public_path('css/print.css')
+            ]);
+            $page->tryCatch->pdf([
+                'path' => $filePath,
+                'format' => 'Letter',
+                'printBackground' => true,
+                'landscape' => true,
+                'margin' => [
+                    'top' => 50,
+                    'right' => 50,
+                    'bottom' => 50,
+                    'left' => 70]
+            ]);
+            $browser->close();
+        } catch (Exception $exception) {
+            // Handle the exception...
+            dd($exception);
+        }
+        return response()->file($filePath);
+
+>>>>>>> bfbb49f17687b42dd08fd70c02b6d4cc53707cd4
     }
 }

@@ -1,7 +1,24 @@
+<<<<<<< HEAD
 # For more information: https://laravel.com/docs/sail
 version: '3'
 services:
     laravel.test:
+=======
+version: '3'
+services:
+    browserless:
+        image: browserless/chrome:latest
+        container_name: "browserless"
+        environment:
+            - MAX_PAYLOAD_SIZE=100mb
+            - HOST=browserless
+        ports:
+            - '3000:3000'
+        networks:
+            - sail
+    laravel_app:
+        container_name: "laravel"
+>>>>>>> bfbb49f17687b42dd08fd70c02b6d4cc53707cd4
         build:
             context: ./sail/runtimes/7.4
             dockerfile: Dockerfile
@@ -22,6 +39,7 @@ services:
             - mysql
             # - redis
             # - selenium
+<<<<<<< HEAD
     chrome:
         build:
             context: ./sail
@@ -34,6 +52,9 @@ services:
             - sail
         depends_on:
             - laravel.test
+=======
+    
+>>>>>>> bfbb49f17687b42dd08fd70c02b6d4cc53707cd4
     # selenium:
     #     image: 'selenium/standalone-chrome'
     #     volumes:
@@ -41,8 +62,14 @@ services:
     #     networks:
     #         - sail
     #     depends_on:
+<<<<<<< HEAD
     #         - laravel.test
     mysql:
+=======
+    #         - laravel_app
+    mysql:
+        container_name: mariadb
+>>>>>>> bfbb49f17687b42dd08fd70c02b6d4cc53707cd4
         image: 'mariadb:10.5.8'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
