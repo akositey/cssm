@@ -10,8 +10,12 @@ use App\Services\ReportData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+<<<<<<< HEAD
+use Spatie\Browsershot\Browsershot;
+=======
 use Nesk\Puphpeteer\Puppeteer;
 use Nesk\Rialto\Exceptions\Node\Exception;
+>>>>>>> bfbb49f17687b42dd08fd70c02b6d4cc53707cd4
 
 class ReportController extends Controller
 {
@@ -99,6 +103,92 @@ class ReportController extends Controller
         // return view('report', $data);
 
         $content = view('report', $data)->render();
+<<<<<<< HEAD
+        // $filename = Office::find($request->office)->abbr . '-' . $request->month_from . ($request->month_to ? '-' . $request->month_to : '') . '.pdf';
+        // $filePath = storage_path('/app/reports/' . $filename);
+        //dd($nodeBin);
+        // $puppeteer = new Puppeteer([
+        //     'executable_path' => $nodeBin
+        //    'log_node_console' => true,
+        //    'log_browser_console' => true
+        // ]);
+        // dd('a');
+        // $browser = $puppeteer->launch(
+        //     [
+        // 'executabablePath'=>'/usr/bin/google-chrome-stable',
+        //         'args' => [
+        //             '--no-sandbox',
+        //             '--disable-setuid-sandbox'
+        //         ]
+        //     ]
+        // );
+
+        // try {
+
+        //     $page = $browser->newPage();
+        //     $page->setContent($content);
+        //     $page->tryCatch->pdf([
+        //         'path' => $filePath,
+        //         'format' => 'Letter',
+        //         'landscape' => true,
+        //         'margin' => [
+        //             'top' => 50,
+        //             'right' => 50,
+        //             'bottom' => 50,
+        //             'left' => 70]
+        //     ]);
+        //     $browser->close();
+        // } catch (Node\Exception $exception) {
+        //     // Handle the exception...
+        //     dd($exception);
+        // }
+        // return response()->file($filePath);
+
+        # debugging: output html
+        // dd($nodeBin);
+        return Browsershot::html($content)
+            ->noSandbox()
+        ->setOption('args', [
+        //     '--no-sandbox',
+        //     '--disable-setuid-sandbox'
+        '--disable-dev-shm-usage'
+        ])
+            ->ignoreHttpsErrors()
+        // ->setChromePath(env('CHROME_PATH'))
+            ->setChromePath('chromium-browser')
+        // ->setChromePath('/usr/lib/node_modules/puppeteer/.local-chromium/linux-818858/chrome-linux')
+        // ->setNodeBinary($nodeBin)
+        // ->setNpmBinary($npmBin)
+            ->margins(8, 15, 15, 22)
+            ->format('Letter')
+            ->landscape()
+            ->pdf();
+
+        # output as pdf
+        // $footerHtml="";
+        return response()->stream(function () use ($content, $nodeBin, $npmBin) {
+            echo Browsershot::html($content)
+                ->noSandbox()
+                ->setNodeBinary($nodeBin)
+                ->setNpmBinary($npmBin)
+                ->margins(8, 15, 15, 22)
+                ->format('Letter')
+                ->landscape()
+                ->pdf();
+        }, 200, ['Content-Type' => 'application/pdf']);
+
+        # download as pdf
+        // $filename = Office::find($request->office)->abbr . '-' . $request->month . '.pdf';
+        // return response()->streamDownload(function () use ($content,$nodeBin,$npmBin) {
+        //     echo Browsershot::html($content)
+        //         ->setNodeBinary($nodeBin)
+        //         ->setNpmBinary($npmBin)
+        //         ->margins(18, 18, 18, 18)
+        //         ->format('Letter')
+        //         ->pdf();
+        // }, $filename, ['Content-Type' => 'application/pdf']);
+
+=======
         // exit($content);
         $filename = Office::find($request->office)->abbr . '-' . $request->month_from . ($request->month_to ? '-' . $request->month_to : '') . '.pdf';
         $filePath = storage_path('/app/reports/' . $filename);
@@ -142,5 +232,6 @@ class ReportController extends Controller
         }
         return response()->file($filePath);
 
+>>>>>>> bfbb49f17687b42dd08fd70c02b6d4cc53707cd4
     }
 }
