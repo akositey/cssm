@@ -44,12 +44,12 @@
         <div class="text-xl font-bold leading-none">CONSOLIDATED CLIENT SATISFACTION SURVEY RESULTS</div>
         <div class="text-lg leading-none">for
           @php
-          echo date('F', strtotime($month['from'])) . ($month['to'] ? date(' - F Y', strtotime($month['to'])) :
-          date('Y', strtotime($month['from'])));
+          echo date('F', strtotime($month['from'])) . ($month['to'] && $month['from']!=$month['to'] ? date(' - F Y', strtotime($month['to'])) :
+          date(' Y', strtotime($month['from'])));
           @endphp
         </div>
       </div>
-      <div class="text-xl font-bold">{{$office}}</div>
+      <div class="text-xl font-bold">{!! $office !!}</div>
       <table class='w-full whitespace-no-wrap bg-white'>
         <thead class='bg-gray-200 border border-black '>
           <tr class='border'>
