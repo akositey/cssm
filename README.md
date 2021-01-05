@@ -11,9 +11,9 @@ PGOM - Customer Satisfaction Survey
   - ~~offices~~
   - ~~services~~
   - ~~questions~~
-  - feedback
-  - reports
-  - dashboard
+  - ~~feedback~~
+  - ~~reports~~
+  - ~~dashboard~~
 - additional features
   - english translation
   - voice / sounds
