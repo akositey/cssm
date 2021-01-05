@@ -21,31 +21,6 @@
         </div>
       </inertia-link>
     </div>
-    <div class="mb-4">
-      <inertia-link
-        class="flex items-center py-3 group"
-        :href="route('debtors.index')"
-      >
-        <icon
-          name="office"
-          class="w-4 h-4 mr-2"
-          :class="
-            isUrl('debtors.index')
-              ? 'fill-white'
-              : 'fill-indigo-400 group-hover:fill-white'
-          "
-        />
-        <div
-          :class="
-            isUrl('debtors.index')
-              ? 'text-white'
-              : 'text-indigo-300 group-hover:text-white'
-          "
-        >
-          Debtors-Creditors
-        </div>
-      </inertia-link>
-    </div>
   </div>
 </template>
 

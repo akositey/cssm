@@ -16,8 +16,9 @@ class CreateOfficesTable extends Migration
         Schema::create('offices', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('nick', 20);
+            $table->string('abbr', 20);
             $table->integer('parent_id')->nullable();
+            $table->integer('old_id')->nullable()->comment('if from dtr_dept table');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -1,143 +1,231 @@
 <template>
-    <jet-form-section @submitted="updateProfileInformation">
-        <template #title>
-            Profile Information
-        </template>
+  <jet-form-section @submitted="updateProfileInformation">
+    <template #title>
+      Profile Information
+    </template>
 
-        <template #description>
-            Update your account's profile information and email address.
-        </template>
+    <template #description>
+      Update your account's profile information and email address.
+    </template>
 
-        <template #form>
-            <!-- Profile Photo -->
-            <div class="col-span-6 sm:col-span-4" v-if="$page.jetstream.managesProfilePhotos">
-                <!-- Profile Photo File Input -->
-                <input type="file" class="hidden"
-                            ref="photo"
-                            @change="updatePhotoPreview">
+    <template #form>
+      <!-- Profile Photo -->
+      <div
+        class="col-span-6 sm:col-span-4"
+        v-if="$page.props.jetstream.managesProfilePhotos"
+      >
+        <!-- Profile Photo File Input -->
+        <input
+          type="file"
+          class="hidden"
+          ref="photo"
+          @change="updatePhotoPreview"
+        >
 
-                <jet-label for="photo" value="Photo" />
+        <jet-label
+          for="photo"
+          value="Photo"
+        />
 
-                <!-- Current Profile Photo -->
-                <div class="mt-2" v-show="! photoPreview">
-                    <img :src="$page.user.profile_photo_url" alt="Current Profile Photo" class="rounded-full h-20 w-20 object-cover">
-                </div>
+        <!-- Current Profile Photo -->
+        <div
+          class="mt-2"
+          v-show="! photoPreview"
+        >
+          <img
+            :src="$page.props.user.profile_photo_url"
+            alt="Current Profile Photo"
+            class="object-cover w-20 h-20 rounded-full"
+          >
+        </div>
 
-                <!-- New Profile Photo Preview -->
-                <div class="mt-2" v-show="photoPreview">
-                    <span class="block rounded-full w-20 h-20"
-                          :style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'">
-                    </span>
-                </div>
+        <!-- New Profile Photo Preview -->
+        <div
+          class="mt-2"
+          v-show="photoPreview"
+        >
+          <span
+            class="block w-20 h-20 rounded-full"
+            :style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'"
+          />
+        </div>
 
-                <jet-secondary-button class="mt-2 mr-2" type="button" @click.native.prevent="selectNewPhoto">
-                    Select A New Photo
-                </jet-secondary-button>
+        <jet-secondary-button
+          class="mt-2 mr-2"
+          type="button"
+          @click.native.prevent="selectNewPhoto"
+        >
+          Select A New Photo
+        </jet-secondary-button>
 
-                <jet-secondary-button type="button" class="mt-2" @click.native.prevent="deletePhoto" v-if="$page.user.profile_photo_path">
-                    Remove Photo
-                </jet-secondary-button>
+        <jet-secondary-button
+          type="button"
+          class="mt-2"
+          @click.native.prevent="deletePhoto"
+          v-if="$page.props.user.profile_photo_path"
+        >
+          Remove Photo
+        </jet-secondary-button>
 
-                <jet-input-error :message="form.error('photo')" class="mt-2" />
-            </div>
+        <jet-input-error
+          :message="form.error('photo')"
+          class="mt-2"
+        />
+      </div>
 
-            <!-- Name -->
-            <div class="col-span-6 sm:col-span-4">
-                <jet-label for="name" value="Name" />
-                <jet-input id="name" type="text" class="mt-1 block w-full" v-model="form.name" autocomplete="name" />
-                <jet-input-error :message="form.error('name')" class="mt-2" />
-            </div>
+      <!-- Name -->
+      <div class="col-span-6 sm:col-span-4">
+        <jet-label
+          for="name"
+          value="Name"
+        />
+        <jet-input
+          id="name"
+          type="text"
+          class="block w-full mt-1"
+          v-model="form.name"
+          autocomplete="name"
+        />
+        <jet-input-error
+          :message="form.error('name')"
+          class="mt-2"
+        />
+      </div>
 
-            <!-- Email -->
-            <div class="col-span-6 sm:col-span-4">
-                <jet-label for="email" value="Email" />
-                <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" />
-                <jet-input-error :message="form.error('email')" class="mt-2" />
-            </div>
-        </template>
+      <div class="col-span-6 sm:col-span-4">
+        <jet-label
+          for="position"
+          value="Position"
+        />
+        <jet-input
+          id="position"
+          type="text"
+          class="block w-full mt-1"
+          v-model="form.position"
+          autocomplete="position"
+        />
+        <jet-input-error
+          :message="form.error('position')"
+          class="mt-2"
+        />
+      </div>
 
-        <template #actions>
-            <jet-action-message :on="form.recentlySuccessful" class="mr-3">
-                Saved.
-            </jet-action-message>
+      <!-- Email -->
+      <div class="col-span-6 sm:col-span-4">
+        <jet-label
+          for="email"
+          value="Email"
+        />
+        <jet-input
+          id="email"
+          type="email"
+          class="block w-full mt-1"
+          v-model="form.email"
+        />
+        <jet-input-error
+          :message="form.error('email')"
+          class="mt-2"
+        />
+      </div>
+    </template>
 
-            <jet-button :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Save
-            </jet-button>
-        </template>
-    </jet-form-section>
+    <template #actions>
+      <jet-action-message
+        :on="form.recentlySuccessful"
+        class="mr-3"
+      >
+        Saved.
+      </jet-action-message>
+
+      <jet-button
+        :class="{ 'opacity-25': form.processing }"
+        :disabled="form.processing"
+      >
+        Save
+      </jet-button>
+    </template>
+  </jet-form-section>
 </template>
 
 <script>
-    import JetButton from './../../Jetstream/Button'
-    import JetFormSection from './../../Jetstream/FormSection'
-    import JetInput from './../../Jetstream/Input'
-    import JetInputError from './../../Jetstream/InputError'
-    import JetLabel from './../../Jetstream/Label'
-    import JetActionMessage from './../../Jetstream/ActionMessage'
-    import JetSecondaryButton from './../../Jetstream/SecondaryButton'
+import JetButton from "./../../Jetstream/Button";
+import JetFormSection from "./../../Jetstream/FormSection";
+import JetInput from "./../../Jetstream/Input";
+import JetInputError from "./../../Jetstream/InputError";
+import JetLabel from "./../../Jetstream/Label";
+import JetActionMessage from "./../../Jetstream/ActionMessage";
+import JetSecondaryButton from "./../../Jetstream/SecondaryButton";
 
-    export default {
-        components: {
-            JetActionMessage,
-            JetButton,
-            JetFormSection,
-            JetInput,
-            JetInputError,
-            JetLabel,
-            JetSecondaryButton,
+export default {
+  components: {
+    JetActionMessage,
+    JetButton,
+    JetFormSection,
+    JetInput,
+    JetInputError,
+    JetLabel,
+    JetSecondaryButton,
+  },
+
+  props: {
+    name: { type: String, default: "" },
+    position: { type: String, default: "" },
+    email: { type: String, default: "" },
+  },
+  data() {
+    return {
+      form: this.$inertia.form(
+        {
+          _method: "PUT",
+          name: this.name,
+          position: this.$page.props.user.position,
+          email: this.email,
+          photo: null,
         },
+        {
+          bag: "updateProfileInformation",
+          resetOnSuccess: false,
+        }
+      ),
 
-        props: ['name', 'email'],
+      photoPreview: null,
+    };
+  },
 
-        data() {
-            return {
-                form: this.$inertia.form({
-                    '_method': 'PUT',
-                    name: this.name,
-                    email: this.email,
-                    photo: null,
-                }, {
-                    bag: 'updateProfileInformation',
-                    resetOnSuccess: false,
-                }),
+  methods: {
+    updateProfileInformation() {
+      if (this.$refs.photo) {
+        this.form.photo = this.$refs.photo.files[0];
+      }
 
-                photoPreview: null,
-            }
-        },
+      this.form.post("/user/profile-information", {
+        preserveScroll: true,
+      });
+    },
 
-        methods: {
-            updateProfileInformation() {
-                if (this.$refs.photo) {
-                    this.form.photo = this.$refs.photo.files[0]
-                }
+    selectNewPhoto() {
+      this.$refs.photo.click();
+    },
 
-                this.form.post('/user/profile-information', {
-                    preserveScroll: true
-                });
-            },
+    updatePhotoPreview() {
+      const reader = new FileReader();
 
-            selectNewPhoto() {
-                this.$refs.photo.click();
-            },
+      reader.onload = (e) => {
+        this.photoPreview = e.target.result;
+      };
 
-            updatePhotoPreview() {
-                const reader = new FileReader();
+      reader.readAsDataURL(this.$refs.photo.files[0]);
+    },
 
-                reader.onload = (e) => {
-                    this.photoPreview = e.target.result;
-                };
-
-                reader.readAsDataURL(this.$refs.photo.files[0]);
-            },
-
-            deletePhoto() {
-                this.$inertia.delete('/user/profile-photo', {
-                    preserveScroll: true,
-                }).then(() => {
-                    this.photoPreview = null
-                });
-            },
-        },
-    }
+    deletePhoto() {
+      this.$inertia
+        .delete("/user/profile-photo", {
+          preserveScroll: true,
+        })
+        .then(() => {
+          this.photoPreview = null;
+        });
+    },
+  },
+};
 </script>

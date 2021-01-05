@@ -15,27 +15,16 @@ class CreateFeedbackTable extends Migration
     {
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
-            $table->integer('ip_id');
-            $table->tinyInteger('question1');
-            $table->tinyInteger('question2');
-            $table->tinyInteger('question3');
-            $table->tinyInteger('positive1')->nullable();
-            $table->tinyInteger('positive2')->nullable();
-            $table->tinyInteger('positive3')->nullable();
-            $table->tinyInteger('positive4')->nullable();
-            $table->tinyInteger('positive5')->nullable();
-            $table->tinyInteger('positive6')->nullable();
-            $table->tinyInteger('negative1')->nullable();
-            $table->tinyInteger('negative2')->nullable();
-            $table->tinyInteger('negative3')->nullable();
-            $table->tinyInteger('negative4')->nullable();
-            $table->tinyInteger('negative5')->nullable();
-            $table->tinyInteger('negative6')->nullable();
-            $table->tinyInteger('negative7')->nullable();
-            $table->tinyInteger('negative8')->nullable();
-            $table->string('suggestion')->nullable();
+            $table->integer('service_id');
+            $table->string('positive_comments')->nullable()->comment('transcribed from image'); //admin user will transcribe the image to this
+            $table->string('negative_comments')->nullable()->comment('transcribed from image'); //admin user will transcribe the image to this
+            $table->string('comments_image_path')->nullable();
+            $table->string('signature_image_path');
+            $table->integer('user_id')->comment('author');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index('signature_image_path');
         });
     }
 

@@ -15,20 +15,20 @@ class OfficeController extends Controller
      */
     public function index(Request $request)
     {
+        $offices = Office::filter($request->only('search', 'trashed'))->paginate(10)->withQueryString();
+        $offices->transform(function ($office) {
+            return [
+                'id' => $office->id,
+                'name' => $office->name,
+                'abbr' => $office->abbr,
+                'parent_id' => $office->parent_id,
+                'parent_office' => $office->parent_id ? $office->parent->abbr : null,
+                'deleted_at' => $office->deleted_at
+            ];
+        });
         return Inertia::render('Offices/Index', [
             'filters' => $request->all('search', 'trashed'),
-            'offices' => Office::when($request->search ?? null, function ($query, $search) {
-                $query->where(function ($query) use ($search) {
-                    $query->where('name', 'like', '%' . $search . '%')
-                        ->orWhere('nick', 'like', '%' . $search . '%');
-                });
-            })->when($request->trashed ?? null, function ($query, $trashed) {
-                if ($trashed === 'with') {
-                    $query->withTrashed();
-                } elseif ($trashed === 'only') {
-                    $query->onlyTrashed();
-                }
-            })->paginate(10)
+            'offices' => $offices
         ]);
 
     }
@@ -40,7 +40,7 @@ class OfficeController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Offices/Create', ['officesList' => Office::all()]);
+        return Inertia::render('Offices/Create', ['offices' => Office::all()]);
     }
 
     /**
@@ -53,7 +53,8 @@ class OfficeController extends Controller
     {
         Office::create($request->validate([
             'name' => 'required',
-            'nick' => 'required'
+            'abbr' => 'required',
+            'parent_id' => 'nullable|exists:offices,id'
         ]));
         return redirect(route('offices.index'))->with('success', 'Office Successfully Created');
     }
@@ -79,7 +80,7 @@ class OfficeController extends Controller
     {
         return Inertia::render('Offices/Edit', [
             'office' => $office,
-            'officesList' => Office::whereNotIn('id', [$office->id])->get()
+            'offices' => Office::whereNotIn('id', [$office->id])->get()
         ]);
 
     }
@@ -96,7 +97,8 @@ class OfficeController extends Controller
         $office->update(
             $request->validate([
                 'name' => 'required',
-                'nick' => 'required'
+                'abbr' => 'required',
+                'parent_id' => 'nullable|exists:offices,id'
             ])
         );
         return redirect(route('offices.index'))->with('success', 'Office Successfully Updated');
@@ -117,7 +119,8 @@ class OfficeController extends Controller
     }
 
     /**
-     * @param Office $office
+     * @param  Office                      $office
+     * @return \Illuminate\Http\Response
      */
     public function restore(Office $office)
     {
