@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Question;
 use App\Models\Service;
+use Carbon\Carbon;
 
 class ReportData
 {
@@ -42,27 +43,29 @@ class ReportData
         $mandatoryQuestions = $this->question->where('is_required', 1);
         $mandatoryQuestionIds = $mandatoryQuestions->pluck('id')->toArray();
 
-        $services = $this->service->where('office_id', $office)->with(['feedback.answers' => function ($query) use ($monthFrom, $monthTo) {
+        $services = $this->service->where('office_id', $office)->with(['feedback' => function ($query) use ($monthFrom, $monthTo) {
             $monthTo = $monthTo ?? $monthFrom;
-            $query->whereBetween('created_at', [date('Y-m-01', strtotime($monthFrom)), date('Y-m-t', strtotime($monthTo))]);
+            $query->where('created_at', '>=', Carbon::parse($monthFrom)->format('Y-m-d 00:00:00'));
+            $query->where('created_at', '<=', Carbon::parse($monthTo)->format('Y-m-t 23:59:59'));
         }])->get();
         $totalClients = 0;
         $totalGoodScore = 0;
         $goodRatings = [];
-
+        // dd($services);
         foreach ($services as $service) {
 
-            $allFeedback = $service->feedback;
+            $clientFeedback = $service->feedback;
+            if ($clientFeedback->count()) {
 
-            if ($allFeedback->count()) {
                 $ctrAnswers = 0;
                 $ctrGoodScore = 0;
                 $tallyPerQuestion = [];
                 // $tallyPerRating = array_fill_keys([1, 2, 3, 4, 5], 0);
 
                 # num of clients
-                $ctrClients = $allFeedback->count();
+                $ctrClients = $clientFeedback->count();
                 $totalClients += $ctrClients;
+                // dd($clientFeedback->count(), $totalClients);
 
                 # fill tallyPerQuestion with empty data
                 foreach ($mandatoryQuestionIds as $qId) {
@@ -72,7 +75,7 @@ class ReportData
                 }
 
                 # count stuff during loop
-                foreach ($allFeedback as $feedback) {
+                foreach ($clientFeedback as $feedback) {
 
                     foreach ($feedback->answers as $answer) {
                         if (in_array($answer->question_id, $mandatoryQuestionIds)) {
@@ -87,7 +90,7 @@ class ReportData
                 }
 
                 # % of VS & O Ratings
-                $goodRatingPercentage = number_format(($ctrGoodScore / $ctrAnswers) * 100, 2);
+                $goodRatingPercentage = $ctrAnswers ? number_format(($ctrGoodScore / $ctrAnswers) * 100, 2) : 0;
 
                 # average percent per rating
                 $totalRatingPercentages = [];
@@ -116,7 +119,7 @@ class ReportData
                 $negativeComments = [];
                 $ignoredComments = [];
                 $untranscribedComments = [];
-                foreach ($allFeedback as $feedback) {
+                foreach ($clientFeedback as $feedback) {
                     if (!is_null($feedback->positive_comments) && $feedback->positive_comments !== '--none--') {
                         $positiveComments[] = [
                             'id' => $feedback->id,
@@ -166,7 +169,7 @@ class ReportData
         }
 
         # totals
-        $totalGoodRatingPercentage = number_format(count($goodRatings) ? array_sum($goodRatings) / count($goodRatings) : 0, 2);
+        $totalGoodRatingPercentage = count($goodRatings) ? number_format(count($goodRatings) ? array_sum($goodRatings) / count($goodRatings) : 0, 2): 0;
         $stats['total'] = [
             'clients' => $totalClients,
             'goodRatingPercentage' => $totalGoodRatingPercentage
