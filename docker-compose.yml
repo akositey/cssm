@@ -1,6 +1,7 @@
 version: '3'
 services:
     browserless:
+        container_name: "browserless"
         image: browserless/chrome:latest
         environment:
             - MAX_PAYLOAD_SIZE=100mb
@@ -11,6 +12,7 @@ services:
             - sail
         restart: always
     laravel.test:
+        container_name: "laravel.test"
         build:
             context: ./docker/runtimes/7.4
             dockerfile: Dockerfile
@@ -42,6 +44,7 @@ services:
     #     depends_on:
     #         - laravel.test
     mysql:
+        container_name: "mysql"
         image: 'mariadb:10.5.8'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
