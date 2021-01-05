@@ -9,6 +9,7 @@ services:
             - '3000:3000'
         networks:
             - sail
+        restart: always
     laravel.test:
         build:
             context: ./docker/runtimes/7.4
@@ -26,6 +27,7 @@ services:
             - ~/.composer/docker-cache/:/root/.composer:cached
         networks:
             - sail
+        restart: always
         depends_on:
             - mysql
             # - redis
@@ -53,6 +55,7 @@ services:
             - 'sailmysql:/var/lib/mysql'
         networks:
             - sail
+        restart: always
     # redis:
     #     image: 'redis:alpine'
     #     ports:
