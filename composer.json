@@ -66,6 +66,15 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "prod": [
+            "php artisan ziggy:generate",
+            "npm run prod",
+            "php artisan storage:link",
+            "php artisan config:cache",
+            "chmod 777 -R storage/",
+            "chmod 777 -R bootstrap/cache/"
         ]
+
     }
 }
