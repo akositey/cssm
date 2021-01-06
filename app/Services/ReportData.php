@@ -78,9 +78,10 @@ class ReportData
                 $negativeComments = [];
                 $ignoredComments = [];
                 $untranscribedComments = [];
+                $optionalQuestionsAnswers = [];
+
                 foreach ($clientFeedback as $feedback) {
                     
-                    $optionalQuestionsAnswers = [];
                     foreach ($feedback->answers as $answer) {
                         if (in_array($answer->question_id, $mandatoryQuestionIds)) {
                             $ctrAnswers++; //add to total number of answers
@@ -88,7 +89,10 @@ class ReportData
                         }else{
                             //store unique
                             if( !isset($optionalQuestionsAnswers[$answer->question->id]) ){
-                                $optionalQuestionsAnswers[$answer->question->id] = $answer->question;
+                                $optionalQuestionsAnswers[$answer->question->id] = [
+                                    'type'=>$answer->question->type,
+                                    'question'=>$answer->question->question,
+                                ];
                             }
                         }
                         if (in_array($answer->answer, [4, 5])) {
@@ -96,22 +100,6 @@ class ReportData
                         }
                     }
                     // dd($optionalQuestionsAnswers);
-
-                    foreach ($optionalQuestionsAnswers as $id => $question) {
-                        if($question->type===1){
-                            $positiveComments[] = [
-                                'id' => $feedback->id,
-                                'transcribable' => false,
-                                'comment' => $question->question
-                            ];
-                        }else{
-                            $negativeComments[] = [
-                                'id' => $feedback->id,
-                                'transcribable' => false,
-                                'comment' => $question->question
-                            ];
-                        }
-                    }
 
                     if (!is_null($feedback->positive_comments) && $feedback->positive_comments !== '--none--') {
                         $positiveComments[] = [
@@ -143,6 +131,22 @@ class ReportData
                     }
 
                     
+                }
+
+                foreach ($optionalQuestionsAnswers as $question) {
+                    if($question['type']===1){
+                        $positiveComments[] = [
+                            'id' => $feedback->id,
+                            'transcribable' => false,
+                            'comment' => $question['question']
+                        ];
+                    }else{
+                        $negativeComments[] = [
+                            'id' => $feedback->id,
+                            'transcribable' => false,
+                            'comment' => $question['question']
+                        ];
+                    }
                 }
 
                 # % of VS & O Ratings
