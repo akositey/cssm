@@ -60,7 +60,6 @@ class ReportData
                 $ctrAnswers = 0;
                 $ctrGoodScore = 0;
                 $tallyPerQuestion = [];
-                // $tallyPerRating = array_fill_keys([1, 2, 3, 4, 5], 0);
 
                 # num of clients
                 $ctrClients = $clientFeedback->count();
@@ -74,19 +73,76 @@ class ReportData
                     }
                 }
 
-                # count stuff during loop
+                # get comments
+                $positiveComments = [];
+                $negativeComments = [];
+                $ignoredComments = [];
+                $untranscribedComments = [];
                 foreach ($clientFeedback as $feedback) {
-
+                    
+                    $optionalQuestionsAnswers = [];
                     foreach ($feedback->answers as $answer) {
                         if (in_array($answer->question_id, $mandatoryQuestionIds)) {
-                            $ctrAnswers++;
+                            $ctrAnswers++; //add to total number of answers
                             $tallyPerQuestion[$answer->question_id][$answer->answer]++;
-                            // $tallyPerRating[$answer->answer]++;
+                        }else{
+                            //store unique
+                            if( !isset($optionalQuestionsAnswers[$answer->question->id]) ){
+                                $optionalQuestionsAnswers[$answer->question->id] = $answer->question;
+                            }
                         }
                         if (in_array($answer->answer, [4, 5])) {
-                            $ctrGoodScore++;
+                            $ctrGoodScore++; //add to total good answers
                         }
                     }
+                    // dd($optionalQuestionsAnswers);
+
+                    foreach ($optionalQuestionsAnswers as $id => $question) {
+                        if($question->type===1){
+                            $positiveComments[] = [
+                                'id' => $feedback->id,
+                                'transcribable' => false,
+                                'comment' => $question->question
+                            ];
+                        }else{
+                            $negativeComments[] = [
+                                'id' => $feedback->id,
+                                'transcribable' => false,
+                                'comment' => $question->question
+                            ];
+                        }
+                    }
+
+                    if (!is_null($feedback->positive_comments) && $feedback->positive_comments !== '--none--') {
+                        $positiveComments[] = [
+                            'id' => $feedback->id,
+                            'transcribable' => true,
+                            'comment' => $feedback->positive_comments
+                        ];
+                    }
+                    if (!is_null($feedback->negative_comments) && $feedback->negative_comments !== '--none--') {
+                        $negativeComments[] = [
+                            'id' => $feedback->id,
+                            'transcribable' => true,
+                            'comment' => $feedback->negative_comments
+                        ];
+                    }
+                    if ($feedback->positive_comments === '--none--' || $feedback->negative_comments === '--none--') {
+                        $ignoredComments[] = [
+                            'id' => $feedback->id,
+                            'transcribable' => true,
+                            'comment' => '-- ignored comment/suggestion --'
+                        ];
+                    }
+                    if ($feedback->comments_image_path && is_null($feedback->positive_comments) && is_null($feedback->negative_comments)) {
+                        $untranscribedComments[] = [
+                            'id' => $feedback->id,
+                            'transcribable' => true,
+                            'comment' => '-- untranscribed comment/suggestion --'
+                        ];
+                    }
+
+                    
                 }
 
                 # % of VS & O Ratings
@@ -112,38 +168,6 @@ class ReportData
                         'question' => $q->question,
                         'ratings' => $tallyPerQuestion[$q->id]
                     ];
-                }
-
-                # comments
-                $positiveComments = [];
-                $negativeComments = [];
-                $ignoredComments = [];
-                $untranscribedComments = [];
-                foreach ($clientFeedback as $feedback) {
-                    if (!is_null($feedback->positive_comments) && $feedback->positive_comments !== '--none--') {
-                        $positiveComments[] = [
-                            'id' => $feedback->id,
-                            'comment' => $feedback->positive_comments
-                        ];
-                    }
-                    if (!is_null($feedback->negative_comments) && $feedback->negative_comments !== '--none--') {
-                        $negativeComments[] = [
-                            'id' => $feedback->id,
-                            'comment' => $feedback->negative_comments
-                        ];
-                    }
-                    if ($feedback->positive_comments === '--none--' || $feedback->negative_comments === '--none--') {
-                        $ignoredComments[] = [
-                            'id' => $feedback->id,
-                            'comment' => '-- ignored comment/suggestion --'
-                        ];
-                    }
-                    if ($feedback->comments_image_path && is_null($feedback->positive_comments) && is_null($feedback->negative_comments)) {
-                        $untranscribedComments[] = [
-                            'id' => $feedback->id,
-                            'comment' => '-- untranscribed comment/suggestion --'
-                        ];
-                    }
                 }
 
                 $maxRows = count($positiveComments) > count($negativeComments) ? count($positiveComments) : count($negativeComments);

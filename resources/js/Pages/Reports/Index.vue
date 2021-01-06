@@ -167,6 +167,7 @@
               >
                 {{ service.comments.positive[y].comment }}
                 <inertia-link
+                  v-if="service.comments.positive[y].transcribable"
                   class="float-right text-sm text-gray-700 focus:text-indigo-500"
                   :href="route('comments.edit', service.comments.positive[y].id)"
                   tabindex="-1"
@@ -189,6 +190,7 @@
                 {{ service.comments.negative[y].comment }}
 
                 <inertia-link
+                  v-if="service.comments.negative[y].transcribable"
                   class="float-right text-sm text-gray-700 focus:text-indigo-500"
                   :href="route('comments.edit', service.comments.negative[y].id)"
                   tabindex="-1"
@@ -215,6 +217,7 @@
                 {{ service.comments.ignored[y].comment }}
               </span>
               <inertia-link
+                v-if="service.comments.ignored[y].transcribable"
                 class="float-right text-sm text-gray-700 focus:text-indigo-500"
                 :href="route('comments.edit', service.comments.ignored[y].id)"
                 tabindex="-1"
@@ -240,6 +243,7 @@
                 {{ service.comments.untranscribed[y].comment }}
               </span>
               <inertia-link
+                v-if="service.comments.untranscribed[y].transcribable"
                 class="float-right text-sm text-gray-700 focus:text-indigo-500"
                 :href="route('comments.edit', service.comments.untranscribed[y].id)"
                 tabindex="-1"
