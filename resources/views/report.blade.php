@@ -51,219 +51,162 @@
 					@endphp
 				</div>
 			</div>
+
 			<div class="text-xl font-bold">{!! $office !!}</div>
-			<table class='w-full whitespace-no-wrap bg-white'>
-				<thead class='bg-gray-200 border border-black '>
-					<tr class='border'>
-						<th class='px-2 border border-black ' rowspan='3'>
-							Service
-						</th>
-						<th class='px-2 border border-black ' rowspan='3'>
-							Question
-						</th>
-						<th class='w-0 px-2 text-sm whitespace-normal border border-black ' rowspan='3'>
-							Clients Served
-						</th>
-						<th class='px-2 border border-black ' colspan='5'>
-							Quality of Service
-						</th>
-						<th class='px-2 border border-black ' rowspan='3'>
-							% in VS &amp; O
-						</th>
-					</tr>
-					<tr class='border'>
-						@for ($i = 1; $i <= 5; $i++) <th class='border border-black '>{{$i}}</th>
-							@endfor
-					</tr>
-					<tr class='border'>
-						@foreach (['P', 'F', 'S', 'VS', 'O'] as $letter)
-						<th class='border border-black ' width='30'>
-							{{$letter}}
-						</th>
-						@endforeach
-					</tr>
-				</thead>
-
-				@foreach ( $stats['services'] as $service)
-				<tbody class='border border-black '>
-					@foreach ($service['questions'] as $x => $question)
-					<tr>
-						@if ($x === 0)
-						<td class='px-2 font-bold whitespace-normal align-top border border-b-0 border-black'
-							rowspan='3'>
-							{{ $service['name'] }}
-						</td>
-						@endif
-						<td class='px-2 border border-b-0 border-l-0'>
-							{{$question['question']}}
-						</td>
-						@if ($x === 0)
-						<td class='px-2 text-center border border-b-0' rowspan='3'>
-							{{ $service['clients'] }}
-						</td>
-						@endif
-						@foreach ($question['ratings'] as $y => $rating)
-						<td class='px-2 text-center border border-b-0'>
-							{{ $rating }}
-						</td>
-						@endforeach
-						@if ($x === 0)
-						<td class='px-2 text-center border border-b-0 border-r-0' rowspan='3'>
-							{{ $service['goodRatingPercentage'] }}
-						</td>
-						@endif
-					</tr>
-					@endforeach
-
-					<tr>
-						<td class='border-r border-black'></td>
-						<td class='text-center bg-yellow-300 border border-black'>
-							% Per Rating
-						</td>
-						<td class='bg-yellow-300 border border-black'></td>
-						@foreach ($service['totalRatingPercentages'] as $x => $average)
-						<td class='text-center bg-yellow-300 border border-black'>
-							{{$average}}
-						</td>
-						@endforeach
-						<td class='bg-yellow-300 border border-black'></td>
-					</tr>
-					<tr>
-						<td colspan='9' class='h-0 border border-black '></td>
-					</tr>
-				</tbody>
-				@endforeach
-
-				<tbody class='border border-black '>
-					<tr class='bg-orange-400'>
-						<th class='border border-black '></th>
-						<th class='border border-black '>
-							Total
-						</th>
-						<th class='border border-black '>
-							{{ $stats['total']['clients']}}
-						</th>
-						<th class='border border-black ' colspan='5'></th>
-						<th class='border border-black '>
-							{{ $stats['total']['goodRatingPercentage']}}
-						</th>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-		<div style="page-break-inside: avoid;">
-			<div class="border border-t-0 border-b-0 border-l-0 border-r-2 border-black">
-				<table class='w-full my-4 whitespace-no-wrap bg-white'>
-					<thead class='bg-gray-200 '>
-						<tr class='border border-black'>
-							<th class='px-2 py-1 border-b border-black'>
+				<table class='w-full whitespace-no-wrap bg-white'>
+					<thead class='bg-gray-200 border border-black '>
+						<tr class='border'>
+							<th class='px-2 border border-black ' rowspan='3'>
 								Service
 							</th>
-							<th class='px-2 py-1 border-b border-black'>
-								Positive Comments
+							<th class='px-2 border border-black ' rowspan='3'>
+								Question
 							</th>
-							<th class='px-2 py-1 border-b border-black'>
-								Negative Comments
+							<th class='w-0 px-2 text-sm whitespace-normal border border-black ' rowspan='3'>
+								Clients Served
 							</th>
+							<th class='px-2 border border-black ' colspan='5'>
+								Quality of Service
+							</th>
+							<th class='px-2 border border-black ' rowspan='3'>
+								% in VS &amp; O
+							</th>
+						</tr>
+						<tr class='border'>
+							@for ($i = 1; $i <= 5; $i++) <th class='border border-black '>{{$i}}</th>
+								@endfor
+						</tr>
+						<tr class='border'>
+							@foreach (['P', 'F', 'S', 'VS', 'O'] as $letter)
+							<th class='border border-black ' width='30'>
+								{{$letter}}
+							</th>
+							@endforeach
 						</tr>
 					</thead>
-					<tbody class="border border-black">
-						@php
-							$rowCtr=0;
-							$untranscribedCtr = 0;
-						@endphp
-						@foreach ($stats['services'] as $x => $service)
-							{{-- @php dd($stats['services']); @endphp --}}
-							@php
-								$rowCtr+=$service['comments']['maxRows'];
-								$untranscribedCtr+=count($service['comments']['untranscribed']);
-							@endphp
-							@for ($i = 0; $i < $service['comments']['maxRows']; $i++) 
-								<tr class="border-r border-black">
-									@if ($i===0)
-									<td class="px-2 font-bold align-top border border-r-0 border-black"
-										rowspan="{{ $service['comments']['maxRows']*2 }}">
-										{{ $service['name'] }}
-									</td>
-									@endif
-									<td class="px-1 border">
-										@isset($service['comments']['positive'][$i]['comment'])
-										&bull; {{ $service['comments']['positive'][$i]['comment'] }}
-										@endisset
-									</td>
-									<td class="px-1 text-red-700 border border-r-0">
-										@isset($service['comments']['negative'][$i]['comment'])
-										&bull; {{ $service['comments']['negative'][$i]['comment'] }}
-										@endisset
-									</td>
-								</tr>
-								<tr class="">
-									<td colspan="9" class="h-1 border border-r-0 border-black"></td>
-								</tr>
-							@endfor
-						@endforeach
-						@if ($rowCtr===0)
-						<tr class="border border-black">
-							<td colspan="9" class="h-1 text-center border border-black">--no additional
-								comments/suggestions--</td>
+
+					@foreach ( $stats['services'] as $service)
+					<tbody class='border border-black '>
+						@foreach ($service['questions'] as $x => $question)
+						<tr>
+							@if ($x === 0)
+							<td class='px-2 font-bold whitespace-normal align-top border border-b-0 border-black'
+								rowspan='3'>
+								{{ $service['name'] }}
+							</td>
+							@endif
+							<td class='px-2 border border-b-0 border-l-0'>
+								{{$question['question']}}
+							</td>
+							@if ($x === 0)
+							<td class='px-2 text-center border border-b-0' rowspan='3'>
+								{{ $service['clients'] }}
+							</td>
+							@endif
+							@foreach ($question['ratings'] as $y => $rating)
+							<td class='px-2 text-center border border-b-0'>
+								{{ $rating }}
+							</td>
+							@endforeach
+							@if ($x === 0)
+							<td class='px-2 text-center border border-b-0 border-r-0' rowspan='3'>
+								{{ $service['goodRatingPercentage'] }}
+							</td>
+							@endif
 						</tr>
-						@endif
+						@endforeach
+
+						<tr>
+							<td class='border-r border-black'></td>
+							<td class='text-center bg-yellow-300 border border-black'>
+								% Per Rating
+							</td>
+							<td class='bg-yellow-300 border border-black'></td>
+							@foreach ($service['totalRatingPercentages'] as $x => $average)
+							<td class='text-center bg-yellow-300 border border-black'>
+								{{$average}}
+							</td>
+							@endforeach
+							<td class='bg-yellow-300 border border-black'></td>
+						</tr>
+						<tr>
+							<td colspan='9' class='h-0 border border-black '></td>
+						</tr>
+					</tbody>
+					@endforeach
+
+					<tbody class='border border-black '>
+						<tr class='bg-orange-400'>
+							<th class='border border-black '></th>
+							<th class='border border-black '>
+								Total
+							</th>
+							<th class='border border-black '>
+								{{ $stats['total']['clients']}}
+							</th>
+							<th class='border border-black ' colspan='5'></th>
+							<th class='border border-black '>
+								{{ $stats['total']['goodRatingPercentage']}}
+							</th>
+						</tr>
 					</tbody>
 				</table>
 			</div>
 
-			<div class="font-bold text-red-700">
-				{{$untranscribedCtr > 0 ? "* ".$untranscribedCtr." untranscribed comments/suggestions" : ""}}</div>
+			<div style="page-break-inside: avoid;">
+				<div class="border border-t-0 border-b-0 border-l-0 border-r-2 border-black">
+					<table class='w-full my-4 whitespace-no-wrap bg-white' border="1">
+						<thead class='bg-gray-200 '>
+							<tr class='border border-black'>
+								<th class='px-2 py-1 border-b border-black'>
+									Service
+								</th>
+								<th class='px-2 py-1 border-b border-black'>
+									Positive Comments
+								</th>
+								<th class='px-2 py-1 border-b border-black'>
+									Negative Comments
+								</th>
+							</tr>
+						</thead>
+						<tbody class="border border-black">
+							@php
+								$rowCtr=0;
+								$untranscribedCtr = 0;
+							@endphp
+							@foreach ($stats['services'] as $x => $service)
+								@php
+									$rowCtr+=$service['comments']['maxRows'];
+									$untranscribedCtr+=count($service['comments']['untranscribed']);
+								@endphp
+								@for ($i = 0; $i < $service['comments']['maxRows']; $i++) 
+								
+									<tr class="border-r border-black">
+										@if($i ==0)
+											<td class="font-bold align-top" 
+												rowspan="{{$service['comments']['maxRows']}}">
+												{{ $service['name'] }}
+											</td>
+										@endif
+										<td >{{$service['comments']['positive'][$i]['comment'] ?? ''}}</td>
+										<td>{{$service['comments']['negative'][$i]['comment'] ?? ''}}</td>
+										
+									</tr>
 
-			<div style="page-break-inside: avoid;" class="flex mt-8">
-				<div class="flex-1">
-					<div class="mb-10">
-						Prepared by:
-					</div>
-					<div class="font-bold">
-						{{$preparer['name']}}
-					</div>
-					<div class="text-sm">
-						{{$preparer['position']}}
-					</div>
-					<div class="">
-						<span class="text-sm">Date:</span>
-						<span
-							class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-					</div>
-				</div>
-				<div class="flex-1">
-					<div class="mb-10">
-						Reviewed by:
-					</div>
-					<div class="font-bold">
-						{{$reviewer['name']}}
-					</div>
-					<div class="text-sm">
-						{{$reviewer['position']}}
-					</div>
-					<div class="">
-						<span class="text-sm">Date:</span>
-						<span
-							class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-					</div>
-				</div>
-				<div class="flex-1">
-					<div class="mb-10">
-						Noted by:
-					</div>
-					<div class="font-bold">
-						{{$noter['name']}}
-					</div>
-					<div class="text-sm">
-						{{$noter['position']}}
-					</div>
-					<div class="">
-						<span class="text-sm">Date:</span>
-						<span
-							class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-					</div>
+								
+								@endfor
+
+							@endforeach
+							
+						
+							@if ($rowCtr===0)
+							<tr class="border border-black">
+								<td colspan="3" class="h-1 text-center border border-black">--no additional
+									comments/suggestions--</td>
+							</tr>
+							@endif
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

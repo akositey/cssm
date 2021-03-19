@@ -113,17 +113,20 @@ class ReportController extends Controller
         ]);
 
         try {
-            // dd($content);
             $page = $browser->newPage();
+
             $page->goto('data:text/html,' . $content, [
                 'waitUntil' => 'networkidle0'
             ]);
+            
+
             $page->addStyleTag([
                 'path' => public_path('css/app.css')
             ]);
             $page->addStyleTag([
                 'path' => public_path('css/print.css')
             ]);
+
             $page->tryCatch->pdf([
                 'path' => $filePath,
                 'format' => 'Letter',
@@ -135,6 +138,7 @@ class ReportController extends Controller
                     'bottom' => 50,
                     'left' => 70]
             ]);
+
             $browser->close();
         } catch (Exception $exception) {
             // Handle the exception...
