@@ -97,9 +97,8 @@ class ReportController extends Controller
 
         # debugging: output to browser
         // return view('report', $data);
-
         $content = view('report', $data)->render();
-        // exit($content);
+        return $content;
         $filename = Office::find($request->office)->abbr . '-' . $request->month_from . ($request->month_to ? '-' . $request->month_to : '') . '.pdf';
         $filePath = storage_path('/app/reports/' . $filename);
         // dd($nodeBin);
@@ -111,7 +110,6 @@ class ReportController extends Controller
         $browser = $puppeteer->connect([
             'browserWSEndpoint' => 'ws://browserless:3000'
         ]);
-
         try {
             $page = $browser->newPage();
 

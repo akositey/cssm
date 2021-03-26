@@ -4,8 +4,8 @@
 <head>
 	<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
 	<meta name='viewport' content='width=device-width, initial-scale=1'>
-	{{-- <link type='text/css' href='{{ asset('css/app.css') }}' rel='stylesheet'> --}}
-	{{-- <link type='text/css' href='{{ asset('css/print.css') }}' rel='stylesheet' media="print"> --}}
+	<link type='text/css' href='{{ asset('css/app.css') }}' rel='stylesheet'>
+	<link type='text/css' href='{{ asset('css/print.css') }}' rel='stylesheet' media="print">
 </head>
 
 <body class="font-sans antialiased">
@@ -86,54 +86,59 @@
 					</thead>
 
 					@foreach ( $stats['services'] as $service)
-					<tbody class='border border-black '>
-						@foreach ($service['questions'] as $x => $question)
-						<tr>
-							@if ($x === 0)
-							<td class='px-2 font-bold whitespace-normal align-top border border-b-0 border-black'
-								rowspan='3'>
-								{{ $service['name'] }}
-							</td>
-							@endif
-							<td class='px-2 border border-b-0 border-l-0'>
-								{{$question['question']}}
-							</td>
-							@if ($x === 0)
-							<td class='px-2 text-center border border-b-0' rowspan='3'>
-								{{ $service['clients'] }}
-							</td>
-							@endif
-							@foreach ($question['ratings'] as $y => $rating)
-							<td class='px-2 text-center border border-b-0'>
-								{{ $rating }}
-							</td>
-							@endforeach
-							@if ($x === 0)
-							<td class='px-2 text-center border border-b-0 border-r-0' rowspan='3'>
-								{{ $service['goodRatingPercentage'] }}
-							</td>
-							@endif
-						</tr>
-						@endforeach
+						<tbody class='border border-black'>
+							@foreach ($service['questions'] as $x => $question)
+								<tr>
+									@if ($x === 0)
+									<td class='px-2 font-bold whitespace-normal align-top border border-b-0 border-black'
+										rowspan='3'>
+										{{ $service['name'] }}
+									</td>
+									@endif
+									<td class='px-2 border border-b-0 border-l-0'>
+										{{$question['question']}}
+									</td>
+									@if ($x === 0)
+									<td class='px-2 text-center border border-b-0' rowspan='3'>
+										{{ $service['clients'] }}
+									</td>
+									@endif
+									
+									@foreach ($question['ratings'] as $y => $rating)
+									<td class='px-2 text-center border border-b-0'>
+										{{ $rating }}
+									</td>
+									@endforeach
+									
 
-						<tr>
-							<td class='border-r border-black'></td>
-							<td class='text-center bg-yellow-300 border border-black'>
-								% Per Rating
-							</td>
-							<td class='bg-yellow-300 border border-black'></td>
-							@foreach ($service['totalRatingPercentages'] as $x => $average)
-							<td class='text-center bg-yellow-300 border border-black'>
-								{{$average}}
-							</td>
+									@if ($x === 0)
+									<td class='px-2 text-center border border-b-0 border-r-0' rowspan='3'>
+										{{ $service['goodRatingPercentage'] }}
+									</td>
+									@endif
+								</tr>
 							@endforeach
-							<td class='bg-yellow-300 border border-black'></td>
-						</tr>
-						<tr>
-							<td colspan='9' class='h-0 border border-black '></td>
-						</tr>
-					</tbody>
+
+							<tr>
+								<td class='border-r border-black'></td>
+								<td class='text-center bg-yellow-300 border border-black'>
+									% Per Rating
+								</td>
+								<td class='bg-yellow-300 border border-black'></td>
+								@foreach ($service['totalRatingPercentages'] as $x => $average)
+								<td class='text-center bg-yellow-300 border border-black'>
+									{{$average}}
+								</td>
+								@endforeach
+								<td class='bg-yellow-300 border border-black'></td>
+							</tr>
+							<tr>
+								<td colspan='9' class='h-0 border border-black '></td>
+							</tr>
+						</tbody>
+						
 					@endforeach
+					
 
 					<tbody class='border border-black '>
 						<tr class='bg-orange-400'>
@@ -188,8 +193,8 @@
 												{{ $service['name'] }}
 											</td>
 										@endif
-										<td >{{$service['comments']['positive'][$i]['comment'] ?? ''}}</td>
-										<td>{{$service['comments']['negative'][$i]['comment'] ?? ''}}</td>
+										<td class="border border-b-0">{{$service['comments']['positive'][$i]['comment'] ?? ''}}</td>
+										<td class="border border-b-0">{{$service['comments']['negative'][$i]['comment'] ?? ''}}</td>
 										
 									</tr>
 
@@ -208,6 +213,57 @@
 						</tbody>
 					</table>
 				</div>
+
+
+
+				<div class="flex mt-8">
+      <div class="flex-1">
+        <div class="mb-10">
+          Prepared by:
+        </div>
+        <div class="font-bold">
+          {{$preparer['name']}}
+        </div>
+        <div class="text-sm">
+          {{$preparer['position']}}
+        </div>
+        <div class="">
+          <span class="text-sm">Date:</span>
+          <span class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+      </div>
+      <div class="flex-1">
+        <div class="mb-10">
+          Reviewed by:
+        </div>
+        <div class="font-bold">
+          {{$reviewer['name']}}
+        </div>
+        <div class="text-sm">
+          {{$reviewer['position']}}
+        </div>
+        <div class="">
+          <span class="text-sm">Date:</span>
+          <span class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+      </div>
+      <div class="flex-1">
+        <div class="mb-10">
+          Noted by:
+        </div>
+        <div class="font-bold">
+          {{$noter['name']}}
+        </div>
+        <div class="text-sm">
+          {{$noter['position']}}
+        </div>
+        <div class="">
+          <span class="text-sm">Date:</span>
+          <span class="font-mono underline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+      </div>
+    </div>
+
 			</div>
 		</div>
 	</main>
