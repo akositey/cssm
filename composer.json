@@ -25,6 +25,9 @@
         "tightenco/ziggy": "^0.9.4"
     },
     "require-dev": {
+      "roave/security-advisories": "dev-latest",
+      "barryvdh/laravel-ide-helper": "^2.12",
+        "doctrine/dbal": "^2.6",
         "facade/ignition": "^2.3.6",
         "fzaninotto/faker": "^1.9.1",
         "laravel/sail": "^0.0.10",
