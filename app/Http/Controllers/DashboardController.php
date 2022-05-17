@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Feedback;
 use App\Models\Office;
 use App\Services\DashboardData;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,8 +13,9 @@ class DashboardController extends Controller
 {
     /**
      * @param Request $request
+     * @return \Inertia\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): \Inertia\Response
     {
         $filters = $request->only('month');
 
@@ -36,8 +38,9 @@ class DashboardController extends Controller
 
     /**
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function officeStats(Request $request)
+    public function officeStats(Request $request): JsonResponse
     {
         $filters = $request->only('office', 'month');
         # office stats for the month

@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * TODO getters and setters for models
+ *
  * App\Models\Feedback
  *
  * @property int $id
@@ -87,6 +89,16 @@ class Feedback extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function hasCommentImage(): bool
+    {
+        return (bool)$this->comments_image_path;
+    }
+
+    public function commentImageHasBeenTranscribed(): bool
+    {
+        return $this->hasCommentImage() && (($this->positive_comments || $this->negative_comments));
     }
 
     /**

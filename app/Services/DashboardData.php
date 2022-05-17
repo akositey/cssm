@@ -8,13 +8,9 @@ use Carbon\CarbonImmutable;
 class DashboardData
 {
     /**
-     * @var mixed
+     * @var \App\Models\Office
      */
-    private $question;
-    /**
-     * @var mixed
-     */
-    private $service;
+    private $office;
 
     /**
      * @param Office $office
@@ -25,16 +21,11 @@ class DashboardData
     }
 
     /**
-     * @param  string  $office
-     * @param  string  $month
+     * @param string $month
      * @return mixed
      */
     public function getStatsThisMonth(string $month): array
     {
-        $chartData = [
-            'labels' => [],
-            'data' => []
-        ];
 
         $feedback = $this->office->feedback()->with('answers')->filter(['month' => $month])
             ->get();
@@ -42,15 +33,32 @@ class DashboardData
         $lastDate = new CarbonImmutable($month);
         $lastDate->endOfMonth();
 
-        $chartDataByDay = array_fill(1, +$lastDate->format('t'), 0);
+        $chartDataByDate = $transcriptionTotalByDate = $transcriptionDoneByDate = array_fill(1, +$lastDate->format('t'), 0);
         foreach ($feedback as $feed) {
-            $chartDataByDay[$feed->created_at->format('j')] += 1;
+            /** @var \App\Models\Feedback $feed */
+            $currentDay = $feed->created_at->format('j');
+            ++$chartDataByDate[$currentDay];
+            $transcriptionTotalByDate[$currentDay] += (int)$feed->hasCommentImage();
+            $transcriptionDoneByDate[$currentDay] += (int)$feed->commentImageHasBeenTranscribed();
         }
 
-        $chartData['labels'] = (array_keys($chartDataByDay));
-        $chartData['data'] = (array_values($chartDataByDay));
-
-        return $chartData;
+        return [
+            'labels' => array_keys($chartDataByDate),
+            'datasets' => [
+                [
+                    'label' => "Number of Feedback",
+                    'data' => array_values($chartDataByDate)
+                ],
+                [
+                    'label' => "with Additional Comments",
+                    'data' => array_values($transcriptionTotalByDate)
+                ],
+                [
+                    'label' => "Transcribed Comments",
+                    'data' => array_values($transcriptionDoneByDate)
+                ],
+            ]
+        ];
     }
 
     /**
@@ -75,13 +83,48 @@ class DashboardData
             $chartDataByMonth[$now->subMonth()->format('Y-m')] = 0;
         }
         // dd($now->format('Y-m'), $chartDataByMonth);
-        foreach ($feedback->pluck('created_at') as $date) {
-            $chartDataByMonth[$date->format('Y-m')] += 1;
+        $transcriptionTotalByMonth = $transcriptionDoneByMonth = $chartDataByMonth;
+        foreach ($feedback as $feed) {
+            $monthYear = $feed->created_at->format('Y-m');
+            try {
+                ++$chartDataByMonth[$monthYear];
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+            try {
+                $transcriptionTotalByMonth[$monthYear] += (int)$feed->hasCommentImage();
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+            try {
+                $transcriptionDoneByMonth[$monthYear] += (int)$feed->commentImageHasBeenTranscribed();
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         }
+
         ksort($chartDataByMonth);
-        $chartData['labels'] = array_keys($chartDataByMonth);
-        $chartData['data'] = array_values($chartDataByMonth);
-        return $chartData;
+        ksort($transcriptionTotalByMonth);
+        ksort($transcriptionDoneByMonth);
+
+
+        return [
+            'labels' => array_keys($chartDataByMonth),
+            'datasets' => [
+                [
+                    'label' => "Number of Feedback",
+                    'data' => array_values($chartDataByMonth)
+                ],
+                [
+                    'label' => "with Additional Comments",
+                    'data' => array_values($transcriptionTotalByMonth)
+                ],
+                [
+                    'label' => "Transcribed Comments",
+                    'data' => array_values($transcriptionDoneByMonth)
+                ],
+            ]
+        ];
 
     }
 }

@@ -54,7 +54,7 @@
               @click="selectOffice(row.id)"
             >
               <div class="w-1/12 px-2 py-1 border-b border-r">
-                {{ +i+1 }}
+                {{ +i + 1 }}
               </div>
               <div class="w-9/12 px-2 py-1 border-b border-r">
                 {{ row.abbr }}
@@ -82,6 +82,7 @@ import AppLayout from "~/Layouts/AppLayout";
 import DateInput from "~/Shared/DateInput";
 import LineChart from "./LineChart";
 import axios from "axios";
+import {CHART_COLORS} from "../../Shared/colors";
 
 export default {
   components: {
@@ -92,9 +93,13 @@ export default {
   props: {
     mostFeedback: {
       type: Array,
-      default: () => {},
+      default: () => {
+      },
     },
-    filters: { type: [Object, Array], default: () => {} },
+    filters: {
+      type: [Object, Array], default: () => {
+      }
+    },
     // chartData: {
     //   type: Object,
     //   default: null,
@@ -112,14 +117,18 @@ export default {
       chartLoaded: false,
       chartData: null,
       chartOptions: null,
-      chartGradient: null,
-      chartGradient2: null,
+      chartGradients: [],
     };
   },
   watch: {},
   mounted() {
     // this.$nextTick(function () {
     // });
+  },
+  computed: {
+    borderColors(){
+      return Object.keys(CHART_COLORS);
+    },
   },
   methods: {
     filter() {
@@ -139,27 +148,26 @@ export default {
             ).content,
             "X-Requested-With": "XMLHttpRequest",
           },
-          // responseType: "blob", // important
         })
         .then((response) => {
           this.sending = false;
           this.chartLoaded = true;
-          if (!this.chartGradient) {
+          if (this.chartGradients.length === 0) {
             this.applyGradient();
           }
-          // console.log("response.data", response.data);
+
+          const datasets = response.data.datasets.map((set, i) => {
+            return {
+              ...set,
+              backgroundColor: this.chartGradients[i],
+              borderColor: this.borderColors[i],
+              pointBackgroundColor: "white",
+            }
+          });
 
           (this.chartData = {
             labels: response.data.labels,
-            datasets: [
-              {
-                label: "Number of Feedback",
-                data: response.data.data,
-                backgroundColor: this.chartGradient,
-                borderColor: "#05CBE1",
-                pointBackgroundColor: "white",
-              },
-            ],
+            datasets: datasets
           }),
             (this.chartOptions = {
               responsive: true,
@@ -173,22 +181,18 @@ export default {
         });
     },
     applyGradient() {
-      this.chartGradient = document
-        .querySelector("canvas")
-        .getContext("2d")
-        .createLinearGradient(0, 0, 0, 450);
-      this.chartGradient2 = document
-        .querySelector("canvas")
-        .getContext("2d")
-        .createLinearGradient(0, 0, 0, 450);
+      Object.values(CHART_COLORS).map((colorStops) => {
+        let chartGradient = document
+          .querySelector("canvas")
+          .getContext("2d")
+          .createLinearGradient(0, 0, 0, 450);
 
-      this.chartGradient.addColorStop(0, "rgba(0, 231, 255, 0.9)");
-      this.chartGradient.addColorStop(0.5, "rgba(0, 231, 255, 0.25)");
-      this.chartGradient.addColorStop(1, "rgba(0, 231, 255, 0)");
+        for (let i = 0; i < colorStops.length; i++) {
+          chartGradient.addColorStop((i/colorStops.length), colorStops[i]);
+        }
 
-      this.chartGradient2.addColorStop(0, "rgba(255, 0,0, 0.5)");
-      this.chartGradient2.addColorStop(0.5, "rgba(255, 0, 0, 0.25)");
-      this.chartGradient2.addColorStop(1, "rgba(255, 0, 0, 0)");
+        this.chartGradients.push(chartGradient)
+      });
     },
   },
 };

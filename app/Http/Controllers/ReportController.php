@@ -104,12 +104,12 @@ class ReportController extends Controller
         $filePath = storage_path('/app/reports/' . $filename);
         // dd($nodeBin);
         $puppeteer = new Puppeteer([
-            // 'executable_path' => $nodeBin,
+            'executable_path' => $nodeBin,
             'log_node_console' => true,
             'log_browser_console' => true
         ]);
         $browser = $puppeteer->connect([
-            'browserWSEndpoint' => 'ws://browserless:3000'
+            'browserWSEndpoint' => 'ws://'.env('BROWSERLESS_URL', 'browserless:3000')
         ]);
 
         try {
