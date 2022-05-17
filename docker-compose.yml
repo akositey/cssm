@@ -6,8 +6,8 @@ services:
         environment:
             - MAX_PAYLOAD_SIZE=100mb
             - HOST=browserless
-        ports:
-            - '3000:3000'
+        #ports:
+        #    - '${FORWARD_BROWSERLESS_PORT:-3000}:3000'
         networks:
             - sail
         restart: always
@@ -34,7 +34,7 @@ services:
             - mysql
             # - redis
             # - selenium
-    
+
     # selenium:
     #     image: 'selenium/standalone-chrome'
     #     volumes:
