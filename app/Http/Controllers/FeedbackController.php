@@ -12,10 +12,10 @@ class FeedbackController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * @param  \Illuminate\Http\Request    $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return \Inertia\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): \Inertia\Response
     {
         $filters = $request->only('office', 'service', 'date', 'month', 'hasComments');
         $feedback = Feedback::filter($filters)->orderBy('created_at', 'DESC')->paginate(10)->withQueryString();
@@ -30,6 +30,7 @@ class FeedbackController extends Controller
                 'date' => $row->created_at->format('M j, Y g:i a')
             ];
         });
+
         return Inertia::render('Feedback/Index', [
             'filters' => $filters,
             'feedback' => $feedback,
@@ -53,10 +54,10 @@ class FeedbackController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Feedback        $feedback
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Feedback $feedback
+     * @return \Inertia\Response
      */
-    public function show(Feedback $feedback)
+    public function show(Feedback $feedback): \Inertia\Response
     {
         $feedbackData = [
             'id' => $feedback->id,
@@ -90,18 +91,18 @@ class FeedbackController extends Controller
     /**
      * update only comments. this is for transcribing comment image
      *
-     * @param  Request  $request
-     * @param  Feedback $feedback
-     * @return void
+     * @param Request $request
+     * @param Feedback $feedback
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Feedback $feedback)
+    public function update(Request $request, Feedback $feedback): \Illuminate\Http\RedirectResponse
     {
         $feedback->update([
-            'positive_comments' => $request->positiveComments,
-            'negative_comments' => $request->negativeComments
+            'positive_comments' => $request->get('positiveComments'),
+            'negative_comments' => $request->get('negativeComments')
         ]);
-        return back()->with('success', 'Feedback Successfully Updated');
 
+        return back()->with('success', 'Feedback Successfully Updated');
     }
 
 }

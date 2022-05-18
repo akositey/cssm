@@ -12,29 +12,32 @@ class UtilController extends Controller
 {
     /**
      * @param Request $request
+     * @return \Inertia\Response
      */
-    public function create(Request $request)
+    public function create(Request $request): \Inertia\Response
     {
         return Inertia::render('Tools/Export');
     }
 
     /**
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function checkPassCode(Request $request)
+    public function checkPassCode(Request $request): \Illuminate\Http\JsonResponse
     {
         $status = true;
         $error = null;
-        if ($request->passCode !== env('ADMIN_PASS_CODE', '1230')) {
+        if ($request->get('passCode') !== env('ADMIN_PASS_CODE', '1230')) {
             $error = 'Incorrect Pass Code';
             $status = false;
         }
+
         return response()->json(['status' => $status, 'error' => $error]);
-        // return response()->json(['error' => 'Admin Pass Code is Not Set Up']);
     }
 
     /**
      * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function export(Request $request)
     {
@@ -44,16 +47,16 @@ class UtilController extends Controller
 
         ini_set('max_execution_time', 600); //just in case the pc/server is slow
 
-        if (!$request->month) {
+        if (!$request->get('month')) {
             return redirect(route('home'))->with('error', 'please specify month');
         }
 
         # gather sql
         $dumpFile = 'dump.json';
         $comments = $signatures = [];
-        $feedback = Feedback::where('created_at', 'like', $request->month . '%')->get()
+        $feedback = Feedback::where('created_at', 'like', $request->get('month') . '%')->get()
             ->transform(function ($row) use (&$comments, &$signatures) {
-                $comments[$row->id] = $row->comments_image_path ?? $row->comments_image_path;
+                $comments[$row->id] = $row->comments_image_path;
                 $signatures[$row->id] = $row->signature_image_path;
 
                 return [

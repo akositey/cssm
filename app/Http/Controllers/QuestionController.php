@@ -11,9 +11,10 @@ class QuestionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return \Inertia\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): \Inertia\Response
     {
         $types = ['mandatory', 'optional: positive', 'optional: negative', 'optional: etc'];
         $questions = Question::filter($request->only('search', 'trashed'))->paginate(10)->withQueryString();
@@ -36,9 +37,9 @@ class QuestionController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
-    public function create()
+    public function create(): \Inertia\Response
     {
         return Inertia::render('Questions/Create');
     }
@@ -46,8 +47,8 @@ class QuestionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request    $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
@@ -56,27 +57,28 @@ class QuestionController extends Controller
             'is_required' => 'required',
             'type' => 'nullable'
         ]));
+
         return redirect(route('questions.index'))->with('success', 'Question Successfully Created');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Question        $question
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Question $question
+     * @return void
      */
-    public function show(Question $question)
+    public function show(Question $question): void
     {
-        //
+        // N/A
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Question        $question
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Question $question
+     * @return \Inertia\Response
      */
-    public function edit(Question $question)
+    public function edit(Question $question): \Inertia\Response
     {
         return Inertia::render('Questions/Edit', [
             'question' => $question
@@ -86,9 +88,9 @@ class QuestionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request    $request
-     * @param  \App\Models\Question        $question
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Question $question
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request, Question $question)
     {
@@ -97,19 +99,20 @@ class QuestionController extends Controller
             'is_required' => 'required',
             'type' => 'nullable'
         ]));
+
         return redirect(route('questions.index'))->with('success', 'Question Successfully Updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Question        $question
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Question $question
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy(Question $question)
     {
         $question->delete();
-        return redirect(route('questions.index'))->with('success', 'Question Successfully Deleted');
 
+        return redirect(route('questions.index'))->with('success', 'Question Successfully Deleted');
     }
 }

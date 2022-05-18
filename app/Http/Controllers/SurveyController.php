@@ -28,9 +28,9 @@ class SurveyController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
-    public function index()
+    public function index(): \Inertia\Response
     {
         return Inertia::render('Feedback/Create', [
             'questions' => Question::all(),
@@ -41,13 +41,12 @@ class SurveyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request    $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Throwable
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
         # benchmark
         // $timer = microtime(true);
 
@@ -96,9 +95,9 @@ class SurveyController extends Controller
         $this->imageHandler->create($decodedSignatureImage, $sigFolder, $sigFilename);
 
         # begin transaction
-        DB::transaction(function () use ($fields, $user, $commentsFolder, &$commentsFilename, $sigFolder, &$sigFilename) {
+        DB::transaction(static function () use ($fields, $user, $commentsFolder, &$commentsFilename, $sigFolder, &$sigFilename) {
             # save to database
-            $fields = $fields + [
+            $fields += [
                 'comments_image_path' => $fields['additional_comments'] ? $commentsFolder . '/' . $commentsFilename : null,
                 'signature_image_path' => $sigFolder . '/' . $sigFilename,
                 'user_id' => $user->id

@@ -33,8 +33,10 @@ class ReportController extends Controller
     public function index(Request $request): \Inertia\Response
     {
         $filters = $request->only('office', 'month_from', 'month_to');
-        [$office, $monthFrom, $monthTo] = $filters;
-
+        $office = $monthFrom = $monthTo = null;
+        if(!empty($filters)) {
+            ['office' => $office, 'month_from' => $monthFrom, 'month_to' => $monthTo] = $filters;
+        }
         $stats = [
             'services' => [],
             'total' => []
