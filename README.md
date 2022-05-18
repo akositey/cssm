@@ -10,23 +10,23 @@ Touch-enabled devices (e.g. tablets) are deployed in offices to collect feedback
 - [InertiaJS](https://inertiajs.com)
 
 ## TO DO
-- ~~add services dropdown (list) in survey first page~~
-- ~~use plugin for checkbox (for browser compatibility)~~ 
+- [OK] ~~add services dropdown (list) in survey first page~~
+- [OK] ~~use plugin for checkbox (for browser compatibility)~~ 
 - optimization
-  - ~~smaller area for signature~~
-  - ~~purge js/css files in prod~~
+  - [OK] ~~smaller area for signature~~
+  - [OK] ~~purge js/css files in prod~~
 - admin menu
-  - ~~offices~~
-  - ~~services~~
-  - ~~questions~~
-  - ~~feedback~~
-  - ~~reports~~
-  - ~~dashboard~~
+  - [OK] ~~offices~~
+  - [OK] ~~services~~
+  - [OK] ~~questions~~
+  - [OK] ~~feedback~~
+  - [OK] ~~reports~~
+  - [OK] ~~dashboard~~
 - dashboard
-  - ~~num of additional comments~~
-  - ~~num of transcribed comments~~
+  - [OK] ~~num of additional comments~~
+  - [OK] ~~num of transcribed comments~~
 - report
-  - use pdf generator instead of browserless service
+  - [OK] ~~use pdf generator instead of browserless service~~
 - data
   - english sample data
 - service
