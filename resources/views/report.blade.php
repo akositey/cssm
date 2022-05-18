@@ -16,7 +16,7 @@
           <tr>
             <td class="w-3/12" rowspan="6">
               <div class="h-20 m-auto">
-                {!! file_get_contents('img/pgom-logo-100.svg') !!}
+                {!! file_get_contents('img/org-logo-100.svg') !!}
               </div>
             </td>
             <td class="h-4"></td>

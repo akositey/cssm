@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import Logo from "~/Shared/PgomLogo";
+import Logo from "~/Shared/DefaultLogo";
 import FlashMessages from "~/Shared/FlashMessages";
 import JetDropdown from "~/Jetstream/Dropdown";
 import JetDropdownLink from "~/Jetstream/DropdownLink";
