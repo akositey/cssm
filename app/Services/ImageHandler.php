@@ -11,10 +11,10 @@ class ImageHandler
     /**
      * resize, store, and optimize image
      *
-     * @param  string $imageData
-     * @param  string $folder
-     * @param  string $filename
-     * @param  int    $width
+     * @param string $imageData
+     * @param string $folder
+     * @param string $filename
+     * @param int|null $width
      * @return void
      */
     public function create(string $imageData, string $folder, string $filename, int $width = null): void
@@ -37,6 +37,7 @@ class ImageHandler
     /**
      * optimize image
      *
+     * @param $filePath
      * @return void
      */
     protected function optimize($filePath): void
