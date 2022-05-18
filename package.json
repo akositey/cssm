@@ -45,7 +45,7 @@
         "@nesk/puphpeteer": "^2.0.0",
         "autoprefixer": "^9.8.8",
         "postcss": "^7.0.39",
-        "puppeteer": "^5.5.0",
+        "puppeteer": "^14.1.0",
         "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1"
     }
 }
