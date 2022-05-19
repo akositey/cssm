@@ -15,7 +15,7 @@ class LoginResponse implements LoginResponseContract
     public function toResponse($request)
     {
 
-        $home = Auth::user()->is_admin === 1 ? config('fortify.dashboard') : config('fortify.home');
+        $home = Auth::user()->is_admin ? config('fortify.dashboard') : config('fortify.home');
 
         // below is the existing response
         // replace this with your own code
