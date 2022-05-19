@@ -11,7 +11,7 @@ class OfficeSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $offices = [
             //GO
@@ -358,9 +358,9 @@ class OfficeSeeder extends Seeder
 
     /**
      * @param array  $offices
-     * @param String $parentId
+     * @param String|null $parentId
      */
-    private function create(array $offices, $parentId = null)
+    private function create(array $offices, string $parentId = null): void
     {
         foreach ($offices as $office) {
             $origOffice = $office;

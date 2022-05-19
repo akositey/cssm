@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call([
             OfficeSeeder::class,
@@ -23,10 +23,10 @@ class DatabaseSeeder extends Seeder
             QuestionSeeder::class,
             SignatorySettingsSeeder::class
         ]);
-        if (App::environment('local', 'testing', 'staging')) {
+//        if (App::environment('local', 'testing', 'staging')) {
             $this->call([
                 DevSeeder::class
             ]);
-        }
+//        }
     }
 }

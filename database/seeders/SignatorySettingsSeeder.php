@@ -12,12 +12,12 @@ class SignatorySettingsSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $default = [
-            'reviewer_name' => 'Engr. MARIE JOYCE B. RIVERA',
+            'reviewer_name' => 'Engr. MAR JOY B. RIVER',
             'reviewer_position' => 'Supervising Administrative Officer',
-            'noter_name' => 'HUBBERT CHRISTOPHER A. DOLOR, MD, MPA, MHA',
+            'noter_name' => 'HUB CHRIS A. DOL, MD, MPA, MHA',
             'noter_position' => 'Provincial Administrator'
         ];
 

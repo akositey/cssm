@@ -200,7 +200,7 @@ class ServiceSeeder extends Seeder
         ];
         foreach ($services as $service) {
 
-            $officeMatch = \App\Models\Office::where('abbr', $service["office"])->first();
+            $officeMatch = \App\Models\Office::whereRaw(sprintf("UPPER(abbr) = '%s'", strtoupper($service["office"])))->first();
             if ($officeMatch) {
                 //create service
                 \App\Models\Service::create([
