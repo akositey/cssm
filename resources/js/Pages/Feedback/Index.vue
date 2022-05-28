@@ -5,12 +5,12 @@
         Feedback
         <div>
           <input
-            type="file"
             ref="toUpload"
+            type="file"
             accept=".zip"
             class="hidden btn-indigo"
             @change="upload"
-          >
+          />
           <button
             class="btn-indigo"
             @click="chooseFile"
@@ -57,16 +57,16 @@
             </option>
           </select-input>
           <date-input
+            v-model="filterForm.month"
             type="month"
             format="YYYY-MM"
-            v-model="filterForm.month"
             class="hidden pr-6 "
             label="Month"
           />
           <date-input
+            v-model="filterForm.date"
             type="date"
             format="YYYY-MM-DD"
-            v-model="filterForm.date"
             class="pr-6"
             label="Date"
           />
@@ -179,7 +179,7 @@
             tabindex="-1"
           >
             <icon
-              name="cheveron-right"
+              name="chevron-right"
               class="w-6 h-6 m-auto fill-gray-400"
             />
           </inertia-link>
@@ -199,26 +199,26 @@
 </template>
 
 <script>
-import AppLayout from "./../../Layouts/AppLayout";
-import Icon from "./../../Shared/Icon";
-import Pagination from "./../../Shared/Pagination";
-import SelectInput from "./../../Shared/SelectInput";
-import DateInput from "./../../Shared/DateInput";
-import mapValues from "lodash/mapValues";
+import AppLayout from './../../Layouts/AppLayout'
+import Icon from './../../Shared/Icon'
+import Pagination from './../../Shared/Pagination'
+import SelectInput from './../../Shared/SelectInput'
+import DateInput from './../../Shared/DateInput'
+import mapValues from 'lodash/mapValues'
 
 export default {
-  props: {
-    feedback: { type: Object, default: () => {} },
-    offices: { type: Array, default: () => {} },
-    services: { type: Array, default: () => {} },
-    filters: { type: [Object, Array], default: () => {} },
-  },
   components: {
     AppLayout,
     Icon,
     Pagination,
     SelectInput,
     DateInput,
+  },
+  props: {
+    feedback: { type: Object, default: () => {} },
+    offices: { type: Array, default: () => {} },
+    services: { type: Array, default: () => {} },
+    filters: { type: [Object, Array], default: () => {} },
   },
   data() {
     return {
@@ -229,35 +229,35 @@ export default {
         date: this.filters.date,
         hasComments: this.filters.hasComments,
       },
-    };
+    }
   },
-  watch: {},
   computed: {
     officeServices() {
       return this.services.filter(
-        (service) => service.officeId == this.filterForm.office
-      );
+        (service) => service.officeId == this.filterForm.office,
+      )
     },
   },
+  watch: {},
   methods: {
     submit() {
       // console.log(this.filterForm);
-      this.$inertia.replace(this.route("feedback.index"), {
+      this.$inertia.replace(this.route('feedback.index'), {
         data: this.filterForm,
-      });
+      })
     },
     reset() {
-      this.filterForm = mapValues(this.filterForm, () => null);
-      this.submit();
+      this.filterForm = mapValues(this.filterForm, () => null)
+      this.submit()
     },
     chooseFile() {
-      this.$refs.toUpload.click();
+      this.$refs.toUpload.click()
     },
     upload() {
-      let form = new FormData();
-      form.append("file", this.$refs.toUpload.files[0]);
-      this.$inertia.post(this.route("import"), form);
+      let form = new FormData()
+      form.append('file', this.$refs.toUpload.files[0])
+      this.$inertia.post(this.route('import'), form)
     },
   },
-};
+}
 </script>

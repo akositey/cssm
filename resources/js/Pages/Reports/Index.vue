@@ -29,16 +29,16 @@
             </option>
           </select-input>
           <date-input
+            v-model="filterForm.month_from"
             type="month"
             format="YYYY-MM"
-            v-model="filterForm.month_from"
             class="pr-6"
             label="From (month)"
           />
           <date-input
+            v-model="filterForm.month_to"
             type="month"
             format="YYYY-MM"
-            v-model="filterForm.month_to"
             class="pr-6"
             label="To (month)"
           />
@@ -71,18 +71,18 @@
       <table class="w-full my-4 whitespace-no-wrap bg-white border border-black">
         <table-head />
         <tbody
-          class="border border-black"
           v-for="(service,i) in stats.services"
           :key="i"
+          class="border border-black"
         >
           <tr
             v-for="(question,x) in service.questions"
             :key="x"
           >
             <td
+              v-if="x===0"
               class="px-2 font-bold whitespace-normal align-top border-b-0 border-r border-black"
               rowspan="3"
-              v-if="x===0"
             >
               {{ service.name }}
             </td>
@@ -90,9 +90,9 @@
               {{ question.question }}
             </td>
             <td
+              v-if="x===0"
               class="text-center border border-b-0"
               rowspan="3"
-              v-if="x===0"
             >
               {{ service.clients }}
             </td>
@@ -104,9 +104,9 @@
               {{ rating }}
             </td>
             <td
+              v-if="x===0"
               class="text-center border border-b-0 border-black"
               rowspan="3"
-              v-if="x===0"
             >
               {{ service.goodRatingPercentage }}
             </td>
@@ -259,8 +259,8 @@
           </tr>
         </tbody>
         <tfoot
-          class="border border-black"
           v-if="stats.total && !sending"
+          class="border border-black"
         >
           <tr class="bg-orange-400">
             <th class="border border-black" />
@@ -290,29 +290,29 @@
           target="_blank"
         >
           <input
+            id="_token"
             type="hidden"
             name="_token"
-            id="_token"
             :value="csrf_token"
-          >
+          />
           <input
+            id="office"
             type="hidden"
             name="office"
-            id="office"
             :value="filters.office"
-          >
+          />
           <input
+            id="month_from"
             type="hidden"
             name="month_from"
-            id="month_from"
             :value="filters.month_from"
-          >
+          />
           <input
+            id="month_to"
             type="hidden"
             name="month_to"
-            id="month_to"
             :value="filters.month_to"
-          >
+          />
           <button
             type="submit"
             class="btn-indigo"
@@ -330,21 +330,16 @@
 </template>
 
 <script>
-import AppLayout from "~/Layouts/AppLayout";
-import SelectInput from "~/Shared/SelectInput";
-import DateInput from "~/Shared/DateInput";
-import Icon from "~/Shared/Icon";
-import LoadingButton from "~/Shared/LoadingButton";
-import TableHead from "./TableHead";
-import DummyTable from "./DummyTable";
-import mapValues from "lodash/mapValues";
+import AppLayout from '@/Layouts/AppLayout'
+import SelectInput from '@/Shared/SelectInput'
+import DateInput from '@/Shared/DateInput'
+import Icon from '@/Shared/Icon'
+import LoadingButton from '@/Shared/LoadingButton'
+import TableHead from './TableHead'
+import DummyTable from './DummyTable'
+import mapValues from 'lodash/mapValues'
 
 export default {
-  props: {
-    offices: { type: Array, default: () => {} },
-    filters: { type: [Object, Array], default: () => {} },
-    stats: { type: [Object, Array], default: () => {} },
-  },
   components: {
     AppLayout,
     SelectInput,
@@ -353,6 +348,11 @@ export default {
     TableHead,
     DummyTable,
     Icon,
+  },
+  props: {
+    offices: { type: Array, default: () => {} },
+    filters: { type: [Object, Array], default: () => {} },
+    stats: { type: [Object, Array], default: () => {} },
   },
   data() {
     return {
@@ -364,26 +364,26 @@ export default {
       sending: false,
       csrf_token: document
         .querySelector('meta[name="csrf-token"]')
-        .getAttribute("content"),
-    };
+        .getAttribute('content'),
+    }
   },
   computed: {},
   watch: {},
   methods: {
     viewReport() {
       (this.sending = true),
-        this.$inertia.visit(this.route("reports.index"), {
-          data: this.filterForm,
-          replace: true,
-          onFinish: () => {
-            this.sending = false;
-          },
-        });
+      this.$inertia.visit(this.route('reports.index'), {
+        data: this.filterForm,
+        replace: true,
+        onFinish: () => {
+          this.sending = false
+        },
+      })
     },
     reset() {
-      this.filterForm = mapValues(this.filterForm, () => null);
-      this.viewReport();
+      this.filterForm = mapValues(this.filterForm, () => null)
+      this.viewReport()
     },
   },
-};
+}
 </script>

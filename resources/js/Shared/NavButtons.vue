@@ -27,14 +27,14 @@ export default {
   data() {
     return {
       newCount: this.currentCount,
-    };
+    }
   },
   methods: {
     changeTo(ctr) {
-      console.log(this.currentCount);
-      console.log(this.newCount);
-      return this.$emit("change-page", this.newCount);
+      console.log(this.currentCount)
+      console.log(this.newCount)
+      return this.$emit('change-page', this.newCount)
     },
   },
-};
+}
 </script>

@@ -48,19 +48,19 @@
 </template>
 
 <script>
-import AppLayout from "~/Layouts/AppLayout";
-import TextInput from "~/Shared/TextInput";
-import LoadingButton from "~/Shared/LoadingButton";
+import AppLayout from '@/Layouts/AppLayout'
+import TextInput from '@/Shared/TextInput'
+import LoadingButton from '@/Shared/LoadingButton'
 
 export default {
-  props: {
-    settings: { type: [Object, Array], default: () => {} },
-    errors: { type: [Object, Array], default: () => {} },
-  },
   components: {
     AppLayout,
     TextInput,
     LoadingButton,
+  },
+  props: {
+    settings: { type: [Object, Array], default: () => {} },
+    errors: { type: [Object, Array], default: () => {} },
   },
   data() {
     return {
@@ -71,20 +71,20 @@ export default {
         noterPosition: this.settings.noterPosition,
       },
       sending: false,
-    };
+    }
   },
   computed: {},
   watch: {},
   methods: {
     saveSettings() {
-      this.sending = true;
-      this.$inertia.patch(this.route("signatories.update"), this.form, {
+      this.sending = true
+      this.$inertia.patch(this.route('signatories.update'), this.form, {
         onFinish: () => {
-          this.sending = false;
-          console.log("done");
+          this.sending = false
+          console.log('done')
         },
-      });
+      })
     },
   },
-};
+}
 </script>

@@ -14,16 +14,18 @@
       tabindex="-1"
       type="button"
       @click="$emit('restore')"
-    >Restore</button>
+    >
+      Restore
+    </button>
   </div>
 </template>
 
 <script>
-import Icon from '~/Shared/Icon';
+import Icon from '@/Shared/Icon'
 
 export default {
   components: {
     Icon,
   },
-};
+}
 </script>

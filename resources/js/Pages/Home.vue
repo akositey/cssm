@@ -23,15 +23,15 @@
   </feedback-layout>
 </template>
 <script>
-import FeedbackLayout from "~/Layouts/FeedbackLayout";
-// import SelectInput from "~/Shared/SelectInput";
+import FeedbackLayout from '@/Layouts/FeedbackLayout'
+// import SelectInput from "@/Shared/SelectInput";
 
 export default {
   components: { FeedbackLayout },
   props: {
     file: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   // data() {
@@ -49,18 +49,17 @@ export default {
     goFullScreen() {
       //go fullscreen
       document.documentElement
-        .requestFullscreen({ navigationUI: "show" })
+        .requestFullscreen({ navigationUI: 'show' })
         .then(function () {
-          console.log("entered full screen");
+          console.log('entered full screen')
         })
         .catch(function (error) {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
   },
-};
+}
 </script>
 
 
 
-    

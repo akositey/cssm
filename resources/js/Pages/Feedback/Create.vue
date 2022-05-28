@@ -37,7 +37,7 @@
               @click="scrollToNext(1)"
             >
               <icon
-                name="cheveron-right"
+                name="chevron-right"
                 class="w-12 h-12 md:w-20 md:h-20 fill-white "
               />
             </button>
@@ -48,8 +48,8 @@
       <!-- mandatory -->
       <div
         v-for="(question, i) in questionsSet.mandatory"
-        :key="question.id"
         :id="`question-${i+1}-cont`"
+        :key="question.id"
         class="h-screen p-6 mt-20 bg-white rounded shadow-xl"
       >
         <div class="text-xl font-bold md:text-5xl sm:text-3xl">
@@ -67,7 +67,7 @@
               @click="scrollToNext(i)"
             >
               <icon
-                name="cheveron-right"
+                name="chevron-right"
                 class="w-12 h-12 transform -rotate-180 md:w-20 md:h-20 fill-white focus:fill-gray-600"
               />
             </button>
@@ -85,7 +85,7 @@
               @click="scrollToNext(i+2)"
             >
               <icon
-                name="cheveron-right"
+                name="chevron-right"
                 class="w-12 h-12 md:w-20 md:h-20 fill-white "
               />
             </button>
@@ -112,7 +112,7 @@
               @click="scrollToNext(questionsSet.mandatory.length)"
             >
               <icon
-                name="cheveron-right"
+                name="chevron-right"
                 class="w-12 h-12 transform -rotate-180 md:w-20 md:h-20 fill-white focus:fill-gray-600"
               />
             </button>
@@ -130,7 +130,7 @@
               @click="scrollToNext(questionsSet.mandatory.length+2)"
             >
               <icon
-                name="cheveron-right"
+                name="chevron-right"
                 class="w-12 h-12 md:w-20 md:h-20 fill-white "
               />
             </button>
@@ -157,7 +157,7 @@
               @click="scrollToNext(questionsSet.mandatory.length+1)"
             >
               <icon
-                name="cheveron-right"
+                name="chevron-right"
                 class="w-12 h-12 transform -rotate-180 md:w-20 md:h-20 fill-white focus:fill-gray-600"
               />
             </button>
@@ -175,7 +175,7 @@
               @click="scrollToNext(questionsSet.mandatory.length+3)"
             >
               <icon
-                name="cheveron-right"
+                name="chevron-right"
                 class="w-12 h-12 md:w-20 md:h-20 fill-white "
               />
             </button>
@@ -208,7 +208,7 @@
             @click="scrollToNext(questionsSet.mandatory.length+4)"
           >
             <icon
-              name="cheveron-right"
+              name="chevron-right"
               class="w-12 h-12 md:w-20 md:h-20 fill-white "
             />
           </button>
@@ -251,7 +251,7 @@
             />
             <icon
               v-else
-              name="cheveron-right"
+              name="chevron-right"
               class="inline w-12 h-12 md:w-20 md:h-20 fill-white "
             />
           </button>
@@ -261,12 +261,12 @@
   </feedback-layout>
 </template>
 <script>
-import FeedbackLayout from "~/Layouts/FeedbackLayout";
-import EmojiChoices from "~/Shared/EmojiChoices";
-import OptionalComment from "~/Shared/OptionalComment";
-import Icon from "~/Shared/Icon";
-import EmojiError from "~/Shared/EmojiError";
-import SignaturePad from "signature_pad";
+import FeedbackLayout from '@/Layouts/FeedbackLayout'
+import EmojiChoices from '@/Shared/EmojiChoices'
+import OptionalComment from '@/Shared/OptionalComment'
+import Icon from '@/Shared/Icon'
+import EmojiError from '@/Shared/EmojiError'
+import SignaturePad from 'signature_pad'
 
 export default {
   components: {
@@ -289,21 +289,21 @@ export default {
           service_id: null,
           mandatory: {},
           optional: {},
-          additional_comments: "",
-          signature: "",
+          additional_comments: '',
+          signature: '',
         },
         {
           resetOnSuccess: false,
-        }
+        },
       ),
       questionsSet: {
         mandatory: this.questions.filter((q) => q.is_required),
         optional: {
           positive: this.questions.filter(
-            (q) => !q.is_required && q.type === 1
+            (q) => !q.is_required && q.type === 1,
           ),
           negative: this.questions.filter(
-            (q) => !q.is_required && q.type === 2
+            (q) => !q.is_required && q.type === 2,
           ),
           // etc: this.questions.filter(
           //   (q) => !q.is_required && q.type === 3
@@ -321,60 +321,60 @@ export default {
         pad: null,
         error: null,
       },
-    };
+    }
   },
   mounted() {
     this.$nextTick(function () {
       // scroll to top
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: 'smooth' })
 
       //init comments pad
-      this.comment.canvas = document.getElementById("comment-pad");
+      this.comment.canvas = document.getElementById('comment-pad')
       this.comment.pad = new SignaturePad(this.comment.canvas, {
         dotSize: 1,
         maxWidth: 1,
-      });
+      })
 
       //init signature pad
-      this.signature.canvas = document.getElementById("signature-pad");
+      this.signature.canvas = document.getElementById('signature-pad')
       this.signature.pad = new SignaturePad(this.signature.canvas, {
         minWidth: 1,
         maxWidth: 3,
-        penColor: "blue",
-      });
+        penColor: 'blue',
+      })
 
       //resize canvas, fix for SignaturePad
-      window.addEventListener("resize", this.resizeCanvas);
-      this.resizeCanvas();
-    });
+      window.addEventListener('resize', this.resizeCanvas)
+      this.resizeCanvas()
+    })
   },
   methods: {
     submit() {
       // console.log("submit triggered!");
       // check if signature is not empty
       if (this.signature.pad.isEmpty()) {
-        this.signature.error = "Pumirma muna dito 👇🏻 bago tapusin. Salamat po!";
+        this.signature.error = 'Pumirma muna dito 👇🏻 bago tapusin. Salamat po!'
       } else {
         // add images to form
-        this.form.additional_comments = this.cropCanvas(this.comment.canvas);
-        this.form.signature = this.cropCanvas(this.signature.canvas);
-        this.sending = true;
+        this.form.additional_comments = this.cropCanvas(this.comment.canvas)
+        this.form.signature = this.cropCanvas(this.signature.canvas)
+        this.sending = true
 
         // submit form
-        this.form.post(this.route("survey.store")).then(() => {
-          this.sending = false;
-          this.signature.error = null;
+        this.form.post(this.route('survey.store')).then(() => {
+          this.sending = false
+          this.signature.error = null
 
           // validation handling
           if (Object.keys(this.$page.props.errors)[0]) {
-            const unanswered = Object.keys(this.$page.props.errors)[0];
-            let questionNumber = 0;
+            const unanswered = Object.keys(this.$page.props.errors)[0]
+            let questionNumber = 0
             if (unanswered.match(/(\d+)/)) {
-              questionNumber = unanswered.match(/(\d+)/)[0];
+              questionNumber = unanswered.match(/(\d+)/)[0]
             }
-            this.scrollToNext(questionNumber);
+            this.scrollToNext(questionNumber)
           }
-        });
+        })
       }
     },
     updateMandatoryAnswers(questionNumber, questionId, answer) {
@@ -382,88 +382,88 @@ export default {
       this.form.mandatory[questionId] = {
         question_id: questionId,
         answer: answer,
-      };
+      }
 
-      this.scrollToNext(+questionNumber + 1);
+      this.scrollToNext(+questionNumber + 1)
     },
     updateOptionalAnswer(questionNumber, type, chosenIds) {
       // console.log(questionNumber, type, chosenIds);
       let newOptional = chosenIds.map((questionId) => {
-        console.log("questionId", questionId);
+        console.log('questionId', questionId)
         return {
           question_id: questionId,
           answer: 1,
-        };
-      });
+        }
+      })
       // console.log(newOptional);
-      this.form.optional[type] = newOptional;
+      this.form.optional[type] = newOptional
 
       // this.form.optional[type] = chosenIds;
       if (chosenIds.length === this.maxChecked) {
-        this.scrollToNext(+questionNumber + 1);
+        this.scrollToNext(+questionNumber + 1)
       }
     },
     scrollToNext(questionNumber) {
       // scroll into the next view
       // console.log("scrolling to question #" + questionNumber);
-      const block = document.getElementById(`question-${questionNumber}-cont`);
-      window.scrollTo({ top: block.offsetTop, left: 0, behavior: "smooth" });
+      const block = document.getElementById(`question-${questionNumber}-cont`)
+      window.scrollTo({ top: block.offsetTop, left: 0, behavior: 'smooth' })
     },
     resizeCanvas() {
-      const ratio = Math.max(window.devicePixelRatio || 1, 1);
-      this.comment.canvas.width = this.comment.canvas.offsetWidth * ratio;
-      this.comment.canvas.height = this.comment.canvas.offsetHeight * ratio;
-      this.comment.canvas.getContext("2d").scale(ratio, ratio);
-      this.comment.pad.clear(); // otherwise isEmpty() might return incorrect value
+      const ratio = Math.max(window.devicePixelRatio || 1, 1)
+      this.comment.canvas.width = this.comment.canvas.offsetWidth * ratio
+      this.comment.canvas.height = this.comment.canvas.offsetHeight * ratio
+      this.comment.canvas.getContext('2d').scale(ratio, ratio)
+      this.comment.pad.clear() // otherwise isEmpty() might return incorrect value
 
-      this.signature.canvas.width = this.signature.canvas.offsetWidth * ratio;
-      this.signature.canvas.height = this.signature.canvas.offsetHeight * ratio;
-      this.signature.canvas.getContext("2d").scale(ratio, ratio);
-      this.signature.pad.clear(); // otherwise isEmpty() might return incorrect value
+      this.signature.canvas.width = this.signature.canvas.offsetWidth * ratio
+      this.signature.canvas.height = this.signature.canvas.offsetHeight * ratio
+      this.signature.canvas.getContext('2d').scale(ratio, ratio)
+      this.signature.pad.clear() // otherwise isEmpty() might return incorrect value
     },
     cropCanvas: function (canvas) {
       // First duplicate the canvas to not alter the original
-      let croppedCanvas = document.createElement("canvas"),
-        croppedCtx = croppedCanvas.getContext("2d");
+      let croppedCanvas = document.createElement('canvas'),
+        croppedCtx = croppedCanvas.getContext('2d')
 
-      croppedCanvas.width = canvas.width;
-      croppedCanvas.height = canvas.height;
-      croppedCtx.drawImage(canvas, 0, 0);
+      croppedCanvas.width = canvas.width
+      croppedCanvas.height = canvas.height
+      croppedCtx.drawImage(canvas, 0, 0)
 
-      let w = croppedCanvas.width;
-      let h = croppedCanvas.height;
-      let pix = { x: [], y: [] };
-      let imageData = croppedCtx.getImageData(0, 0, w, h);
-      let index = 0;
+      let w = croppedCanvas.width
+      let h = croppedCanvas.height
+      let pix = { x: [], y: [] }
+      let imageData = croppedCtx.getImageData(0, 0, w, h)
+      let index = 0
 
       for (let y = 0; y < h; y++) {
         for (let x = 0; x < w; x++) {
-          index = (y * w + x) * 4;
+          index = (y * w + x) * 4
           if (imageData.data[index + 3] > 0) {
-            pix.x.push(x);
-            pix.y.push(y);
+            pix.x.push(x)
+            pix.y.push(y)
           }
         }
       }
 
-      pix.x.sort((a, b) => a - b);
-      pix.y.sort((a, b) => a - b);
-      let n = pix.x.length - 1;
+      pix.x.sort((a, b) => a - b)
+      pix.y.sort((a, b) => a - b)
+      let n = pix.x.length - 1
 
-      w = pix.x[n] - pix.x[0];
-      h = pix.y[n] - pix.y[0];
+      w = pix.x[n] - pix.x[0]
+      h = pix.y[n] - pix.y[0]
       if (!pix.x[0]) {
         //if image is empty
-        return null;
+        return null
       }
-      var cut = croppedCtx.getImageData(pix.x[0], pix.y[0], w, h);
+      var cut = croppedCtx.getImageData(pix.x[0], pix.y[0], w, h)
 
-      croppedCanvas.width = w;
-      croppedCanvas.height = h;
-      croppedCtx.putImageData(cut, 0, 0);
+      croppedCanvas.width = w
+      croppedCanvas.height = h
+      croppedCtx.putImageData(cut, 0, 0)
 
-      return croppedCanvas.toDataURL();
+      return croppedCanvas.toDataURL()
     },
   },
-};
+}
 </script>

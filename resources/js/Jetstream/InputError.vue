@@ -1,18 +1,13 @@
+<script setup>
+defineProps({
+  message: String,
+})
+</script>
+
 <template>
   <div v-show="message">
-    <p class="text-sm font-bold text-red-600 md:text-4xl">
+    <p className="text-sm text-red-600">
       {{ message }}
     </p>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    message: {
-      type: String,
-      default: "",
-    },
-  },
-};
-</script>

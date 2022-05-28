@@ -1,9 +1,6 @@
 <template>
   <div>
-    <portal-target
-      name="dropdown"
-      slim
-    />
+    <div id="dropdown" />
     <div class="flex flex-col">
       <div
         class="flex flex-col h-screen"
@@ -98,11 +95,11 @@
 </template>
 
 <script>
-import Dropdown from "~/Shared/Dropdown";
-import FlashMessages from "~/Shared/FlashMessages";
-import Icon from "~/Shared/Icon";
-import Logo from "~/Shared/Logo";
-import MainMenu from "~/Shared/MainMenu";
+import Dropdown from '@/Shared/Dropdown'
+import FlashMessages from '@/Shared/FlashMessages'
+import Icon from '@/Shared/Icon'
+import Logo from '@/Shared/Logo'
+import MainMenu from '@/Shared/MainMenu'
 
 export default {
   components: {
@@ -116,15 +113,15 @@ export default {
     return {
       showUserMenu: false,
       accounts: null,
-    };
+    }
   },
   methods: {
     url() {
-      return location.pathname.substr(1);
+      return location.pathname.substr(1)
     },
     hideDropdownMenus() {
-      this.showUserMenu = false;
+      this.showUserMenu = false
     },
   },
-};
+}
 </script>

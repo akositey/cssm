@@ -1,3 +1,43 @@
+<script setup>
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+const props = defineProps({
+  align: {
+    type: String,
+    default: 'right',
+  },
+  width: {
+    type: String,
+    default: '48',
+  },
+  contentClasses: {
+    type: Array,
+    default: () => ['py-1', 'bg-white'],
+  },
+})
+let open = ref(false)
+const closeOnEscape = (e) => {
+  if (open.value && e.key === 'Escape') {
+    open.value = false
+  }
+}
+onMounted(() => document.addEventListener('keydown', closeOnEscape))
+onUnmounted(() => document.removeEventListener('keydown', closeOnEscape))
+const widthClass = computed(() => {
+  return {
+    '48': 'w-48',
+  }[props.width.toString()]
+})
+const alignmentClasses = computed(() => {
+  if (props.align === 'left') {
+    return 'origin-top-left left-0'
+  }
+  if (props.align === 'right') {
+    return 'origin-top-right right-0'
+  }
+  return 'origin-top'
+})
+</script>
+
 <template>
   <div class="relative">
     <div @click="open = ! open">
@@ -12,12 +52,12 @@
     />
 
     <transition
-      enterActiveClass="transition duration-200 ease-out"
-      enterClass="transform scale-95 opacity-0"
-      enterToClass="transform scale-100 opacity-100"
-      leaveActiveClass="transition duration-75 ease-in"
-      leaveClass="transform scale-100 opacity-100"
-      leaveToClass="transform scale-95 opacity-0"
+      enterActiveClass="transition ease-out duration-200"
+      enterFromClass="transform opacity-0 scale-95"
+      enterToClass="transform opacity-100 scale-100"
+      leaveActiveClass="transition ease-in duration-75"
+      leaveFromClass="transform opacity-100 scale-100"
+      leaveToClass="transform opacity-0 scale-95"
     >
       <div
         v-show="open"
@@ -27,7 +67,7 @@
         @click="open = false"
       >
         <div
-          class="rounded-md shadow-xs"
+          class="rounded-md ring-1 ring-black ring-opacity-5"
           :class="contentClasses"
         >
           <slot name="content" />
@@ -36,65 +76,3 @@
     </transition>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    align: {
-      type: String,
-      default: "right",
-    },
-    width: {
-      type: String,
-      default: "48",
-    },
-    contentClasses: {
-      type: Array,
-      default: () => ["py-1", "bg-white"],
-    },
-  },
-
-  data() {
-    return {
-      open: false,
-    };
-  },
-
-  created() {
-    const closeOnEscape = (e) => {
-      if (this.open && e.keyCode === 27) {
-        this.open = false;
-      }
-    };
-
-    this.$once("hook:destroyed", () => {
-      document.removeEventListener("keydown", closeOnEscape);
-    });
-
-    document.addEventListener("keydown", closeOnEscape);
-  },
-  watch: {
-    // open(open){
-    //   console.log('is ' + (open?'':'not ')+'open')
-    // }
-  },
-
-  computed: {
-    widthClass() {
-      return {
-        48: "w-48",
-      }[this.width.toString()];
-    },
-
-    alignmentClasses() {
-      if (this.align == "left") {
-        return "origin-top-left left-0";
-      } else if (this.align == "right") {
-        return "origin-top-right right-0";
-      } else {
-        return "origin-top";
-      }
-    },
-  },
-};
-</script>

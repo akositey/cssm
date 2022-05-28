@@ -10,15 +10,15 @@
 
     <template #content>
       <h3
-        class="text-lg font-medium text-gray-900"
         v-if="twoFactorEnabled"
+        class="text-lg font-medium text-gray-900"
       >
         You have enabled two factor authentication.
       </h3>
 
       <h3
-        class="text-lg font-medium text-gray-900"
         v-else
+        class="text-lg font-medium text-gray-900"
       >
         You have not enabled two factor authentication.
       </h3>
@@ -40,8 +40,7 @@
           <div
             class="mt-4"
             v-html="qrCode"
-          >
-          </div>
+          />
         </div>
 
         <div v-if="recoveryCodes.length > 0">
@@ -75,8 +74,8 @@
         <div v-else>
           <jet-confirms-password @confirmed="regenerateRecoveryCodes">
             <jet-secondary-button
-              class="mr-3"
               v-if="recoveryCodes.length > 0"
+              class="mr-3"
             >
               Regenerate Recovery Codes
             </jet-secondary-button>
@@ -84,8 +83,8 @@
 
           <jet-confirms-password @confirmed="showRecoveryCodes">
             <jet-secondary-button
-              class="mr-3"
               v-if="recoveryCodes.length == 0"
+              class="mr-3"
             >
               Show Recovery Codes
             </jet-secondary-button>
@@ -106,11 +105,11 @@
 </template>
 
 <script>
-import JetActionSection from "./../../Jetstream/ActionSection";
-import JetButton from "./../../Jetstream/Button";
-import JetConfirmsPassword from "./../../Jetstream/ConfirmsPassword";
-import JetDangerButton from "./../../Jetstream/DangerButton";
-import JetSecondaryButton from "./../../Jetstream/SecondaryButton";
+import JetActionSection from './../../Jetstream/ActionSection'
+import JetButton from './../../Jetstream/Button'
+import JetConfirmsPassword from './../../Jetstream/ConfirmsPassword'
+import JetDangerButton from './../../Jetstream/DangerButton'
+import JetSecondaryButton from './../../Jetstream/SecondaryButton'
 
 export default {
   components: {
@@ -128,64 +127,64 @@ export default {
 
       qrCode: null,
       recoveryCodes: [],
-    };
-  },
-
-  methods: {
-    enableTwoFactorAuthentication() {
-      this.enabling = true;
-
-      this.$inertia
-        .post(
-          "/user/two-factor-authentication",
-          {},
-          {
-            preserveScroll: true,
-          }
-        )
-        .then(() => {
-          return Promise.all([this.showQrCode(), this.showRecoveryCodes()]);
-        })
-        .then(() => {
-          this.enabling = false;
-        });
-    },
-
-    showQrCode() {
-      return axios.get("/user/two-factor-qr-code").then((response) => {
-        this.qrCode = response.data.svg;
-      });
-    },
-
-    showRecoveryCodes() {
-      return axios.get("/user/two-factor-recovery-codes").then((response) => {
-        this.recoveryCodes = response.data;
-      });
-    },
-
-    regenerateRecoveryCodes() {
-      axios.post("/user/two-factor-recovery-codes").then((response) => {
-        this.showRecoveryCodes();
-      });
-    },
-
-    disableTwoFactorAuthentication() {
-      this.disabling = true;
-
-      this.$inertia
-        .delete("/user/two-factor-authentication", {
-          preserveScroll: true,
-        })
-        .then(() => {
-          this.disabling = false;
-        });
-    },
+    }
   },
 
   computed: {
     twoFactorEnabled() {
-      return !this.enabling && this.$page.props.user.two_factor_enabled;
+      return !this.enabling && this.$page.props.user.two_factor_enabled
     },
   },
-};
+
+  methods: {
+    enableTwoFactorAuthentication() {
+      this.enabling = true
+
+      this.$inertia
+        .post(
+          '/user/two-factor-authentication',
+          {},
+          {
+            preserveScroll: true,
+          },
+        )
+        .then(() => {
+          return Promise.all([this.showQrCode(), this.showRecoveryCodes()])
+        })
+        .then(() => {
+          this.enabling = false
+        })
+    },
+
+    showQrCode() {
+      return axios.get('/user/two-factor-qr-code').then((response) => {
+        this.qrCode = response.data.svg
+      })
+    },
+
+    showRecoveryCodes() {
+      return axios.get('/user/two-factor-recovery-codes').then((response) => {
+        this.recoveryCodes = response.data
+      })
+    },
+
+    regenerateRecoveryCodes() {
+      axios.post('/user/two-factor-recovery-codes').then((response) => {
+        this.showRecoveryCodes()
+      })
+    },
+
+    disableTwoFactorAuthentication() {
+      this.disabling = true
+
+      this.$inertia
+        .delete('/user/two-factor-authentication', {
+          preserveScroll: true,
+        })
+        .then(() => {
+          this.disabling = false
+        })
+    },
+  },
+}
 </script>

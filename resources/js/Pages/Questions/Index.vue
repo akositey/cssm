@@ -75,7 +75,7 @@
             tabindex="-1"
           >
             <icon
-              name="cheveron-right"
+              name="chevron-right"
               class="w-6 h-6 m-auto fill-gray-400"
             />
           </inertia-link>
@@ -95,24 +95,24 @@
 </template>
 
 <script>
-import AppLayout from "./../../Layouts/AppLayout";
-import Icon from "./../../Shared/Icon";
-import Pagination from "./../../Shared/Pagination";
-import SearchFilter from "./../../Shared/SearchFilter";
-import mapValues from "lodash/mapValues";
-import pickBy from "lodash/pickBy";
-import throttle from "lodash/throttle";
+import AppLayout from './../../Layouts/AppLayout'
+import Icon from './../../Shared/Icon'
+import Pagination from './../../Shared/Pagination'
+import SearchFilter from './../../Shared/SearchFilter'
+import mapValues from 'lodash/mapValues'
+import pickBy from 'lodash/pickBy'
+import throttle from 'lodash/throttle'
 
 export default {
-  props: {
-    questions: { type: Object, default: () => [] },
-    filters: { type: [Object, Array], default: () => {} },
-  },
   components: {
     AppLayout,
     Icon,
     Pagination,
     SearchFilter,
+  },
+  props: {
+    questions: { type: Object, default: () => [] },
+    filters: { type: [Object, Array], default: () => {} },
   },
   data() {
     return {
@@ -120,26 +120,26 @@ export default {
         search: this.filters.search,
         trashed: this.filters.trashed,
       },
-    };
+    }
   },
   watch: {
     filterForm: {
       handler: throttle(function () {
-        const query = pickBy(this.filterForm);
+        const query = pickBy(this.filterForm)
         this.$inertia.replace(
           this.route(
-            "questions.index",
-            Object.keys(query).length ? query : { remember: "forget" }
-          )
-        );
+            'questions.index',
+            Object.keys(query).length ? query : { remember: 'forget' },
+          ),
+        )
       }, 150),
       deep: true,
     },
   },
   methods: {
     reset() {
-      this.filterForm = mapValues(this.filterForm, () => null);
+      this.filterForm = mapValues(this.filterForm, () => null)
     },
   },
-};
+}
 </script>

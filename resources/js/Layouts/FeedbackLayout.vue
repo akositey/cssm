@@ -80,15 +80,15 @@
         </template>
         <template #content>
           <text-input
+            v-model="form.passCode"
             type="password"
             pattern="[0-9]{4}"
             maxlength="4"
-            v-model="form.passCode"
             :error="error"
             class="w-full py-4"
             label="Admin Passcode"
-            @change.native="checkPassCode"
             required
+            @change.native="checkPassCode"
           />
         </template>
         <template #footer>
@@ -105,27 +105,25 @@
     </main>
 
     <!-- Modal Portal -->
-    <portal-target
-      name="modal"
-      multiple
+    <div
+      id="modal"
     />
 
     <!-- Dropdown Portal -->
-    <portal-target
-      name="dropdown"
-      slim
+    <div
+      id="dropdown"
     />
   </div>
 </template>
 
 <script>
-import Logo from "~/Shared/DefaultLogo";
-import FlashMessages from "~/Shared/FlashMessages";
-import JetDropdown from "~/Jetstream/Dropdown";
-import JetDropdownLink from "~/Jetstream/DropdownLink";
-import TextInput from "~/Shared/TextInput";
-import DialogModal from "~/Jetstream/DialogModal";
-import axios from "axios";
+import Logo from '@/Shared/DefaultLogo'
+import FlashMessages from '@/Shared/FlashMessages'
+import JetDropdown from '@/Jetstream/Dropdown'
+import JetDropdownLink from '@/Jetstream/DropdownLink'
+import TextInput from '@/Shared/TextInput'
+import DialogModal from '@/Jetstream/DialogModal'
+import axios from 'axios'
 
 export default {
   components: {
@@ -139,7 +137,7 @@ export default {
   props: {
     office: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   data() {
@@ -148,40 +146,40 @@ export default {
       disabled: true,
       showModal: false,
       form: {
-        passCode: "",
+        passCode: '',
       },
       error: null,
-    };
+    }
   },
 
   computed: {
     path() {
-      return window.location.pathname;
+      return window.location.pathname
     },
   },
   methods: {
     checkPassCode() {
-      console.info("checking passcode...");
+      console.info('checking passcode...')
       axios
-        .post(this.route("export.check"), this.form, {
+        .post(this.route('export.check'), this.form, {
           headers: {
-            "X-CSRF-TOKEN": document.head.querySelector(
-              'meta[name="csrf-token"]'
+            'X-CSRF-TOKEN': document.head.querySelector(
+              'meta[name="csrf-token"]',
             ).content,
-            "X-Requested-With": "XMLHttpRequest",
+            'X-Requested-With': 'XMLHttpRequest',
           },
         })
         .then((response) => {
-          this.disabled = !response.data.status;
-          this.error = response.data.error || "";
-        });
+          this.disabled = !response.data.status
+          this.error = response.data.error || ''
+        })
     },
     initLogout() {
-      this.showModal = true;
+      this.showModal = true
     },
     logout() {
-      this.$inertia.post(this.route("logout"));
+      this.$inertia.post(this.route('logout'))
     },
   },
-};
+}
 </script>

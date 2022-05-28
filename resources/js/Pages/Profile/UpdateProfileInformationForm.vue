@@ -11,16 +11,16 @@
     <template #form>
       <!-- Profile Photo -->
       <div
-        class="col-span-6 sm:col-span-4"
         v-if="$page.props.jetstream.managesProfilePhotos"
+        class="col-span-6 sm:col-span-4"
       >
         <!-- Profile Photo File Input -->
         <input
+          ref="photo"
           type="file"
           class="hidden"
-          ref="photo"
           @change="updatePhotoPreview"
-        >
+        />
 
         <jet-label
           for="photo"
@@ -29,20 +29,20 @@
 
         <!-- Current Profile Photo -->
         <div
-          class="mt-2"
           v-show="! photoPreview"
+          class="mt-2"
         >
           <img
             :src="$page.props.user.profile_photo_url"
             alt="Current Profile Photo"
             class="object-cover w-20 h-20 rounded-full"
-          >
+          />
         </div>
 
         <!-- New Profile Photo Preview -->
         <div
-          class="mt-2"
           v-show="photoPreview"
+          class="mt-2"
         >
           <span
             class="block w-20 h-20 rounded-full"
@@ -59,10 +59,10 @@
         </jet-secondary-button>
 
         <jet-secondary-button
+          v-if="$page.props.user.profile_photo_path"
           type="button"
           class="mt-2"
           @click.native.prevent="deletePhoto"
-          v-if="$page.props.user.profile_photo_path"
         >
           Remove Photo
         </jet-secondary-button>
@@ -81,9 +81,9 @@
         />
         <jet-input
           id="name"
+          v-model="form.name"
           type="text"
           class="block w-full mt-1"
-          v-model="form.name"
           autocomplete="name"
         />
         <jet-input-error
@@ -99,9 +99,9 @@
         />
         <jet-input
           id="position"
+          v-model="form.position"
           type="text"
           class="block w-full mt-1"
-          v-model="form.position"
           autocomplete="position"
         />
         <jet-input-error
@@ -118,9 +118,9 @@
         />
         <jet-input
           id="email"
+          v-model="form.email"
           type="email"
           class="block w-full mt-1"
-          v-model="form.email"
         />
         <jet-input-error
           :message="form.error('email')"
@@ -148,13 +148,13 @@
 </template>
 
 <script>
-import JetButton from "./../../Jetstream/Button";
-import JetFormSection from "./../../Jetstream/FormSection";
-import JetInput from "./../../Jetstream/Input";
-import JetInputError from "./../../Jetstream/InputError";
-import JetLabel from "./../../Jetstream/Label";
-import JetActionMessage from "./../../Jetstream/ActionMessage";
-import JetSecondaryButton from "./../../Jetstream/SecondaryButton";
+import JetButton from './../../Jetstream/Button'
+import JetFormSection from './../../Jetstream/FormSection'
+import JetInput from './../../Jetstream/Input'
+import JetInputError from './../../Jetstream/InputError'
+import JetLabel from './../../Jetstream/Label'
+import JetActionMessage from './../../Jetstream/ActionMessage'
+import JetSecondaryButton from './../../Jetstream/SecondaryButton'
 
 export default {
   components: {
@@ -168,64 +168,64 @@ export default {
   },
 
   props: {
-    name: { type: String, default: "" },
-    position: { type: String, default: "" },
-    email: { type: String, default: "" },
+    name: { type: String, default: '' },
+    position: { type: String, default: '' },
+    email: { type: String, default: '' },
   },
   data() {
     return {
       form: this.$inertia.form(
         {
-          _method: "PUT",
+          _method: 'PUT',
           name: this.name,
           position: this.$page.props.user.position,
           email: this.email,
           photo: null,
         },
         {
-          bag: "updateProfileInformation",
+          bag: 'updateProfileInformation',
           resetOnSuccess: false,
-        }
+        },
       ),
 
       photoPreview: null,
-    };
+    }
   },
 
   methods: {
     updateProfileInformation() {
       if (this.$refs.photo) {
-        this.form.photo = this.$refs.photo.files[0];
+        this.form.photo = this.$refs.photo.files[0]
       }
 
-      this.form.post("/user/profile-information", {
+      this.form.post('/user/profile-information', {
         preserveScroll: true,
-      });
+      })
     },
 
     selectNewPhoto() {
-      this.$refs.photo.click();
+      this.$refs.photo.click()
     },
 
     updatePhotoPreview() {
-      const reader = new FileReader();
+      const reader = new FileReader()
 
       reader.onload = (e) => {
-        this.photoPreview = e.target.result;
-      };
+        this.photoPreview = e.target.result
+      }
 
-      reader.readAsDataURL(this.$refs.photo.files[0]);
+      reader.readAsDataURL(this.$refs.photo.files[0])
     },
 
     deletePhoto() {
       this.$inertia
-        .delete("/user/profile-photo", {
+        .delete('/user/profile-photo', {
           preserveScroll: true,
         })
         .then(() => {
-          this.photoPreview = null;
-        });
+          this.photoPreview = null
+        })
     },
   },
-};
+}
 </script>

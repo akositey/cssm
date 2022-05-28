@@ -19,9 +19,9 @@
           />
           <jet-input
             id="name"
+            v-model="createApiTokenForm.name"
             type="text"
             class="mt-1 block w-full"
-            v-model="createApiTokenForm.name"
             autofocus
           />
           <jet-input-error
@@ -32,8 +32,8 @@
 
         <!-- Token Permissions -->
         <div
-          class="col-span-6"
           v-if="availablePermissions.length > 0"
+          class="col-span-6"
         >
           <jet-label
             for="permissions"
@@ -44,11 +44,11 @@
             <div v-for="permission in availablePermissions">
               <label class="flex items-center">
                 <input
+                  v-model="createApiTokenForm.permissions"
                   type="checkbox"
                   class="form-checkbox"
                   :value="permission"
-                  v-model="createApiTokenForm.permissions"
-                >
+                />
                 <span class="ml-2 text-sm text-gray-600">{{ permission }}</span>
               </label>
             </div>
@@ -91,8 +91,8 @@
           <template #content>
             <div class="space-y-6">
               <div
-                class="flex items-center justify-between"
                 v-for="token in tokens"
+                class="flex items-center justify-between"
               >
                 <div>
                   {{ token.name }}
@@ -100,16 +100,16 @@
 
                 <div class="flex items-center">
                   <div
-                    class="text-sm text-gray-400"
                     v-if="token.last_used_at"
+                    class="text-sm text-gray-400"
                   >
                     Last used {{ fromNow(token.last_used_at) }}
                   </div>
 
                   <button
+                    v-if="availablePermissions.length > 0"
                     class="cursor-pointer ml-6 text-sm text-gray-400 underline focus:outline-none"
                     @click="manageApiTokenPermissions(token)"
-                    v-if="availablePermissions.length > 0"
                   >
                     Permissions
                   </button>
@@ -143,8 +143,8 @@
         </div>
 
         <div
-          class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500"
           v-if="$page.props.jetstream.flash.token"
+          class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500"
         >
           {{ $page.props.jetstream.flash.token }}
         </div>
@@ -171,11 +171,11 @@
           <div v-for="permission in availablePermissions">
             <label class="flex items-center">
               <input
+                v-model="updateApiTokenForm.permissions"
                 type="checkbox"
                 class="form-checkbox"
                 :value="permission"
-                v-model="updateApiTokenForm.permissions"
-              >
+              />
               <span class="ml-2 text-sm text-gray-600">{{ permission }}</span>
             </label>
           </div>
@@ -189,9 +189,9 @@
 
         <jet-button
           class="ml-2"
-          @click.native="updateApiToken"
           :class="{ 'opacity-25': updateApiTokenForm.processing }"
           :disabled="updateApiTokenForm.processing"
+          @click.native="updateApiToken"
         >
           Save
         </jet-button>
@@ -218,9 +218,9 @@
 
         <jet-danger-button
           class="ml-2"
-          @click.native="deleteApiToken"
           :class="{ 'opacity-25': deleteApiTokenForm.processing }"
           :disabled="deleteApiTokenForm.processing"
+          @click.native="deleteApiToken"
         >
           Delete
         </jet-danger-button>
@@ -230,18 +230,18 @@
 </template>
 
 <script>
-import JetActionMessage from "./../../Jetstream/ActionMessage";
-import JetActionSection from "./../../Jetstream/ActionSection";
-import JetButton from "./../../Jetstream/Button";
-import JetConfirmationModal from "./../../Jetstream/ConfirmationModal";
-import JetDangerButton from "./../../Jetstream/DangerButton";
-import JetDialogModal from "./../../Jetstream/DialogModal";
-import JetFormSection from "./../../Jetstream/FormSection";
-import JetInput from "./../../Jetstream/Input";
-import JetInputError from "./../../Jetstream/InputError";
-import JetLabel from "./../../Jetstream/Label";
-import JetSecondaryButton from "./../../Jetstream/SecondaryButton";
-import JetSectionBorder from "./../../Jetstream/SectionBorder";
+import JetActionMessage from './../../Jetstream/ActionMessage'
+import JetActionSection from './../../Jetstream/ActionSection'
+import JetButton from './../../Jetstream/Button'
+import JetConfirmationModal from './../../Jetstream/ConfirmationModal'
+import JetDangerButton from './../../Jetstream/DangerButton'
+import JetDialogModal from './../../Jetstream/DialogModal'
+import JetFormSection from './../../Jetstream/FormSection'
+import JetInput from './../../Jetstream/Input'
+import JetInputError from './../../Jetstream/InputError'
+import JetLabel from './../../Jetstream/Label'
+import JetSecondaryButton from './../../Jetstream/SecondaryButton'
+import JetSectionBorder from './../../Jetstream/SectionBorder'
 
 export default {
   components: {
@@ -259,19 +259,19 @@ export default {
     JetSectionBorder,
   },
 
-  props: ["tokens", "availablePermissions", "defaultPermissions"],
+  props: ['tokens', 'availablePermissions', 'defaultPermissions'],
 
   data() {
     return {
       createApiTokenForm: this.$inertia.form(
         {
-          name: "",
+          name: '',
           permissions: this.defaultPermissions,
         },
         {
-          bag: "createApiToken",
+          bag: 'createApiToken',
           resetOnSuccess: true,
-        }
+        },
       ),
 
       updateApiTokenForm: this.$inertia.form(
@@ -280,8 +280,8 @@ export default {
         },
         {
           resetOnSuccess: false,
-          bag: "updateApiToken",
-        }
+          bag: 'updateApiToken',
+        },
       ),
 
       deleteApiTokenForm: this.$inertia.form(),
@@ -289,57 +289,57 @@ export default {
       displayingToken: false,
       managingPermissionsFor: null,
       apiTokenBeingDeleted: null,
-    };
+    }
   },
 
   methods: {
     createApiToken() {
       this.createApiTokenForm
-        .post("/user/api-tokens", {
+        .post('/user/api-tokens', {
           preserveScroll: true,
         })
         .then((response) => {
           if (!this.createApiTokenForm.hasErrors()) {
-            this.displayingToken = true;
+            this.displayingToken = true
           }
-        });
+        })
     },
 
     manageApiTokenPermissions(token) {
-      this.updateApiTokenForm.permissions = token.abilities;
+      this.updateApiTokenForm.permissions = token.abilities
 
-      this.managingPermissionsFor = token;
+      this.managingPermissionsFor = token
     },
 
     updateApiToken() {
       this.updateApiTokenForm
-        .put("/user/api-tokens/" + this.managingPermissionsFor.id, {
+        .put('/user/api-tokens/' + this.managingPermissionsFor.id, {
           preserveScroll: true,
           preserveState: true,
         })
         .then((response) => {
-          this.managingPermissionsFor = null;
-        });
+          this.managingPermissionsFor = null
+        })
     },
 
     confirmApiTokenDeletion(token) {
-      this.apiTokenBeingDeleted = token;
+      this.apiTokenBeingDeleted = token
     },
 
     deleteApiToken() {
       this.deleteApiTokenForm
-        .delete("/user/api-tokens/" + this.apiTokenBeingDeleted.id, {
+        .delete('/user/api-tokens/' + this.apiTokenBeingDeleted.id, {
           preserveScroll: true,
           preserveState: true,
         })
         .then(() => {
-          this.apiTokenBeingDeleted = null;
-        });
+          this.apiTokenBeingDeleted = null
+        })
     },
 
     fromNow(timestamp) {
-      return moment(timestamp).local().fromNow();
+      return moment(timestamp).local().fromNow()
     },
   },
-};
+}
 </script>

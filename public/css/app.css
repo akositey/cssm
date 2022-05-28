@@ -1,6 +1,6 @@
 /* Base */
 
-/* ! tailwindcss v2.2.17 | MIT License | https://tailwindcss.com */
+/* ! tailwindcss v2.2.19 | MIT License | https://tailwindcss.com */
 
 /*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
@@ -94,7 +94,8 @@ Add the correct text decoration in Chrome, Edge, and Safari.
 */
 
 abbr[title] {
-  text-decoration: underline dotted;
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
 }
 
 /**
@@ -792,9 +793,10 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
 .form-label {
   margin-bottom: 0.5rem;
   display: block;
-  -moz-user-select: none;
-   -ms-user-select: none;
-       user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   --tw-text-opacity: 1;
   color: rgba(55, 65, 81, var(--tw-text-opacity));
 }
@@ -1064,6 +1066,7 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
 }
 
 .sticky {
+  position: -webkit-sticky;
   position: sticky;
 }
 
@@ -10272,6 +10275,12 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 }
 
+@-webkit-keyframes pulse {
+  50% {
+    opacity: .5;
+  }
+}
+
 @keyframes pulse {
   50% {
     opacity: .5;
@@ -10364,27 +10373,30 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
 }
 
 .select-none {
-  -moz-user-select: none;
-   -ms-user-select: none;
-       user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .select-text {
-  -moz-user-select: text;
-   -ms-user-select: text;
-       user-select: text;
+  -webkit-user-select: text;
+     -moz-user-select: text;
+      -ms-user-select: text;
+          user-select: text;
 }
 
 .select-all {
-  -moz-user-select: all;
-   -ms-user-select: all;
-       user-select: all;
+  -webkit-user-select: all;
+     -moz-user-select: all;
+          user-select: all;
 }
 
 .select-auto {
-  -moz-user-select: auto;
-   -ms-user-select: auto;
-       user-select: auto;
+  -webkit-user-select: auto;
+     -moz-user-select: auto;
+      -ms-user-select: auto;
+          user-select: auto;
 }
 
 .resize-none {
@@ -21403,7 +21415,8 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
 }
 
 .bg-clip-text {
-  background-clip: text;
+  -webkit-background-clip: text;
+          background-clip: text;
 }
 
 .bg-bottom {
@@ -29170,342 +29183,6 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   --tw-placeholder-opacity: 1;
 }
 
-.caret-transparent {
-  caret-color: transparent;
-}
-
-.caret-current {
-  caret-color: currentColor;
-}
-
-.caret-black {
-  caret-color: #000;
-}
-
-.caret-white {
-  caret-color: #fff;
-}
-
-.caret-gray-50 {
-  caret-color: #f9fafb;
-}
-
-.caret-gray-100 {
-  caret-color: #f3f4f6;
-}
-
-.caret-gray-200 {
-  caret-color: #e5e7eb;
-}
-
-.caret-gray-300 {
-  caret-color: #d1d5db;
-}
-
-.caret-gray-400 {
-  caret-color: #9ca3af;
-}
-
-.caret-gray-500 {
-  caret-color: #6b7280;
-}
-
-.caret-gray-600 {
-  caret-color: #4b5563;
-}
-
-.caret-gray-700 {
-  caret-color: #374151;
-}
-
-.caret-gray-800 {
-  caret-color: #1f2937;
-}
-
-.caret-gray-900 {
-  caret-color: #111827;
-}
-
-.caret-red-50 {
-  caret-color: #fef2f2;
-}
-
-.caret-red-100 {
-  caret-color: #fee2e2;
-}
-
-.caret-red-200 {
-  caret-color: #fecaca;
-}
-
-.caret-red-300 {
-  caret-color: #fca5a5;
-}
-
-.caret-red-400 {
-  caret-color: #f87171;
-}
-
-.caret-red-500 {
-  caret-color: #ef4444;
-}
-
-.caret-red-600 {
-  caret-color: #dc2626;
-}
-
-.caret-red-700 {
-  caret-color: #b91c1c;
-}
-
-.caret-red-800 {
-  caret-color: #991b1b;
-}
-
-.caret-red-900 {
-  caret-color: #7f1d1d;
-}
-
-.caret-yellow-50 {
-  caret-color: #fffbeb;
-}
-
-.caret-yellow-100 {
-  caret-color: #fef3c7;
-}
-
-.caret-yellow-200 {
-  caret-color: #fde68a;
-}
-
-.caret-yellow-300 {
-  caret-color: #fcd34d;
-}
-
-.caret-yellow-400 {
-  caret-color: #fbbf24;
-}
-
-.caret-yellow-500 {
-  caret-color: #f59e0b;
-}
-
-.caret-yellow-600 {
-  caret-color: #d97706;
-}
-
-.caret-yellow-700 {
-  caret-color: #b45309;
-}
-
-.caret-yellow-800 {
-  caret-color: #92400e;
-}
-
-.caret-yellow-900 {
-  caret-color: #78350f;
-}
-
-.caret-green-50 {
-  caret-color: #ecfdf5;
-}
-
-.caret-green-100 {
-  caret-color: #d1fae5;
-}
-
-.caret-green-200 {
-  caret-color: #a7f3d0;
-}
-
-.caret-green-300 {
-  caret-color: #6ee7b7;
-}
-
-.caret-green-400 {
-  caret-color: #34d399;
-}
-
-.caret-green-500 {
-  caret-color: #10b981;
-}
-
-.caret-green-600 {
-  caret-color: #059669;
-}
-
-.caret-green-700 {
-  caret-color: #047857;
-}
-
-.caret-green-800 {
-  caret-color: #065f46;
-}
-
-.caret-green-900 {
-  caret-color: #064e3b;
-}
-
-.caret-blue-50 {
-  caret-color: #eff6ff;
-}
-
-.caret-blue-100 {
-  caret-color: #dbeafe;
-}
-
-.caret-blue-200 {
-  caret-color: #bfdbfe;
-}
-
-.caret-blue-300 {
-  caret-color: #93c5fd;
-}
-
-.caret-blue-400 {
-  caret-color: #60a5fa;
-}
-
-.caret-blue-500 {
-  caret-color: #3b82f6;
-}
-
-.caret-blue-600 {
-  caret-color: #2563eb;
-}
-
-.caret-blue-700 {
-  caret-color: #1d4ed8;
-}
-
-.caret-blue-800 {
-  caret-color: #1e40af;
-}
-
-.caret-blue-900 {
-  caret-color: #1e3a8a;
-}
-
-.caret-indigo-50 {
-  caret-color: #eef2ff;
-}
-
-.caret-indigo-100 {
-  caret-color: #e6e8ff;
-}
-
-.caret-indigo-200 {
-  caret-color: #c7d2fe;
-}
-
-.caret-indigo-300 {
-  caret-color: #b2b7ff;
-}
-
-.caret-indigo-400 {
-  caret-color: #7886d7;
-}
-
-.caret-indigo-500 {
-  caret-color: #6574cd;
-}
-
-.caret-indigo-600 {
-  caret-color: #5661b3;
-}
-
-.caret-indigo-700 {
-  caret-color: #4338ca;
-}
-
-.caret-indigo-800 {
-  caret-color: #2f365f;
-}
-
-.caret-indigo-900 {
-  caret-color: #191e38;
-}
-
-.caret-purple-50 {
-  caret-color: #f5f3ff;
-}
-
-.caret-purple-100 {
-  caret-color: #ede9fe;
-}
-
-.caret-purple-200 {
-  caret-color: #ddd6fe;
-}
-
-.caret-purple-300 {
-  caret-color: #c4b5fd;
-}
-
-.caret-purple-400 {
-  caret-color: #a78bfa;
-}
-
-.caret-purple-500 {
-  caret-color: #8b5cf6;
-}
-
-.caret-purple-600 {
-  caret-color: #7c3aed;
-}
-
-.caret-purple-700 {
-  caret-color: #6d28d9;
-}
-
-.caret-purple-800 {
-  caret-color: #5b21b6;
-}
-
-.caret-purple-900 {
-  caret-color: #4c1d95;
-}
-
-.caret-pink-50 {
-  caret-color: #fdf2f8;
-}
-
-.caret-pink-100 {
-  caret-color: #fce7f3;
-}
-
-.caret-pink-200 {
-  caret-color: #fbcfe8;
-}
-
-.caret-pink-300 {
-  caret-color: #f9a8d4;
-}
-
-.caret-pink-400 {
-  caret-color: #f472b6;
-}
-
-.caret-pink-500 {
-  caret-color: #ec4899;
-}
-
-.caret-pink-600 {
-  caret-color: #db2777;
-}
-
-.caret-pink-700 {
-  caret-color: #be185d;
-}
-
-.caret-pink-800 {
-  caret-color: #9d174d;
-}
-
-.caret-pink-900 {
-  caret-color: #831843;
-}
-
 .opacity-0 {
   opacity: 0;
 }
@@ -33030,11 +32707,13 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   --tw-backdrop-opacity: var(--tw-empty,/*!*/ /*!*/);
   --tw-backdrop-saturate: var(--tw-empty,/*!*/ /*!*/);
   --tw-backdrop-sepia: var(--tw-empty,/*!*/ /*!*/);
-  backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+          backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
 
 .backdrop-filter-none {
-  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+          backdrop-filter: none;
 }
 
 .backdrop-blur-0 {
@@ -33304,7 +32983,9 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
 }
 
 .transition {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
   transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -33413,1348 +33094,21 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.content-none {
-  content: none;
-}
-
 /* purgecss start ignore */
 
 /* vue2-datepicker */
 
-.mx-icon-left:before,.mx-icon-right:before,.mx-icon-double-left:before,.mx-icon-double-right:before,.mx-icon-double-left:after,.mx-icon-double-right:after{
-  content:"";
-  position:relative;
-  top:-1px;
-  display:inline-block;
-  width:10px;
-  height:10px;
-  vertical-align:middle;
-  border-style:solid;
-  border-color:currentColor;
-  border-width:2px 0 0 2px;
-  border-radius:1px;
-  box-sizing:border-box;
-  transform-origin:center;
-  transform:rotate(-45deg) scale(0.7)
-}
-
-.mx-icon-double-left:after{
-  left:-4px
-}
-
-.mx-icon-double-right:before{
-  left:4px
-}
-
-.mx-icon-right:before,.mx-icon-double-right:before,.mx-icon-double-right:after{
-  transform:rotate(135deg) scale(0.7)
-}
-
-.mx-btn{
-  box-sizing:border-box;
-  line-height:1;
-  font-size:14px;
-  font-weight:500;
-  padding:7px 15px;
-  margin:0;
-  cursor:pointer;
-  background-color:transparent;
-  outline:none;
-  border:1px solid rgba(0,0,0,.1);
-  border-radius:4px;
-  color:#73879c;
-  white-space:nowrap
-}
-
-.mx-btn:hover{
-  border-color:#1284e7;
-  color:#1284e7
-}
-
-.mx-btn-text{
-  border:0;
-  padding:0 4px;
-  text-align:left;
-  line-height:inherit
-}
-
-.mx-scrollbar{
-  height:100%
-}
-
-.mx-scrollbar:hover .mx-scrollbar-track{
-  opacity:1
-}
-
-.mx-scrollbar-wrap{
-  height:100%;
-  overflow-x:hidden;
-  overflow-y:auto
-}
-
-.mx-scrollbar-track{
-  position:absolute;
-  top:2px;
-  right:2px;
-  bottom:2px;
-  width:6px;
-  z-index:1;
-  border-radius:4px;
-  opacity:0;
-  transition:opacity .24s ease-out
-}
-
-.mx-scrollbar-track .mx-scrollbar-thumb{
-  position:absolute;
-  width:100%;
-  height:0;
-  cursor:pointer;
-  border-radius:inherit;
-  background-color:rgba(144,147,153,.3);
-  transition:background-color .3s
-}
-
-.mx-zoom-in-down-enter-active,.mx-zoom-in-down-leave-active{
-  opacity:1;
-  transform:scaleY(1);
-  transition:transform .3s cubic-bezier(0.23, 1, 0.32, 1),opacity .3s cubic-bezier(0.23, 1, 0.32, 1);
-  transform-origin:center top
-}
-
-.mx-zoom-in-down-enter,.mx-zoom-in-down-enter-from,.mx-zoom-in-down-leave-to{
-  opacity:0;
-  transform:scaleY(0)
-}
-
-.mx-datepicker{
-  position:relative;
-  display:inline-block;
-  width:210px
-}
-
-.mx-datepicker svg{
-  width:1em;
-  height:1em;
-  vertical-align:-0.15em;
-  fill:currentColor;
-  overflow:hidden
-}
-
-.mx-datepicker-range{
-  width:320px
-}
-
-.mx-datepicker-inline{
-  width:auto
-}
-
-.mx-input-wrapper{
-  position:relative
-}
-
-.mx-input-wrapper .mx-icon-clear{
-  display:none
-}
-
-.mx-input-wrapper:hover .mx-icon-clear{
-  display:block
-}
-
-.mx-input-wrapper:hover .mx-icon-clear+.mx-icon-calendar{
-  display:none
-}
-
-.mx-input{
-  display:inline-block;
-  box-sizing:border-box;
-  width:100%;
-  height:34px;
-  padding:6px 30px;
-  padding-left:10px;
-  font-size:14px;
-  line-height:1.4;
-  color:#555;
-  background-color:#fff;
-  border:1px solid #ccc;
-  border-radius:4px;
-  box-shadow:inset 0 1px 1px rgba(0,0,0,.075)
-}
-
-.mx-input:hover,.mx-input:focus{
-  border-color:#409aff
-}
-
-.mx-input:disabled,.mx-input.disabled{
-  color:#ccc;
-  background-color:#f3f3f3;
-  border-color:#ccc;
-  cursor:not-allowed
-}
-
-.mx-input:focus{
-  outline:none
-}
-
-.mx-input::-ms-clear{
-  display:none
-}
-
-.mx-icon-calendar,.mx-icon-clear{
-  position:absolute;
-  top:50%;
-  right:8px;
-  transform:translateY(-50%);
-  font-size:16px;
-  line-height:1;
-  color:rgba(0,0,0,.5);
-  vertical-align:middle
-}
-
-.mx-icon-clear{
-  cursor:pointer
-}
-
-.mx-icon-clear:hover{
-  color:rgba(0,0,0,.8)
-}
-
-.mx-datepicker-main{
-  font:14px/1.5 "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei",sans-serif;
-  color:#73879c;
-  background-color:#fff;
-  border:1px solid #e8e8e8
-}
-
-.mx-datepicker-popup{
-  position:absolute;
-  margin-top:1px;
-  margin-bottom:1px;
-  box-shadow:0 6px 12px rgba(0,0,0,.175);
-  z-index:2001
-}
-
-.mx-datepicker-sidebar{
-  float:left;
-  box-sizing:border-box;
-  width:100px;
-  padding:6px;
-  overflow:auto
-}
-
-.mx-datepicker-sidebar+.mx-datepicker-content{
-  margin-left:100px;
-  border-left:1px solid #e8e8e8
-}
-
-.mx-datepicker-body{
-  position:relative;
-  -moz-user-select:none;
-  -ms-user-select:none;
-  user-select:none
-}
-
-.mx-btn-shortcut{
-  display:block;
-  padding:0 6px;
-  line-height:24px
-}
-
-.mx-range-wrapper{
-  display:flex
-}
-
-@media(max-width: 750px){
-  .mx-range-wrapper{
-    flex-direction:column
-  }
-}
-
-.mx-datepicker-header{
-  padding:6px 8px;
-  border-bottom:1px solid #e8e8e8
-}
-
-.mx-datepicker-footer{
-  padding:6px 8px;
-  text-align:right;
-  border-top:1px solid #e8e8e8
-}
-
-.mx-calendar{
-  box-sizing:border-box;
-  width:248px;
-  padding:6px 12px
-}
-
-.mx-calendar+.mx-calendar{
-  border-left:1px solid #e8e8e8
-}
-
-.mx-calendar-header,.mx-time-header{
-  box-sizing:border-box;
-  height:34px;
-  line-height:34px;
-  text-align:center;
-  overflow:hidden
-}
-
-.mx-btn-icon-left,.mx-btn-icon-double-left{
-  float:left
-}
-
-.mx-btn-icon-right,.mx-btn-icon-double-right{
-  float:right
-}
-
-.mx-calendar-header-label{
-  font-size:14px
-}
-
-.mx-calendar-decade-separator{
-  margin:0 2px
-}
-
-.mx-calendar-decade-separator:after{
-  content:"~"
-}
-
-.mx-calendar-content{
-  position:relative;
-  height:224px;
-  box-sizing:border-box
-}
-
-.mx-calendar-content .cell{
-  cursor:pointer
-}
-
-.mx-calendar-content .cell:hover{
-  color:#73879c;
-  background-color:#f3f9fe
-}
-
-.mx-calendar-content .cell.active{
-  color:#fff;
-  background-color:#1284e7
-}
-
-.mx-calendar-content .cell.in-range,.mx-calendar-content .cell.hover-in-range{
-  color:#73879c;
-  background-color:#dbedfb
-}
-
-.mx-calendar-content .cell.disabled{
-  cursor:not-allowed;
-  color:#ccc;
-  background-color:#f3f3f3
-}
-
-.mx-calendar-week-mode .mx-date-row{
-  cursor:pointer
-}
-
-.mx-calendar-week-mode .mx-date-row:hover{
-  background-color:#f3f9fe
-}
-
-.mx-calendar-week-mode .mx-date-row.mx-active-week{
-  background-color:#dbedfb
-}
-
-.mx-calendar-week-mode .mx-date-row .cell:hover{
-  color:inherit;
-  background-color:transparent
-}
-
-.mx-calendar-week-mode .mx-date-row .cell.active{
-  color:inherit;
-  background-color:transparent
-}
-
-.mx-week-number{
-  opacity:.5
-}
-
-.mx-table{
-  table-layout:fixed;
-  border-collapse:separate;
-  border-spacing:0;
-  width:100%;
-  height:100%;
-  box-sizing:border-box;
-  text-align:center
-}
-
-.mx-table th{
-  padding:0;
-  font-weight:500;
-  vertical-align:middle
-}
-
-.mx-table td{
-  padding:0;
-  vertical-align:middle
-}
-
-.mx-table-date td,.mx-table-date th{
-  height:32px;
-  font-size:12px
-}
-
-.mx-table-date .today{
-  color:#2a90e9
-}
-
-.mx-table-date .cell.not-current-month{
-  color:#ccc;
-  background:none
-}
-
-.mx-time{
-  flex:1;
-  width:224px;
-  background:#fff
-}
-
-.mx-time+.mx-time{
-  border-left:1px solid #e8e8e8
-}
-
-.mx-calendar-time{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%
-}
-
-.mx-time-header{
-  border-bottom:1px solid #e8e8e8
-}
-
-.mx-time-content{
-  height:224px;
-  box-sizing:border-box;
-  overflow:hidden
-}
-
-.mx-time-columns{
-  display:flex;
-  width:100%;
-  height:100%;
-  overflow:hidden
-}
-
-.mx-time-column{
-  flex:1;
-  position:relative;
-  border-left:1px solid #e8e8e8;
-  text-align:center
-}
-
-.mx-time-column:first-child{
-  border-left:0
-}
-
-.mx-time-column .mx-time-list{
-  margin:0;
-  padding:0;
-  list-style:none
-}
-
-.mx-time-column .mx-time-list::after{
-  content:"";
-  display:block;
-  height:192px
-}
-
-.mx-time-column .mx-time-item{
-  cursor:pointer;
-  font-size:12px;
-  height:32px;
-  line-height:32px
-}
-
-.mx-time-column .mx-time-item:hover{
-  color:#73879c;
-  background-color:#f3f9fe
-}
-
-.mx-time-column .mx-time-item.active{
-  color:#1284e7;
-  background-color:transparent;
-  font-weight:700
-}
-
-.mx-time-column .mx-time-item.disabled{
-  cursor:not-allowed;
-  color:#ccc;
-  background-color:#f3f3f3
-}
-
-.mx-time-option{
-  cursor:pointer;
-  padding:8px 10px;
-  font-size:14px;
-  line-height:20px
-}
-
-.mx-time-option:hover{
-  color:#73879c;
-  background-color:#f3f9fe
-}
-
-.mx-time-option.active{
-  color:#1284e7;
-  background-color:transparent;
-  font-weight:700
-}
-
-.mx-time-option.disabled{
-  cursor:not-allowed;
-  color:#ccc;
-  background-color:#f3f3f3
-}
+/*@import 'vue2-datepicker/index.css';*/
 
 /* pretty checkbox*/
 
-/**
- * pretty-checkbox.css
- *
- * A pure CSS library to beautify checkbox and radio buttons
- *
- * Source: https://github.com/lokesh-coder/pretty-checkbox
- * Demo: https://lokesh-coder.github.io/pretty-checkbox
- *
- * Copyright (c) 2017 Lokesh rajendran
- */
+/*@import "pretty-checkbox/dist/pretty-checkbox.min.css"; */
 
-.pretty *{
-  box-sizing:border-box
-}
+/*.pretty input:not(:checked) .state label::after, .pretty .state label::before {*/
 
-.pretty input:not([type=checkbox]):not([type=radio]){
-  display:none
-}
+/*  @apply border-4 border-gray-600*/
 
-.pretty{
-  position:relative;
-  display:inline-block;
-  margin-right:1em;
-  white-space:nowrap;
-  line-height:1
-}
-
-.pretty input{
-  position:absolute;
-  left:0;
-  top:0;
-  min-width:1em;
-  width:100%;
-  height:100%;
-  z-index:2;
-  opacity:0;
-  margin:0;
-  padding:0;
-  cursor:pointer
-}
-
-.pretty .state label{
-  position:initial;
-  display:inline-block;
-  font-weight:400;
-  margin:0;
-  text-indent:1.5em;
-  min-width:calc(1em + 2px)
-}
-
-.pretty .state label:after,.pretty .state label:before{
-  content:'';
-  width:calc(1em + 2px);
-  height:calc(1em + 2px);
-  display:block;
-  box-sizing:border-box;
-  border-radius:0;
-  border:1px solid transparent;
-  z-index:0;
-  position:absolute;
-  left:0;
-  top:calc((0% - (100% - 1em)) - 8%);
-  background-color:transparent
-}
-
-.pretty .state label:before{
-  border-color:#bdc3c7
-}
-
-.pretty .state.p-is-hover,.pretty .state.p-is-indeterminate{
-  display:none
-}
-
-@-webkit-keyframes zoom{
-  0%{
-    opacity:0;
-    transform:scale(0)
-  }
-}
-
-@keyframes zoom{
-  0%{
-    opacity:0;
-    transform:scale(0)
-  }
-}
-
-@-webkit-keyframes tada{
-  0%{
-    -webkit-animation-timing-function:ease-in;
-    animation-timing-function:ease-in;
-    opacity:0;
-    transform:scale(7)
-  }
-
-  38%{
-    -webkit-animation-timing-function:ease-out;
-    animation-timing-function:ease-out;
-    opacity:1;
-    transform:scale(1)
-  }
-
-  55%{
-    -webkit-animation-timing-function:ease-in;
-    animation-timing-function:ease-in;
-    transform:scale(1.5)
-  }
-
-  72%{
-    -webkit-animation-timing-function:ease-out;
-    animation-timing-function:ease-out;
-    transform:scale(1)
-  }
-
-  81%{
-    -webkit-animation-timing-function:ease-in;
-    animation-timing-function:ease-in;
-    transform:scale(1.24)
-  }
-
-  89%{
-    -webkit-animation-timing-function:ease-out;
-    animation-timing-function:ease-out;
-    transform:scale(1)
-  }
-
-  95%{
-    -webkit-animation-timing-function:ease-in;
-    animation-timing-function:ease-in;
-    transform:scale(1.04)
-  }
-
-  100%{
-    -webkit-animation-timing-function:ease-out;
-    animation-timing-function:ease-out;
-    transform:scale(1)
-  }
-}
-
-@keyframes tada{
-  0%{
-    -webkit-animation-timing-function:ease-in;
-    animation-timing-function:ease-in;
-    opacity:0;
-    transform:scale(7)
-  }
-
-  38%{
-    -webkit-animation-timing-function:ease-out;
-    animation-timing-function:ease-out;
-    opacity:1;
-    transform:scale(1)
-  }
-
-  55%{
-    -webkit-animation-timing-function:ease-in;
-    animation-timing-function:ease-in;
-    transform:scale(1.5)
-  }
-
-  72%{
-    -webkit-animation-timing-function:ease-out;
-    animation-timing-function:ease-out;
-    transform:scale(1)
-  }
-
-  81%{
-    -webkit-animation-timing-function:ease-in;
-    animation-timing-function:ease-in;
-    transform:scale(1.24)
-  }
-
-  89%{
-    -webkit-animation-timing-function:ease-out;
-    animation-timing-function:ease-out;
-    transform:scale(1)
-  }
-
-  95%{
-    -webkit-animation-timing-function:ease-in;
-    animation-timing-function:ease-in;
-    transform:scale(1.04)
-  }
-
-  100%{
-    -webkit-animation-timing-function:ease-out;
-    animation-timing-function:ease-out;
-    transform:scale(1)
-  }
-}
-
-@-webkit-keyframes jelly{
-  0%{
-    transform:scale3d(1,1,1)
-  }
-
-  30%{
-    transform:scale3d(.75,1.25,1)
-  }
-
-  40%{
-    transform:scale3d(1.25,.75,1)
-  }
-
-  50%{
-    transform:scale3d(.85,1.15,1)
-  }
-
-  65%{
-    transform:scale3d(1.05,.95,1)
-  }
-
-  75%{
-    transform:scale3d(.95,1.05,1)
-  }
-
-  100%{
-    transform:scale3d(1,1,1)
-  }
-}
-
-@keyframes jelly{
-  0%{
-    transform:scale3d(1,1,1)
-  }
-
-  30%{
-    transform:scale3d(.75,1.25,1)
-  }
-
-  40%{
-    transform:scale3d(1.25,.75,1)
-  }
-
-  50%{
-    transform:scale3d(.85,1.15,1)
-  }
-
-  65%{
-    transform:scale3d(1.05,.95,1)
-  }
-
-  75%{
-    transform:scale3d(.95,1.05,1)
-  }
-
-  100%{
-    transform:scale3d(1,1,1)
-  }
-}
-
-@-webkit-keyframes rotate{
-  0%{
-    opacity:0;
-    transform:translateZ(-200px) rotate(-45deg)
-  }
-
-  100%{
-    opacity:1;
-    transform:translateZ(0) rotate(0)
-  }
-}
-
-@keyframes rotate{
-  0%{
-    opacity:0;
-    transform:translateZ(-200px) rotate(-45deg)
-  }
-
-  100%{
-    opacity:1;
-    transform:translateZ(0) rotate(0)
-  }
-}
-
-@-webkit-keyframes pulse{
-  0%{
-    box-shadow:0 0 0 0 #bdc3c7
-  }
-
-  100%{
-    box-shadow:0 0 0 1.5em rgba(189,195,199,0)
-  }
-}
-
-@keyframes pulse{
-  0%{
-    box-shadow:0 0 0 0 #bdc3c7
-  }
-
-  100%{
-    box-shadow:0 0 0 1.5em rgba(189,195,199,0)
-  }
-}
-
-.pretty.p-default.p-fill .state label:after{
-  transform:scale(1)
-}
-
-.pretty.p-default .state label:after{
-  transform:scale(.6)
-}
-
-.pretty.p-default input:checked~.state label:after{
-  background-color:#bdc3c7!important
-}
-
-.pretty.p-default.p-thick .state label:after,.pretty.p-default.p-thick .state label:before{
-  border-width:calc(1em / 7)
-}
-
-.pretty.p-default.p-thick .state label:after{
-  transform:scale(.4)!important
-}
-
-.pretty.p-icon .state .icon{
-  position:absolute;
-  font-size:1em;
-  width:calc(1em + 2px);
-  height:calc(1em + 2px);
-  left:0;
-  z-index:1;
-  text-align:center;
-  line-height:normal;
-  top:calc((0% - (100% - 1em)) - 8%);
-  border:1px solid transparent;
-  opacity:0
-}
-
-.pretty.p-icon .state .icon:before{
-  margin:0;
-  width:100%;
-  height:100%;
-  text-align:center;
-  display:flex;
-  flex:1;
-  justify-content:center;
-  align-items:center;
-  line-height:1
-}
-
-.pretty.p-icon input:checked~.state .icon{
-  opacity:1
-}
-
-.pretty.p-icon input:checked~.state label:before{
-  border-color:#5a656b
-}
-
-.pretty.p-svg .state .svg{
-  position:absolute;
-  font-size:1em;
-  width:calc(1em + 2px);
-  height:calc(1em + 2px);
-  left:0;
-  z-index:1;
-  text-align:center;
-  line-height:normal;
-  top:calc((0% - (100% - 1em)) - 8%);
-  border:1px solid transparent;
-  opacity:0
-}
-
-.pretty.p-svg .state svg{
-  margin:0;
-  width:100%;
-  height:100%;
-  text-align:center;
-  display:flex;
-  flex:1;
-  justify-content:center;
-  align-items:center;
-  line-height:1
-}
-
-.pretty.p-svg input:checked~.state .svg{
-  opacity:1
-}
-
-.pretty.p-image .state img{
-  opacity:0;
-  position:absolute;
-  width:calc(1em + 2px);
-  height:calc(1em + 2px);
-  top:0;
-  top:calc((0% - (100% - 1em)) - 8%);
-  left:0;
-  z-index:0;
-  text-align:center;
-  line-height:normal;
-  transform:scale(.8)
-}
-
-.pretty.p-image input:checked~.state img{
-  opacity:1
-}
-
-.pretty.p-switch input{
-  min-width:2em
-}
-
-.pretty.p-switch .state{
-  position:relative
-}
-
-.pretty.p-switch .state:before{
-  content:'';
-  border:1px solid #bdc3c7;
-  border-radius:60px;
-  width:2em;
-  box-sizing:unset;
-  height:calc(1em + 2px);
-  position:absolute;
-  top:0;
-  top:calc((0% - (100% - 1em)) - 16%);
-  z-index:0;
-  transition:all .5s ease
-}
-
-.pretty.p-switch .state label{
-  text-indent:2.5em
-}
-
-.pretty.p-switch .state label:after,.pretty.p-switch .state label:before{
-  transition:all .5s ease;
-  border-radius:100%;
-  left:0;
-  border-color:transparent;
-  transform:scale(.8)
-}
-
-.pretty.p-switch .state label:after{
-  background-color:#bdc3c7!important
-}
-
-.pretty.p-switch input:checked~.state:before{
-  border-color:#5a656b
-}
-
-.pretty.p-switch input:checked~.state label:before{
-  opacity:0
-}
-
-.pretty.p-switch input:checked~.state label:after{
-  background-color:#5a656b!important;
-  left:1em
-}
-
-.pretty.p-switch.p-fill input:checked~.state:before{
-  border-color:#5a656b;
-  background-color:#5a656b!important
-}
-
-.pretty.p-switch.p-fill input:checked~.state label:before{
-  opacity:0
-}
-
-.pretty.p-switch.p-fill input:checked~.state label:after{
-  background-color:#fff!important;
-  left:1em
-}
-
-.pretty.p-switch.p-slim .state:before{
-  height:.1em;
-  background:#bdc3c7!important;
-  top:calc(50% - .1em)
-}
-
-.pretty.p-switch.p-slim input:checked~.state:before{
-  border-color:#5a656b;
-  background-color:#5a656b!important
-}
-
-.pretty.p-has-hover input:hover~.state:not(.p-is-hover){
-  display:none
-}
-
-.pretty.p-has-hover input:hover~.state.p-is-hover{
-  display:block
-}
-
-.pretty.p-has-hover input:hover~.state.p-is-hover .icon{
-  display:block
-}
-
-.pretty.p-has-focus input:focus~.state label:before{
-  box-shadow:0 0 3px 0 #bdc3c7
-}
-
-.pretty.p-has-indeterminate input[type=checkbox]:indeterminate~.state:not(.p-is-indeterminate){
-  display:none
-}
-
-.pretty.p-has-indeterminate input[type=checkbox]:indeterminate~.state.p-is-indeterminate{
-  display:block
-}
-
-.pretty.p-has-indeterminate input[type=checkbox]:indeterminate~.state.p-is-indeterminate .icon{
-  display:block;
-  opacity:1
-}
-
-.pretty.p-toggle .state.p-on{
-  opacity:0;
-  display:none
-}
-
-.pretty.p-toggle .state .icon,.pretty.p-toggle .state .svg,.pretty.p-toggle .state img,.pretty.p-toggle .state.p-off{
-  opacity:1;
-  display:inherit
-}
-
-.pretty.p-toggle .state.p-off .icon{
-  color:#bdc3c7
-}
-
-.pretty.p-toggle input:checked~.state.p-on{
-  opacity:1;
-  display:inherit
-}
-
-.pretty.p-toggle input:checked~.state.p-off{
-  opacity:0;
-  display:none
-}
-
-.pretty.p-plain input:checked~.state label:before,.pretty.p-plain.p-toggle .state label:before{
-  content:none
-}
-
-.pretty.p-plain.p-plain .icon{
-  transform:scale(1.1)
-}
-
-.pretty.p-round .state label:after,.pretty.p-round .state label:before{
-  border-radius:100%
-}
-
-.pretty.p-round.p-icon .state .icon{
-  border-radius:100%;
-  overflow:hidden
-}
-
-.pretty.p-round.p-icon .state .icon:before{
-  transform:scale(.8)
-}
-
-.pretty.p-curve .state label:after,.pretty.p-curve .state label:before{
-  border-radius:20%
-}
-
-.pretty.p-smooth .icon,.pretty.p-smooth .svg,.pretty.p-smooth label:after,.pretty.p-smooth label:before{
-  transition:all .5s ease
-}
-
-.pretty.p-smooth input:checked+.state label:after{
-  transition:all .3s ease
-}
-
-.pretty.p-smooth input:checked+.state .icon,.pretty.p-smooth input:checked+.state .svg,.pretty.p-smooth input:checked+.state img{
-  -webkit-animation:zoom .2s ease;
-  animation:zoom .2s ease
-}
-
-.pretty.p-smooth.p-default input:checked+.state label:after{
-  -webkit-animation:zoom .2s ease;
-  animation:zoom .2s ease
-}
-
-.pretty.p-smooth.p-plain input:checked+.state label:before{
-  content:'';
-  transform:scale(0);
-  transition:all .5s ease
-}
-
-.pretty.p-tada:not(.p-default) input:checked+.state .icon,.pretty.p-tada:not(.p-default) input:checked+.state .svg,.pretty.p-tada:not(.p-default) input:checked+.state img,.pretty.p-tada:not(.p-default) input:checked+.state label:after,.pretty.p-tada:not(.p-default) input:checked+.state label:before{
-  -webkit-animation:tada .7s cubic-bezier(.25,.46,.45,.94) 1 alternate;
-  animation:tada .7s cubic-bezier(.25,.46,.45,.94) 1 alternate;
-  opacity:1
-}
-
-.pretty.p-jelly:not(.p-default) input:checked+.state .icon,.pretty.p-jelly:not(.p-default) input:checked+.state .svg,.pretty.p-jelly:not(.p-default) input:checked+.state img,.pretty.p-jelly:not(.p-default) input:checked+.state label:after,.pretty.p-jelly:not(.p-default) input:checked+.state label:before{
-  -webkit-animation:jelly .7s cubic-bezier(.25,.46,.45,.94);
-  animation:jelly .7s cubic-bezier(.25,.46,.45,.94);
-  opacity:1
-}
-
-.pretty.p-jelly:not(.p-default) input:checked+.state label:before{
-  border-color:transparent
-}
-
-.pretty.p-rotate:not(.p-default) input:checked~.state .icon,.pretty.p-rotate:not(.p-default) input:checked~.state .svg,.pretty.p-rotate:not(.p-default) input:checked~.state img,.pretty.p-rotate:not(.p-default) input:checked~.state label:after,.pretty.p-rotate:not(.p-default) input:checked~.state label:before{
-  -webkit-animation:rotate .7s cubic-bezier(.25,.46,.45,.94);
-  animation:rotate .7s cubic-bezier(.25,.46,.45,.94);
-  opacity:1
-}
-
-.pretty.p-rotate:not(.p-default) input:checked~.state label:before{
-  border-color:transparent
-}
-
-.pretty.p-pulse:not(.p-switch) input:checked~.state label:before{
-  -webkit-animation:pulse 1s;
-  animation:pulse 1s
-}
-
-.pretty input[disabled]{
-  cursor:not-allowed;
-  display:none
-}
-
-.pretty input[disabled]~*{
-  opacity:.5
-}
-
-.pretty.p-locked input{
-  display:none;
-  cursor:not-allowed
-}
-
-.pretty input:checked~.state.p-primary label:after,.pretty.p-toggle .state.p-primary label:after{
-  background-color:#428bca!important
-}
-
-.pretty input:checked~.state.p-primary .icon,.pretty input:checked~.state.p-primary .svg,.pretty.p-toggle .state.p-primary .icon,.pretty.p-toggle .state.p-primary .svg{
-  color:#fff;
-  stroke:#fff
-}
-
-.pretty input:checked~.state.p-primary-o label:before,.pretty.p-toggle .state.p-primary-o label:before{
-  border-color:#428bca
-}
-
-.pretty input:checked~.state.p-primary-o label:after,.pretty.p-toggle .state.p-primary-o label:after{
-  background-color:transparent
-}
-
-.pretty input:checked~.state.p-primary-o .icon,.pretty input:checked~.state.p-primary-o .svg,.pretty input:checked~.state.p-primary-o svg,.pretty.p-toggle .state.p-primary-o .icon,.pretty.p-toggle .state.p-primary-o .svg,.pretty.p-toggle .state.p-primary-o svg{
-  color:#428bca;
-  stroke:#428bca
-}
-
-.pretty.p-default:not(.p-fill) input:checked~.state.p-primary-o label:after{
-  background-color:#428bca!important
-}
-
-.pretty.p-switch input:checked~.state.p-primary:before{
-  border-color:#428bca
-}
-
-.pretty.p-switch.p-fill input:checked~.state.p-primary:before{
-  background-color:#428bca!important
-}
-
-.pretty.p-switch.p-slim input:checked~.state.p-primary:before{
-  border-color:#245682;
-  background-color:#245682!important
-}
-
-.pretty input:checked~.state.p-info label:after,.pretty.p-toggle .state.p-info label:after{
-  background-color:#5bc0de!important
-}
-
-.pretty input:checked~.state.p-info .icon,.pretty input:checked~.state.p-info .svg,.pretty.p-toggle .state.p-info .icon,.pretty.p-toggle .state.p-info .svg{
-  color:#fff;
-  stroke:#fff
-}
-
-.pretty input:checked~.state.p-info-o label:before,.pretty.p-toggle .state.p-info-o label:before{
-  border-color:#5bc0de
-}
-
-.pretty input:checked~.state.p-info-o label:after,.pretty.p-toggle .state.p-info-o label:after{
-  background-color:transparent
-}
-
-.pretty input:checked~.state.p-info-o .icon,.pretty input:checked~.state.p-info-o .svg,.pretty input:checked~.state.p-info-o svg,.pretty.p-toggle .state.p-info-o .icon,.pretty.p-toggle .state.p-info-o .svg,.pretty.p-toggle .state.p-info-o svg{
-  color:#5bc0de;
-  stroke:#5bc0de
-}
-
-.pretty.p-default:not(.p-fill) input:checked~.state.p-info-o label:after{
-  background-color:#5bc0de!important
-}
-
-.pretty.p-switch input:checked~.state.p-info:before{
-  border-color:#5bc0de
-}
-
-.pretty.p-switch.p-fill input:checked~.state.p-info:before{
-  background-color:#5bc0de!important
-}
-
-.pretty.p-switch.p-slim input:checked~.state.p-info:before{
-  border-color:#2390b0;
-  background-color:#2390b0!important
-}
-
-.pretty input:checked~.state.p-success label:after,.pretty.p-toggle .state.p-success label:after{
-  background-color:#5cb85c!important
-}
-
-.pretty input:checked~.state.p-success .icon,.pretty input:checked~.state.p-success .svg,.pretty.p-toggle .state.p-success .icon,.pretty.p-toggle .state.p-success .svg{
-  color:#fff;
-  stroke:#fff
-}
-
-.pretty input:checked~.state.p-success-o label:before,.pretty.p-toggle .state.p-success-o label:before{
-  border-color:#5cb85c
-}
-
-.pretty input:checked~.state.p-success-o label:after,.pretty.p-toggle .state.p-success-o label:after{
-  background-color:transparent
-}
-
-.pretty input:checked~.state.p-success-o .icon,.pretty input:checked~.state.p-success-o .svg,.pretty input:checked~.state.p-success-o svg,.pretty.p-toggle .state.p-success-o .icon,.pretty.p-toggle .state.p-success-o .svg,.pretty.p-toggle .state.p-success-o svg{
-  color:#5cb85c;
-  stroke:#5cb85c
-}
-
-.pretty.p-default:not(.p-fill) input:checked~.state.p-success-o label:after{
-  background-color:#5cb85c!important
-}
-
-.pretty.p-switch input:checked~.state.p-success:before{
-  border-color:#5cb85c
-}
-
-.pretty.p-switch.p-fill input:checked~.state.p-success:before{
-  background-color:#5cb85c!important
-}
-
-.pretty.p-switch.p-slim input:checked~.state.p-success:before{
-  border-color:#357935;
-  background-color:#357935!important
-}
-
-.pretty input:checked~.state.p-warning label:after,.pretty.p-toggle .state.p-warning label:after{
-  background-color:#f0ad4e!important
-}
-
-.pretty input:checked~.state.p-warning .icon,.pretty input:checked~.state.p-warning .svg,.pretty.p-toggle .state.p-warning .icon,.pretty.p-toggle .state.p-warning .svg{
-  color:#fff;
-  stroke:#fff
-}
-
-.pretty input:checked~.state.p-warning-o label:before,.pretty.p-toggle .state.p-warning-o label:before{
-  border-color:#f0ad4e
-}
-
-.pretty input:checked~.state.p-warning-o label:after,.pretty.p-toggle .state.p-warning-o label:after{
-  background-color:transparent
-}
-
-.pretty input:checked~.state.p-warning-o .icon,.pretty input:checked~.state.p-warning-o .svg,.pretty input:checked~.state.p-warning-o svg,.pretty.p-toggle .state.p-warning-o .icon,.pretty.p-toggle .state.p-warning-o .svg,.pretty.p-toggle .state.p-warning-o svg{
-  color:#f0ad4e;
-  stroke:#f0ad4e
-}
-
-.pretty.p-default:not(.p-fill) input:checked~.state.p-warning-o label:after{
-  background-color:#f0ad4e!important
-}
-
-.pretty.p-switch input:checked~.state.p-warning:before{
-  border-color:#f0ad4e
-}
-
-.pretty.p-switch.p-fill input:checked~.state.p-warning:before{
-  background-color:#f0ad4e!important
-}
-
-.pretty.p-switch.p-slim input:checked~.state.p-warning:before{
-  border-color:#c77c11;
-  background-color:#c77c11!important
-}
-
-.pretty input:checked~.state.p-danger label:after,.pretty.p-toggle .state.p-danger label:after{
-  background-color:#d9534f!important
-}
-
-.pretty input:checked~.state.p-danger .icon,.pretty input:checked~.state.p-danger .svg,.pretty.p-toggle .state.p-danger .icon,.pretty.p-toggle .state.p-danger .svg{
-  color:#fff;
-  stroke:#fff
-}
-
-.pretty input:checked~.state.p-danger-o label:before,.pretty.p-toggle .state.p-danger-o label:before{
-  border-color:#d9534f
-}
-
-.pretty input:checked~.state.p-danger-o label:after,.pretty.p-toggle .state.p-danger-o label:after{
-  background-color:transparent
-}
-
-.pretty input:checked~.state.p-danger-o .icon,.pretty input:checked~.state.p-danger-o .svg,.pretty input:checked~.state.p-danger-o svg,.pretty.p-toggle .state.p-danger-o .icon,.pretty.p-toggle .state.p-danger-o .svg,.pretty.p-toggle .state.p-danger-o svg{
-  color:#d9534f;
-  stroke:#d9534f
-}
-
-.pretty.p-default:not(.p-fill) input:checked~.state.p-danger-o label:after{
-  background-color:#d9534f!important
-}
-
-.pretty.p-switch input:checked~.state.p-danger:before{
-  border-color:#d9534f
-}
-
-.pretty.p-switch.p-fill input:checked~.state.p-danger:before{
-  background-color:#d9534f!important
-}
-
-.pretty.p-switch.p-slim input:checked~.state.p-danger:before{
-  border-color:#a02622;
-  background-color:#a02622!important
-}
-
-.pretty.p-bigger .icon,.pretty.p-bigger .img,.pretty.p-bigger .svg,.pretty.p-bigger label:after,.pretty.p-bigger label:before{
-  font-size:1.2em!important;
-  top:calc((0% - (100% - 1em)) - 35%)!important
-}
-
-.pretty.p-bigger label{
-  text-indent:1.7em
-}
-
-@media print{
-  .pretty .state .icon,.pretty .state label:after,.pretty .state label:before,.pretty .state:before{
-    color-adjust:exact;
-    -webkit-print-color-adjust:exact;
-    print-color-adjust:exact
-  }
-}
-
-.pretty input:not(:checked) .state label::after, .pretty .state label::before {
-  border-width: 4px;
-  --tw-border-opacity: 1;
-  border-color: rgba(75, 85, 99, var(--tw-border-opacity))
-}
+/*}*/
 
 /* purgecss end ignore */
 
@@ -34762,37 +33116,39 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   .sm\:container {
     width: 100%;
   }
+}
 
-  @media (min-width: 640px) {
-    .sm\:container {
-      max-width: 640px;
-    }
+@media (min-width: 640px) and (min-width: 640px) {
+  .sm\:container {
+    max-width: 640px;
   }
+}
 
-  @media (min-width: 768px) {
-    .sm\:container {
-      max-width: 768px;
-    }
+@media (min-width: 640px) and (min-width: 768px) {
+  .sm\:container {
+    max-width: 768px;
   }
+}
 
-  @media (min-width: 1024px) {
-    .sm\:container {
-      max-width: 1024px;
-    }
+@media (min-width: 640px) and (min-width: 1024px) {
+  .sm\:container {
+    max-width: 1024px;
   }
+}
 
-  @media (min-width: 1280px) {
-    .sm\:container {
-      max-width: 1280px;
-    }
+@media (min-width: 640px) and (min-width: 1280px) {
+  .sm\:container {
+    max-width: 1280px;
   }
+}
 
-  @media (min-width: 1536px) {
-    .sm\:container {
-      max-width: 1536px;
-    }
+@media (min-width: 640px) and (min-width: 1536px) {
+  .sm\:container {
+    max-width: 1536px;
   }
+}
 
+@media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;
     width: 1px;
@@ -34895,6 +33251,7 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .sm\:sticky {
+    position: -webkit-sticky;
     position: sticky;
   }
 
@@ -44135,27 +42492,30 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .sm\:select-none {
-    -moz-user-select: none;
-     -ms-user-select: none;
-         user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
   }
 
   .sm\:select-text {
-    -moz-user-select: text;
-     -ms-user-select: text;
-         user-select: text;
+    -webkit-user-select: text;
+       -moz-user-select: text;
+        -ms-user-select: text;
+            user-select: text;
   }
 
   .sm\:select-all {
-    -moz-user-select: all;
-     -ms-user-select: all;
-         user-select: all;
+    -webkit-user-select: all;
+       -moz-user-select: all;
+            user-select: all;
   }
 
   .sm\:select-auto {
-    -moz-user-select: auto;
-     -ms-user-select: auto;
-         user-select: auto;
+    -webkit-user-select: auto;
+       -moz-user-select: auto;
+        -ms-user-select: auto;
+            user-select: auto;
   }
 
   .sm\:resize-none {
@@ -55174,7 +53534,8 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .sm\:bg-clip-text {
-    background-clip: text;
+    -webkit-background-clip: text;
+            background-clip: text;
   }
 
   .sm\:bg-bottom {
@@ -66452,11 +64813,13 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
     --tw-backdrop-opacity: var(--tw-empty,/*!*/ /*!*/);
     --tw-backdrop-saturate: var(--tw-empty,/*!*/ /*!*/);
     --tw-backdrop-sepia: var(--tw-empty,/*!*/ /*!*/);
-    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+    -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+            backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
   }
 
   .sm\:backdrop-filter-none {
-    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
   }
 
   .sm\:backdrop-blur-0 {
@@ -66726,7 +65089,9 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .sm\:transition {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
     transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
@@ -66840,37 +65205,39 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   .md\:container {
     width: 100%;
   }
+}
 
-  @media (min-width: 640px) {
-    .md\:container {
-      max-width: 640px;
-    }
+@media (min-width: 768px) and (min-width: 640px) {
+  .md\:container {
+    max-width: 640px;
   }
+}
 
-  @media (min-width: 768px) {
-    .md\:container {
-      max-width: 768px;
-    }
+@media (min-width: 768px) and (min-width: 768px) {
+  .md\:container {
+    max-width: 768px;
   }
+}
 
-  @media (min-width: 1024px) {
-    .md\:container {
-      max-width: 1024px;
-    }
+@media (min-width: 768px) and (min-width: 1024px) {
+  .md\:container {
+    max-width: 1024px;
   }
+}
 
-  @media (min-width: 1280px) {
-    .md\:container {
-      max-width: 1280px;
-    }
+@media (min-width: 768px) and (min-width: 1280px) {
+  .md\:container {
+    max-width: 1280px;
   }
+}
 
-  @media (min-width: 1536px) {
-    .md\:container {
-      max-width: 1536px;
-    }
+@media (min-width: 768px) and (min-width: 1536px) {
+  .md\:container {
+    max-width: 1536px;
   }
+}
 
+@media (min-width: 768px) {
   .md\:sr-only {
     position: absolute;
     width: 1px;
@@ -66973,6 +65340,7 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .md\:sticky {
+    position: -webkit-sticky;
     position: sticky;
   }
 
@@ -76213,27 +74581,30 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .md\:select-none {
-    -moz-user-select: none;
-     -ms-user-select: none;
-         user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
   }
 
   .md\:select-text {
-    -moz-user-select: text;
-     -ms-user-select: text;
-         user-select: text;
+    -webkit-user-select: text;
+       -moz-user-select: text;
+        -ms-user-select: text;
+            user-select: text;
   }
 
   .md\:select-all {
-    -moz-user-select: all;
-     -ms-user-select: all;
-         user-select: all;
+    -webkit-user-select: all;
+       -moz-user-select: all;
+            user-select: all;
   }
 
   .md\:select-auto {
-    -moz-user-select: auto;
-     -ms-user-select: auto;
-         user-select: auto;
+    -webkit-user-select: auto;
+       -moz-user-select: auto;
+        -ms-user-select: auto;
+            user-select: auto;
   }
 
   .md\:resize-none {
@@ -87252,7 +85623,8 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .md\:bg-clip-text {
-    background-clip: text;
+    -webkit-background-clip: text;
+            background-clip: text;
   }
 
   .md\:bg-bottom {
@@ -98530,11 +96902,13 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
     --tw-backdrop-opacity: var(--tw-empty,/*!*/ /*!*/);
     --tw-backdrop-saturate: var(--tw-empty,/*!*/ /*!*/);
     --tw-backdrop-sepia: var(--tw-empty,/*!*/ /*!*/);
-    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+    -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+            backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
   }
 
   .md\:backdrop-filter-none {
-    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
   }
 
   .md\:backdrop-blur-0 {
@@ -98804,7 +97178,9 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .md\:transition {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
     transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
@@ -98918,37 +97294,39 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   .lg\:container {
     width: 100%;
   }
+}
 
-  @media (min-width: 640px) {
-    .lg\:container {
-      max-width: 640px;
-    }
+@media (min-width: 1024px) and (min-width: 640px) {
+  .lg\:container {
+    max-width: 640px;
   }
+}
 
-  @media (min-width: 768px) {
-    .lg\:container {
-      max-width: 768px;
-    }
+@media (min-width: 1024px) and (min-width: 768px) {
+  .lg\:container {
+    max-width: 768px;
   }
+}
 
-  @media (min-width: 1024px) {
-    .lg\:container {
-      max-width: 1024px;
-    }
+@media (min-width: 1024px) and (min-width: 1024px) {
+  .lg\:container {
+    max-width: 1024px;
   }
+}
 
-  @media (min-width: 1280px) {
-    .lg\:container {
-      max-width: 1280px;
-    }
+@media (min-width: 1024px) and (min-width: 1280px) {
+  .lg\:container {
+    max-width: 1280px;
   }
+}
 
-  @media (min-width: 1536px) {
-    .lg\:container {
-      max-width: 1536px;
-    }
+@media (min-width: 1024px) and (min-width: 1536px) {
+  .lg\:container {
+    max-width: 1536px;
   }
+}
 
+@media (min-width: 1024px) {
   .lg\:sr-only {
     position: absolute;
     width: 1px;
@@ -99051,6 +97429,7 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .lg\:sticky {
+    position: -webkit-sticky;
     position: sticky;
   }
 
@@ -108291,27 +106670,30 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .lg\:select-none {
-    -moz-user-select: none;
-     -ms-user-select: none;
-         user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
   }
 
   .lg\:select-text {
-    -moz-user-select: text;
-     -ms-user-select: text;
-         user-select: text;
+    -webkit-user-select: text;
+       -moz-user-select: text;
+        -ms-user-select: text;
+            user-select: text;
   }
 
   .lg\:select-all {
-    -moz-user-select: all;
-     -ms-user-select: all;
-         user-select: all;
+    -webkit-user-select: all;
+       -moz-user-select: all;
+            user-select: all;
   }
 
   .lg\:select-auto {
-    -moz-user-select: auto;
-     -ms-user-select: auto;
-         user-select: auto;
+    -webkit-user-select: auto;
+       -moz-user-select: auto;
+        -ms-user-select: auto;
+            user-select: auto;
   }
 
   .lg\:resize-none {
@@ -119330,7 +117712,8 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .lg\:bg-clip-text {
-    background-clip: text;
+    -webkit-background-clip: text;
+            background-clip: text;
   }
 
   .lg\:bg-bottom {
@@ -130608,11 +128991,13 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
     --tw-backdrop-opacity: var(--tw-empty,/*!*/ /*!*/);
     --tw-backdrop-saturate: var(--tw-empty,/*!*/ /*!*/);
     --tw-backdrop-sepia: var(--tw-empty,/*!*/ /*!*/);
-    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+    -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+            backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
   }
 
   .lg\:backdrop-filter-none {
-    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
   }
 
   .lg\:backdrop-blur-0 {
@@ -130882,7 +129267,9 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .lg\:transition {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
     transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
@@ -130996,37 +129383,39 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   .xl\:container {
     width: 100%;
   }
+}
 
-  @media (min-width: 640px) {
-    .xl\:container {
-      max-width: 640px;
-    }
+@media (min-width: 1280px) and (min-width: 640px) {
+  .xl\:container {
+    max-width: 640px;
   }
+}
 
-  @media (min-width: 768px) {
-    .xl\:container {
-      max-width: 768px;
-    }
+@media (min-width: 1280px) and (min-width: 768px) {
+  .xl\:container {
+    max-width: 768px;
   }
+}
 
-  @media (min-width: 1024px) {
-    .xl\:container {
-      max-width: 1024px;
-    }
+@media (min-width: 1280px) and (min-width: 1024px) {
+  .xl\:container {
+    max-width: 1024px;
   }
+}
 
-  @media (min-width: 1280px) {
-    .xl\:container {
-      max-width: 1280px;
-    }
+@media (min-width: 1280px) and (min-width: 1280px) {
+  .xl\:container {
+    max-width: 1280px;
   }
+}
 
-  @media (min-width: 1536px) {
-    .xl\:container {
-      max-width: 1536px;
-    }
+@media (min-width: 1280px) and (min-width: 1536px) {
+  .xl\:container {
+    max-width: 1536px;
   }
+}
 
+@media (min-width: 1280px) {
   .xl\:sr-only {
     position: absolute;
     width: 1px;
@@ -131129,6 +129518,7 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .xl\:sticky {
+    position: -webkit-sticky;
     position: sticky;
   }
 
@@ -140369,27 +138759,30 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .xl\:select-none {
-    -moz-user-select: none;
-     -ms-user-select: none;
-         user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
   }
 
   .xl\:select-text {
-    -moz-user-select: text;
-     -ms-user-select: text;
-         user-select: text;
+    -webkit-user-select: text;
+       -moz-user-select: text;
+        -ms-user-select: text;
+            user-select: text;
   }
 
   .xl\:select-all {
-    -moz-user-select: all;
-     -ms-user-select: all;
-         user-select: all;
+    -webkit-user-select: all;
+       -moz-user-select: all;
+            user-select: all;
   }
 
   .xl\:select-auto {
-    -moz-user-select: auto;
-     -ms-user-select: auto;
-         user-select: auto;
+    -webkit-user-select: auto;
+       -moz-user-select: auto;
+        -ms-user-select: auto;
+            user-select: auto;
   }
 
   .xl\:resize-none {
@@ -151408,7 +149801,8 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .xl\:bg-clip-text {
-    background-clip: text;
+    -webkit-background-clip: text;
+            background-clip: text;
   }
 
   .xl\:bg-bottom {
@@ -162686,11 +161080,13 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
     --tw-backdrop-opacity: var(--tw-empty,/*!*/ /*!*/);
     --tw-backdrop-saturate: var(--tw-empty,/*!*/ /*!*/);
     --tw-backdrop-sepia: var(--tw-empty,/*!*/ /*!*/);
-    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+    -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+            backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
   }
 
   .xl\:backdrop-filter-none {
-    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
   }
 
   .xl\:backdrop-blur-0 {
@@ -162960,7 +161356,9 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .xl\:transition {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
     transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
@@ -163074,37 +161472,39 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   .\32xl\:container {
     width: 100%;
   }
+}
 
-  @media (min-width: 640px) {
-    .\32xl\:container {
-      max-width: 640px;
-    }
+@media (min-width: 1536px) and (min-width: 640px) {
+  .\32xl\:container {
+    max-width: 640px;
   }
+}
 
-  @media (min-width: 768px) {
-    .\32xl\:container {
-      max-width: 768px;
-    }
+@media (min-width: 1536px) and (min-width: 768px) {
+  .\32xl\:container {
+    max-width: 768px;
   }
+}
 
-  @media (min-width: 1024px) {
-    .\32xl\:container {
-      max-width: 1024px;
-    }
+@media (min-width: 1536px) and (min-width: 1024px) {
+  .\32xl\:container {
+    max-width: 1024px;
   }
+}
 
-  @media (min-width: 1280px) {
-    .\32xl\:container {
-      max-width: 1280px;
-    }
+@media (min-width: 1536px) and (min-width: 1280px) {
+  .\32xl\:container {
+    max-width: 1280px;
   }
+}
 
-  @media (min-width: 1536px) {
-    .\32xl\:container {
-      max-width: 1536px;
-    }
+@media (min-width: 1536px) and (min-width: 1536px) {
+  .\32xl\:container {
+    max-width: 1536px;
   }
+}
 
+@media (min-width: 1536px) {
   .\32xl\:sr-only {
     position: absolute;
     width: 1px;
@@ -163207,6 +161607,7 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .\32xl\:sticky {
+    position: -webkit-sticky;
     position: sticky;
   }
 
@@ -172447,27 +170848,30 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .\32xl\:select-none {
-    -moz-user-select: none;
-     -ms-user-select: none;
-         user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
   }
 
   .\32xl\:select-text {
-    -moz-user-select: text;
-     -ms-user-select: text;
-         user-select: text;
+    -webkit-user-select: text;
+       -moz-user-select: text;
+        -ms-user-select: text;
+            user-select: text;
   }
 
   .\32xl\:select-all {
-    -moz-user-select: all;
-     -ms-user-select: all;
-         user-select: all;
+    -webkit-user-select: all;
+       -moz-user-select: all;
+            user-select: all;
   }
 
   .\32xl\:select-auto {
-    -moz-user-select: auto;
-     -ms-user-select: auto;
-         user-select: auto;
+    -webkit-user-select: auto;
+       -moz-user-select: auto;
+        -ms-user-select: auto;
+            user-select: auto;
   }
 
   .\32xl\:resize-none {
@@ -183486,7 +181890,8 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .\32xl\:bg-clip-text {
-    background-clip: text;
+    -webkit-background-clip: text;
+            background-clip: text;
   }
 
   .\32xl\:bg-bottom {
@@ -194764,11 +193169,13 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
     --tw-backdrop-opacity: var(--tw-empty,/*!*/ /*!*/);
     --tw-backdrop-saturate: var(--tw-empty,/*!*/ /*!*/);
     --tw-backdrop-sepia: var(--tw-empty,/*!*/ /*!*/);
-    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+    -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+            backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
   }
 
   .\32xl\:backdrop-filter-none {
-    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
   }
 
   .\32xl\:backdrop-blur-0 {
@@ -195038,7 +193445,9 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
   }
 
   .\32xl\:transition {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
     transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
@@ -195147,295 +193556,4 @@ input:focus, input:active, select:focus, select:active, textarea:focus, textarea
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
-var map = {
-	"./af": "./node_modules/moment/locale/af.js",
-	"./af.js": "./node_modules/moment/locale/af.js",
-	"./ar": "./node_modules/moment/locale/ar.js",
-	"./ar-dz": "./node_modules/moment/locale/ar-dz.js",
-	"./ar-dz.js": "./node_modules/moment/locale/ar-dz.js",
-	"./ar-kw": "./node_modules/moment/locale/ar-kw.js",
-	"./ar-kw.js": "./node_modules/moment/locale/ar-kw.js",
-	"./ar-ly": "./node_modules/moment/locale/ar-ly.js",
-	"./ar-ly.js": "./node_modules/moment/locale/ar-ly.js",
-	"./ar-ma": "./node_modules/moment/locale/ar-ma.js",
-	"./ar-ma.js": "./node_modules/moment/locale/ar-ma.js",
-	"./ar-sa": "./node_modules/moment/locale/ar-sa.js",
-	"./ar-sa.js": "./node_modules/moment/locale/ar-sa.js",
-	"./ar-tn": "./node_modules/moment/locale/ar-tn.js",
-	"./ar-tn.js": "./node_modules/moment/locale/ar-tn.js",
-	"./ar.js": "./node_modules/moment/locale/ar.js",
-	"./az": "./node_modules/moment/locale/az.js",
-	"./az.js": "./node_modules/moment/locale/az.js",
-	"./be": "./node_modules/moment/locale/be.js",
-	"./be.js": "./node_modules/moment/locale/be.js",
-	"./bg": "./node_modules/moment/locale/bg.js",
-	"./bg.js": "./node_modules/moment/locale/bg.js",
-	"./bm": "./node_modules/moment/locale/bm.js",
-	"./bm.js": "./node_modules/moment/locale/bm.js",
-	"./bn": "./node_modules/moment/locale/bn.js",
-	"./bn-bd": "./node_modules/moment/locale/bn-bd.js",
-	"./bn-bd.js": "./node_modules/moment/locale/bn-bd.js",
-	"./bn.js": "./node_modules/moment/locale/bn.js",
-	"./bo": "./node_modules/moment/locale/bo.js",
-	"./bo.js": "./node_modules/moment/locale/bo.js",
-	"./br": "./node_modules/moment/locale/br.js",
-	"./br.js": "./node_modules/moment/locale/br.js",
-	"./bs": "./node_modules/moment/locale/bs.js",
-	"./bs.js": "./node_modules/moment/locale/bs.js",
-	"./ca": "./node_modules/moment/locale/ca.js",
-	"./ca.js": "./node_modules/moment/locale/ca.js",
-	"./cs": "./node_modules/moment/locale/cs.js",
-	"./cs.js": "./node_modules/moment/locale/cs.js",
-	"./cv": "./node_modules/moment/locale/cv.js",
-	"./cv.js": "./node_modules/moment/locale/cv.js",
-	"./cy": "./node_modules/moment/locale/cy.js",
-	"./cy.js": "./node_modules/moment/locale/cy.js",
-	"./da": "./node_modules/moment/locale/da.js",
-	"./da.js": "./node_modules/moment/locale/da.js",
-	"./de": "./node_modules/moment/locale/de.js",
-	"./de-at": "./node_modules/moment/locale/de-at.js",
-	"./de-at.js": "./node_modules/moment/locale/de-at.js",
-	"./de-ch": "./node_modules/moment/locale/de-ch.js",
-	"./de-ch.js": "./node_modules/moment/locale/de-ch.js",
-	"./de.js": "./node_modules/moment/locale/de.js",
-	"./dv": "./node_modules/moment/locale/dv.js",
-	"./dv.js": "./node_modules/moment/locale/dv.js",
-	"./el": "./node_modules/moment/locale/el.js",
-	"./el.js": "./node_modules/moment/locale/el.js",
-	"./en-au": "./node_modules/moment/locale/en-au.js",
-	"./en-au.js": "./node_modules/moment/locale/en-au.js",
-	"./en-ca": "./node_modules/moment/locale/en-ca.js",
-	"./en-ca.js": "./node_modules/moment/locale/en-ca.js",
-	"./en-gb": "./node_modules/moment/locale/en-gb.js",
-	"./en-gb.js": "./node_modules/moment/locale/en-gb.js",
-	"./en-ie": "./node_modules/moment/locale/en-ie.js",
-	"./en-ie.js": "./node_modules/moment/locale/en-ie.js",
-	"./en-il": "./node_modules/moment/locale/en-il.js",
-	"./en-il.js": "./node_modules/moment/locale/en-il.js",
-	"./en-in": "./node_modules/moment/locale/en-in.js",
-	"./en-in.js": "./node_modules/moment/locale/en-in.js",
-	"./en-nz": "./node_modules/moment/locale/en-nz.js",
-	"./en-nz.js": "./node_modules/moment/locale/en-nz.js",
-	"./en-sg": "./node_modules/moment/locale/en-sg.js",
-	"./en-sg.js": "./node_modules/moment/locale/en-sg.js",
-	"./eo": "./node_modules/moment/locale/eo.js",
-	"./eo.js": "./node_modules/moment/locale/eo.js",
-	"./es": "./node_modules/moment/locale/es.js",
-	"./es-do": "./node_modules/moment/locale/es-do.js",
-	"./es-do.js": "./node_modules/moment/locale/es-do.js",
-	"./es-mx": "./node_modules/moment/locale/es-mx.js",
-	"./es-mx.js": "./node_modules/moment/locale/es-mx.js",
-	"./es-us": "./node_modules/moment/locale/es-us.js",
-	"./es-us.js": "./node_modules/moment/locale/es-us.js",
-	"./es.js": "./node_modules/moment/locale/es.js",
-	"./et": "./node_modules/moment/locale/et.js",
-	"./et.js": "./node_modules/moment/locale/et.js",
-	"./eu": "./node_modules/moment/locale/eu.js",
-	"./eu.js": "./node_modules/moment/locale/eu.js",
-	"./fa": "./node_modules/moment/locale/fa.js",
-	"./fa.js": "./node_modules/moment/locale/fa.js",
-	"./fi": "./node_modules/moment/locale/fi.js",
-	"./fi.js": "./node_modules/moment/locale/fi.js",
-	"./fil": "./node_modules/moment/locale/fil.js",
-	"./fil.js": "./node_modules/moment/locale/fil.js",
-	"./fo": "./node_modules/moment/locale/fo.js",
-	"./fo.js": "./node_modules/moment/locale/fo.js",
-	"./fr": "./node_modules/moment/locale/fr.js",
-	"./fr-ca": "./node_modules/moment/locale/fr-ca.js",
-	"./fr-ca.js": "./node_modules/moment/locale/fr-ca.js",
-	"./fr-ch": "./node_modules/moment/locale/fr-ch.js",
-	"./fr-ch.js": "./node_modules/moment/locale/fr-ch.js",
-	"./fr.js": "./node_modules/moment/locale/fr.js",
-	"./fy": "./node_modules/moment/locale/fy.js",
-	"./fy.js": "./node_modules/moment/locale/fy.js",
-	"./ga": "./node_modules/moment/locale/ga.js",
-	"./ga.js": "./node_modules/moment/locale/ga.js",
-	"./gd": "./node_modules/moment/locale/gd.js",
-	"./gd.js": "./node_modules/moment/locale/gd.js",
-	"./gl": "./node_modules/moment/locale/gl.js",
-	"./gl.js": "./node_modules/moment/locale/gl.js",
-	"./gom-deva": "./node_modules/moment/locale/gom-deva.js",
-	"./gom-deva.js": "./node_modules/moment/locale/gom-deva.js",
-	"./gom-latn": "./node_modules/moment/locale/gom-latn.js",
-	"./gom-latn.js": "./node_modules/moment/locale/gom-latn.js",
-	"./gu": "./node_modules/moment/locale/gu.js",
-	"./gu.js": "./node_modules/moment/locale/gu.js",
-	"./he": "./node_modules/moment/locale/he.js",
-	"./he.js": "./node_modules/moment/locale/he.js",
-	"./hi": "./node_modules/moment/locale/hi.js",
-	"./hi.js": "./node_modules/moment/locale/hi.js",
-	"./hr": "./node_modules/moment/locale/hr.js",
-	"./hr.js": "./node_modules/moment/locale/hr.js",
-	"./hu": "./node_modules/moment/locale/hu.js",
-	"./hu.js": "./node_modules/moment/locale/hu.js",
-	"./hy-am": "./node_modules/moment/locale/hy-am.js",
-	"./hy-am.js": "./node_modules/moment/locale/hy-am.js",
-	"./id": "./node_modules/moment/locale/id.js",
-	"./id.js": "./node_modules/moment/locale/id.js",
-	"./is": "./node_modules/moment/locale/is.js",
-	"./is.js": "./node_modules/moment/locale/is.js",
-	"./it": "./node_modules/moment/locale/it.js",
-	"./it-ch": "./node_modules/moment/locale/it-ch.js",
-	"./it-ch.js": "./node_modules/moment/locale/it-ch.js",
-	"./it.js": "./node_modules/moment/locale/it.js",
-	"./ja": "./node_modules/moment/locale/ja.js",
-	"./ja.js": "./node_modules/moment/locale/ja.js",
-	"./jv": "./node_modules/moment/locale/jv.js",
-	"./jv.js": "./node_modules/moment/locale/jv.js",
-	"./ka": "./node_modules/moment/locale/ka.js",
-	"./ka.js": "./node_modules/moment/locale/ka.js",
-	"./kk": "./node_modules/moment/locale/kk.js",
-	"./kk.js": "./node_modules/moment/locale/kk.js",
-	"./km": "./node_modules/moment/locale/km.js",
-	"./km.js": "./node_modules/moment/locale/km.js",
-	"./kn": "./node_modules/moment/locale/kn.js",
-	"./kn.js": "./node_modules/moment/locale/kn.js",
-	"./ko": "./node_modules/moment/locale/ko.js",
-	"./ko.js": "./node_modules/moment/locale/ko.js",
-	"./ku": "./node_modules/moment/locale/ku.js",
-	"./ku.js": "./node_modules/moment/locale/ku.js",
-	"./ky": "./node_modules/moment/locale/ky.js",
-	"./ky.js": "./node_modules/moment/locale/ky.js",
-	"./lb": "./node_modules/moment/locale/lb.js",
-	"./lb.js": "./node_modules/moment/locale/lb.js",
-	"./lo": "./node_modules/moment/locale/lo.js",
-	"./lo.js": "./node_modules/moment/locale/lo.js",
-	"./lt": "./node_modules/moment/locale/lt.js",
-	"./lt.js": "./node_modules/moment/locale/lt.js",
-	"./lv": "./node_modules/moment/locale/lv.js",
-	"./lv.js": "./node_modules/moment/locale/lv.js",
-	"./me": "./node_modules/moment/locale/me.js",
-	"./me.js": "./node_modules/moment/locale/me.js",
-	"./mi": "./node_modules/moment/locale/mi.js",
-	"./mi.js": "./node_modules/moment/locale/mi.js",
-	"./mk": "./node_modules/moment/locale/mk.js",
-	"./mk.js": "./node_modules/moment/locale/mk.js",
-	"./ml": "./node_modules/moment/locale/ml.js",
-	"./ml.js": "./node_modules/moment/locale/ml.js",
-	"./mn": "./node_modules/moment/locale/mn.js",
-	"./mn.js": "./node_modules/moment/locale/mn.js",
-	"./mr": "./node_modules/moment/locale/mr.js",
-	"./mr.js": "./node_modules/moment/locale/mr.js",
-	"./ms": "./node_modules/moment/locale/ms.js",
-	"./ms-my": "./node_modules/moment/locale/ms-my.js",
-	"./ms-my.js": "./node_modules/moment/locale/ms-my.js",
-	"./ms.js": "./node_modules/moment/locale/ms.js",
-	"./mt": "./node_modules/moment/locale/mt.js",
-	"./mt.js": "./node_modules/moment/locale/mt.js",
-	"./my": "./node_modules/moment/locale/my.js",
-	"./my.js": "./node_modules/moment/locale/my.js",
-	"./nb": "./node_modules/moment/locale/nb.js",
-	"./nb.js": "./node_modules/moment/locale/nb.js",
-	"./ne": "./node_modules/moment/locale/ne.js",
-	"./ne.js": "./node_modules/moment/locale/ne.js",
-	"./nl": "./node_modules/moment/locale/nl.js",
-	"./nl-be": "./node_modules/moment/locale/nl-be.js",
-	"./nl-be.js": "./node_modules/moment/locale/nl-be.js",
-	"./nl.js": "./node_modules/moment/locale/nl.js",
-	"./nn": "./node_modules/moment/locale/nn.js",
-	"./nn.js": "./node_modules/moment/locale/nn.js",
-	"./oc-lnc": "./node_modules/moment/locale/oc-lnc.js",
-	"./oc-lnc.js": "./node_modules/moment/locale/oc-lnc.js",
-	"./pa-in": "./node_modules/moment/locale/pa-in.js",
-	"./pa-in.js": "./node_modules/moment/locale/pa-in.js",
-	"./pl": "./node_modules/moment/locale/pl.js",
-	"./pl.js": "./node_modules/moment/locale/pl.js",
-	"./pt": "./node_modules/moment/locale/pt.js",
-	"./pt-br": "./node_modules/moment/locale/pt-br.js",
-	"./pt-br.js": "./node_modules/moment/locale/pt-br.js",
-	"./pt.js": "./node_modules/moment/locale/pt.js",
-	"./ro": "./node_modules/moment/locale/ro.js",
-	"./ro.js": "./node_modules/moment/locale/ro.js",
-	"./ru": "./node_modules/moment/locale/ru.js",
-	"./ru.js": "./node_modules/moment/locale/ru.js",
-	"./sd": "./node_modules/moment/locale/sd.js",
-	"./sd.js": "./node_modules/moment/locale/sd.js",
-	"./se": "./node_modules/moment/locale/se.js",
-	"./se.js": "./node_modules/moment/locale/se.js",
-	"./si": "./node_modules/moment/locale/si.js",
-	"./si.js": "./node_modules/moment/locale/si.js",
-	"./sk": "./node_modules/moment/locale/sk.js",
-	"./sk.js": "./node_modules/moment/locale/sk.js",
-	"./sl": "./node_modules/moment/locale/sl.js",
-	"./sl.js": "./node_modules/moment/locale/sl.js",
-	"./sq": "./node_modules/moment/locale/sq.js",
-	"./sq.js": "./node_modules/moment/locale/sq.js",
-	"./sr": "./node_modules/moment/locale/sr.js",
-	"./sr-cyrl": "./node_modules/moment/locale/sr-cyrl.js",
-	"./sr-cyrl.js": "./node_modules/moment/locale/sr-cyrl.js",
-	"./sr.js": "./node_modules/moment/locale/sr.js",
-	"./ss": "./node_modules/moment/locale/ss.js",
-	"./ss.js": "./node_modules/moment/locale/ss.js",
-	"./sv": "./node_modules/moment/locale/sv.js",
-	"./sv.js": "./node_modules/moment/locale/sv.js",
-	"./sw": "./node_modules/moment/locale/sw.js",
-	"./sw.js": "./node_modules/moment/locale/sw.js",
-	"./ta": "./node_modules/moment/locale/ta.js",
-	"./ta.js": "./node_modules/moment/locale/ta.js",
-	"./te": "./node_modules/moment/locale/te.js",
-	"./te.js": "./node_modules/moment/locale/te.js",
-	"./tet": "./node_modules/moment/locale/tet.js",
-	"./tet.js": "./node_modules/moment/locale/tet.js",
-	"./tg": "./node_modules/moment/locale/tg.js",
-	"./tg.js": "./node_modules/moment/locale/tg.js",
-	"./th": "./node_modules/moment/locale/th.js",
-	"./th.js": "./node_modules/moment/locale/th.js",
-	"./tk": "./node_modules/moment/locale/tk.js",
-	"./tk.js": "./node_modules/moment/locale/tk.js",
-	"./tl-ph": "./node_modules/moment/locale/tl-ph.js",
-	"./tl-ph.js": "./node_modules/moment/locale/tl-ph.js",
-	"./tlh": "./node_modules/moment/locale/tlh.js",
-	"./tlh.js": "./node_modules/moment/locale/tlh.js",
-	"./tr": "./node_modules/moment/locale/tr.js",
-	"./tr.js": "./node_modules/moment/locale/tr.js",
-	"./tzl": "./node_modules/moment/locale/tzl.js",
-	"./tzl.js": "./node_modules/moment/locale/tzl.js",
-	"./tzm": "./node_modules/moment/locale/tzm.js",
-	"./tzm-latn": "./node_modules/moment/locale/tzm-latn.js",
-	"./tzm-latn.js": "./node_modules/moment/locale/tzm-latn.js",
-	"./tzm.js": "./node_modules/moment/locale/tzm.js",
-	"./ug-cn": "./node_modules/moment/locale/ug-cn.js",
-	"./ug-cn.js": "./node_modules/moment/locale/ug-cn.js",
-	"./uk": "./node_modules/moment/locale/uk.js",
-	"./uk.js": "./node_modules/moment/locale/uk.js",
-	"./ur": "./node_modules/moment/locale/ur.js",
-	"./ur.js": "./node_modules/moment/locale/ur.js",
-	"./uz": "./node_modules/moment/locale/uz.js",
-	"./uz-latn": "./node_modules/moment/locale/uz-latn.js",
-	"./uz-latn.js": "./node_modules/moment/locale/uz-latn.js",
-	"./uz.js": "./node_modules/moment/locale/uz.js",
-	"./vi": "./node_modules/moment/locale/vi.js",
-	"./vi.js": "./node_modules/moment/locale/vi.js",
-	"./x-pseudo": "./node_modules/moment/locale/x-pseudo.js",
-	"./x-pseudo.js": "./node_modules/moment/locale/x-pseudo.js",
-	"./yo": "./node_modules/moment/locale/yo.js",
-	"./yo.js": "./node_modules/moment/locale/yo.js",
-	"./zh-cn": "./node_modules/moment/locale/zh-cn.js",
-	"./zh-cn.js": "./node_modules/moment/locale/zh-cn.js",
-	"./zh-hk": "./node_modules/moment/locale/zh-hk.js",
-	"./zh-hk.js": "./node_modules/moment/locale/zh-hk.js",
-	"./zh-mo": "./node_modules/moment/locale/zh-mo.js",
-	"./zh-mo.js": "./node_modules/moment/locale/zh-mo.js",
-	"./zh-tw": "./node_modules/moment/locale/zh-tw.js",
-	"./zh-tw.js": "./node_modules/moment/locale/zh-tw.js"
-};
 
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";

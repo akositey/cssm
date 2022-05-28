@@ -1,98 +1,41 @@
 <template>
-  <app-layout>
+  <AppLayout>
     <template #header>
-      <inertia-link
+      <Link
         class="text-indigo-400 hover:text-indigo-600"
         :href="route('offices.index')"
       >
         Offices
-      </inertia-link>
+      </Link>
       <span class="font-medium">/</span>
-      Create New 
+      Create New
     </template>
 
-    <div class="py-4">
-      <div class="max-w-3xl m-auto overflow-hidden bg-white rounded shadow-xl">
-        <form @submit.prevent="submit">
-          <div class="flex flex-wrap p-8 -mb-8 -mr-6">
-            <text-input
-              v-model="form.name"
-              :error="errors.name"
-              class="w-full pb-8 pr-6 lg:w-1/2"
-              label="Name"
-            />
-            <text-input
-              v-model="form.abbr"
-              :error="errors.abbr"
-              class="w-full pb-8 pr-6 lg:w-1/2"
-              label="Abbreviation"
-            />
-            <select-input
-              v-model="form.parent_id"
-              :error="errors.parent_id"
-              class="w-full pb-8 pr-6 lg:w-1/2"
-              label="Parent Office"
-            >
-              <option :value="null" />
-              <option
-                v-for="row in offices"
-                :key="row.id"
-                :value="row.id"
-              >
-                {{ row.abbr }}
-              </option>
-            </select-input>
-          </div>
-          <div class="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
-            <loading-button
-              :loading="sending"
-              class="btn-indigo"
-              type="submit"
-            >
-              Create Office
-            </loading-button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </app-layout>
+    <Form method="create" :submitHandler="()=>form.post(route('offices.store'))" :form="form"
+          :office="office" :offices="offices"/>
+  </AppLayout>
 </template>
 
-<script>
-import AppLayout from "./../../Layouts/AppLayout";
-import LoadingButton from "./../../Shared/LoadingButton";
-import SelectInput from "./../../Shared/SelectInput";
-import TextInput from "./../../Shared/TextInput";
+<script setup>
+import AppLayout from '@/Layouts/AppLayout'
+import {Link, useForm} from "@inertiajs/inertia-vue3";
+import Form from "@/Pages/Offices/Form";
 
-export default {
-  components: {
-    AppLayout,
-    LoadingButton,
-    SelectInput,
-    TextInput,
+const props = defineProps({
+  errors: {
+    type: Object, default: () => {
+    }
   },
-  props: {
-    errors: { type: Object, default: () => {} },
-    offices: { type: Object, default: () => {} },
+  office: {
+    type: Object, default: () => {
+    }
   },
-  remember: "form",
-  data() {
-    return {
-      sending: false,
-      form: {
-        name: null,
-        abbr: null,
-        parent_id: null,
-      },
-    };
-  },
-  methods: {
-    submit() {
-      this.sending = true;
-      this.$inertia
-        .post(this.route("offices.store"), this.form)
-        .then(() => (this.sending = false));
-    },
-  },
-};
+  offices: {type: Array, default: () => []},
+})
+
+const form = useForm({
+  name: props.office?.name,
+  abbr: props.office?.abbr,
+  parent_id: props.office?.parent_id,
+})
 </script>
