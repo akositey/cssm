@@ -1,12 +1,37 @@
+<script setup>
+import Modal from './Modal.vue'
+
+const emit = defineEmits(['close'])
+
+defineProps({
+  show: {
+    type: Boolean,
+    default: false,
+  },
+  maxWidth: {
+    type: String,
+    default: '2xl',
+  },
+  closeable: {
+    type: Boolean,
+    default: true,
+  },
+})
+
+const close = () => {
+  emit('close')
+}
+</script>
+
 <template>
-  <modal
-    :show="isShown"
+  <Modal
+    :show="show"
     :maxWidth="maxWidth"
     :closeable="closeable"
-    @close="closeModal"
+    @close="close"
   >
     <div class="px-6 py-4">
-      <div class="text-lg font-bold">
+      <div class="text-lg">
         <slot name="title" />
       </div>
 
@@ -15,52 +40,8 @@
       </div>
     </div>
 
-    <div class="px-6 py-4 text-right bg-gray-100">
+    <div class="flex flex-row justify-end px-6 py-4 bg-gray-100 text-right">
       <slot name="footer" />
     </div>
-  </modal>
+  </Modal>
 </template>
-
-<script>
-import Modal from "./Modal";
-
-export default {
-  components: {
-    Modal,
-  },
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
-    maxWidth: {
-      type: String,
-      default: "2xl",
-    },
-    closeable: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  data() {
-    return {
-      isShown: this.show,
-    };
-  },
-  watch: {
-    show() {
-      this.isShown = this.show;
-    },
-  },
-  mounted() {
-    // this.$nextTick(function () {
-    //   // console.log("isShown", this.isShown);
-    // });
-  },
-  methods: {
-    closeModal() {
-      this.$emit("close");
-    },
-  },
-};
-</script>

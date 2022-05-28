@@ -50,11 +50,11 @@
               </option>
             </select-input>
             <input
-              type="checkbox"
               :id="`checkbox-${Math.random()}`"
               v-model="form.another"
+              type="checkbox"
               class="hidden"
-            >
+            />
           </div>
           <div class="flex items-center justify-end px-8 py-4 bg-gray-100 border-t border-gray-200">
             <loading-button
@@ -79,10 +79,10 @@
 </template>
 
 <script>
-import AppLayout from "./../../Layouts/AppLayout";
-import LoadingButton from "./../../Shared/LoadingButton";
-import SelectInput from "./../../Shared/SelectInput";
-import TextInput from "./../../Shared/TextInput";
+import AppLayout from './../../Layouts/AppLayout'
+import LoadingButton from './../../Shared/LoadingButton'
+import SelectInput from './../../Shared/SelectInput'
+import TextInput from './../../Shared/TextInput'
 
 export default {
   components: {
@@ -95,7 +95,7 @@ export default {
     errors: { type: Object, default: () => {} },
     offices: { type: [Object, Array], default: () => {} },
   },
-  remember: "form",
+  remember: 'form',
   data() {
     return {
       sending: false,
@@ -105,23 +105,23 @@ export default {
         is_active: null,
         another: false,
       },
-    };
+    }
   },
   methods: {
     saveAndNew() {
-      this.form.another = true;
-      this.submit();
+      this.form.another = true
+      this.submit()
     },
     saveOnly() {
-      this.form.another = false;
-      this.submit();
+      this.form.another = false
+      this.submit()
     },
     submit() {
-      this.sending = true;
+      this.sending = true
       this.$inertia
-        .post(this.route("services.store"), this.form)
-        .then(() => (this.sending = false));
+        .post(this.route('services.store'), this.form)
+        .then(() => (this.sending = false))
     },
   },
-};
+}
 </script>

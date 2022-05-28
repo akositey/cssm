@@ -17,7 +17,7 @@ Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('hom
 
 Route::resource('survey', SurveyController::class)->middleware('auth');
 
-Route::prefix('admin')->middleware('auth', 'admin')->group(function () { //TODO: middleware should be role:admin
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () { //TODO: middleware should be role:admin
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/stats/office', [DashboardController::class, 'officeStats'])->name('dashboard.office');
 

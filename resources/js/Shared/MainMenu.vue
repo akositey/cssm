@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Icon from "~/Shared/Icon";
+import Icon from '@/Shared/Icon'
 
 export default {
   components: {
@@ -39,12 +39,12 @@ export default {
   },
   methods: {
     isUrl(...urls) {
-      if (urls[0] === "") {
-        return this.url === "";
+      if (urls[0] === '') {
+        return this.url === ''
       }
 
-      return urls.filter((url) => this.url.startsWith(url)).length;
+      return urls.filter((url) => this.url.startsWith(url)).length
     },
   },
-};
+}
 </script>

@@ -9,20 +9,21 @@
   "license": "MIT",
   "require": {
     "php": "^7.3",
+    "ext-pdo_sqlite": "^7.4",
+    "ext-zip": "*",
     "fideloper/proxy": "^4.2",
     "fruitcake/laravel-cors": "^2.0",
     "guzzlehttp/guzzle": "^7.0.1",
-    "inertiajs/inertia-laravel": "^0.2.14",
+    "inertiajs/inertia-laravel": "^0.5.2",
     "intervention/image": "^2.5",
     "laravel/framework": "^8.0",
-    "laravel/jetstream": "^1.3",
+    "laravel/jetstream": "^2.0",
     "laravel/sanctum": "^2.6",
     "laravel/tinker": "^2.0",
     "nesk/puphpeteer": "^2.0",
     "spatie/laravel-image-optimizer": "^1.6",
     "symfony/filesystem": "^5.2",
-    "tightenco/ziggy": "^0.9.4",
-    "ext-zip": "*"
+    "tightenco/ziggy": "^1.4"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
@@ -42,7 +43,9 @@
   },
   "extra": {
     "laravel": {
-      "dont-discover": []
+      "dont-discover": [
+        "barryvdh/laravel-ide-helper"
+      ]
     }
   },
   "autoload": {

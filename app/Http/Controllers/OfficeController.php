@@ -104,7 +104,7 @@ class OfficeController extends Controller
             ])
         );
 
-        return redirect(route('offices.index'))->with('success', 'Office Successfully Updated');
+        return redirect(route('offices.index'), 303)->with('success', 'Office Successfully Updated');
     }
 
     /**

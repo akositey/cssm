@@ -17,6 +17,7 @@ class DashboardController extends Controller
     public function index(Request $request): \Inertia\Response
     {
         $filters = $request->only('month');
+//        dd($filters);
 
         // offices with most feedback
         $mostFeedback = Office::all()->transform(function ($office) use ($filters) {
@@ -26,7 +27,6 @@ class DashboardController extends Controller
                 'feedbackCount' => $office->feedback()->filter($filters)->count()
             ];
         })->sortBy('feedbackCount')->reverse()->toArray();
-        // dd(array_values($mostFeedback));
 
         $data = [
             'filters' => $filters,
@@ -48,7 +48,6 @@ class DashboardController extends Controller
             'data' => []
         ];
         if (!empty($filters['office'])) {
-            // dd($filters['office'], Office::find($filters['office']));
             $dashboardData = new DashboardData(Office::find($filters['office']));
 
             # stats within a specific month
@@ -62,7 +61,7 @@ class DashboardController extends Controller
             return response()->json($chartData);
 
         }
-        // dd($chartData);
+
         return response()->json($chartData);
 
     }

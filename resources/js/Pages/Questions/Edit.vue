@@ -98,11 +98,11 @@
 </template>
 
 <script>
-import AppLayout from "~/Layouts/AppLayout";
-import LoadingButton from "~/Shared/LoadingButton";
-import SelectInput from "~/Shared/SelectInput";
-import TextInput from "~/Shared/TextInput";
-import TrashedMessage from "~/Shared/TrashedMessage";
+import AppLayout from '@/Layouts/AppLayout'
+import LoadingButton from '@/Shared/LoadingButton'
+import SelectInput from '@/Shared/SelectInput'
+import TextInput from '@/Shared/TextInput'
+import TrashedMessage from '@/Shared/TrashedMessage'
 
 export default {
   components: {
@@ -117,7 +117,7 @@ export default {
     question: { type: Object, default: () => {} },
     questions: { type: Array, default: () => [] },
   },
-  remember: "form",
+  remember: 'form',
   data() {
     return {
       sending: false,
@@ -126,20 +126,20 @@ export default {
         is_required: this.question.is_required,
         type: this.question.type,
       },
-    };
+    }
   },
   methods: {
     submit() {
-      this.sending = true;
+      this.sending = true
       this.$inertia
-        .patch(this.route("questions.update", this.question.id), this.form)
-        .then(() => (this.sending = false));
+        .patch(this.route('questions.update', this.question.id), this.form)
+        .then(() => (this.sending = false))
     },
     destroy() {
-      if (confirm("Are you sure you want to delete this question?")) {
-        this.$inertia.delete(this.route("questions.destroy", this.question.id));
+      if (confirm('Are you sure you want to delete this question?')) {
+        this.$inertia.delete(this.route('questions.destroy', this.question.id))
       }
     },
   },
-};
+}
 </script>

@@ -34,9 +34,9 @@
     </tr>
     <tr class="border">
       <th
-        class="border border-black"
         v-for="num in 5"
         :key="num"
+        class="border border-black"
         width="30"
       >
         {{ num }}
@@ -44,9 +44,9 @@
     </tr>
     <tr class="border">
       <th
-        class="border border-black"
         v-for="letter in ['P','F','S','VS','O']"
         :key="letter"
+        class="border border-black"
         width="30"
       >
         {{ letter }}

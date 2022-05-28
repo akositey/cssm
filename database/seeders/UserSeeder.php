@@ -12,7 +12,7 @@ class UserSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         \App\Models\User::create([
             'name' => 'Administrator',
@@ -66,7 +66,7 @@ class UserSeeder extends Seeder
         ];
         foreach ($boundDevices as $officeAbbr => $serial) {
             //find office
-            $officeMatch = \App\Models\Office::where('abbr', $officeAbbr)->first();
+            $officeMatch = \App\Models\Office::whereRaw(sprintf("UPPER(abbr) = '%s'", strtoupper($officeAbbr)))->first();
             if ($officeMatch) {
                 //create user
                 \App\Models\User::create([
@@ -83,7 +83,7 @@ class UserSeeder extends Seeder
         }
 
         \App\Models\User::create([
-            'name' => 'JENNIFER D. NASI',
+            'name' => 'JENNI D. NAS',
             'position' => 'Administrative Aide IV',
             'username' => 'jenn',
             'email' => '',

@@ -13,8 +13,9 @@ class DevSeeder extends Seeder
      * Seed the application's database.
      *
      * @return void
+     * @throws \Exception
      */
-    public function run()
+    public function run(): void
     {
         //test admin
         \App\Models\Office::create([
@@ -38,28 +39,29 @@ class DevSeeder extends Seeder
             \App\Models\Service::create($service);
         }
 
-        $feedback = Feedback::factory()->count(5000)->create();
+        $dummyFeedbackCount = 10000;
+        $feedback = Feedback::factory()->count($dummyFeedbackCount)->create();
         $maxQuestions = Question::all()->count();
         foreach ($feedback as $f) {
             $mandatoryAnswers = [[
                 'feedback_id' => $f->id,
                 'question_id' => 1,
-                'answer' => rand(1, 5)
+                'answer' => random_int(1, 5)
             ], [
                 'feedback_id' => $f->id,
                 'question_id' => 2,
-                'answer' => rand(1, 5)
+                'answer' => random_int(1, 5)
             ], [
                 'feedback_id' => $f->id,
                 'question_id' => 3,
-                'answer' => rand(1, 5)
+                'answer' => random_int(1, 5)
             ]];
             foreach ($mandatoryAnswers as $answer) {
                 FeedbackAnswers::factory()->create($answer);
             }
             $answeredQuestions = [];
-            for ($i = 0; $i < rand(1, $maxQuestions); $i++) {
-                $randomNumber = rand(4, $maxQuestions);
+            for ($i = 0; $i < random_int(1, $maxQuestions); $i++) {
+                $randomNumber = random_int(4, $maxQuestions);
                 $exists = isset($answeredQuestions[$randomNumber]);
                 if (!$exists) {
                     $answeredQuestions[$randomNumber] = $randomNumber;

@@ -33,7 +33,7 @@
       </button>
     </div>
     <div
-      v-if="($page.props.flash.error || Object.keys($page.props.errors).length > 0) && show"
+      v-if="($page.props.flash.error || ($page.props.errors && Object.keys($page.props.errors).length > 0)) && show"
       class="flex items-center justify-between w-full mb-8 bg-red-500 rounded"
     >
       <div class="flex items-center">
@@ -51,7 +51,7 @@
           {{ $page.props.flash.error }}
         </div>
         <div
-          v-else
+          v-if="$page.props.flash.errors"
           class="py-4 text-sm font-medium text-white"
         >
           <span v-if="Object.keys($page.props.errors).length === 1">There is one form error.</span>
@@ -104,29 +104,31 @@
 </template>
 
 <script>
+import { nextTick } from 'vue'
+
 export default {
   data() {
     return {
-      show: true,
-    };
+      show: false,
+    }
   },
   watch: {
-    "$page.props.flash": {
+    '$page.props.flash': {
       handler() {
-        this.show = true;
+        this.show = true
       },
       deep: true,
     },
   },
   mounted() {
-    this.$nextTick(function () {
+    nextTick().then(()=>{
       //after 10 seconds, hide bigSuccess
       if (this.$page.props.flash.bigSuccess) {
         setTimeout(() => {
-          this.show = false;
-        }, 10000);
+          this.show = false
+        }, 10000)
       }
-    });
+    })
   },
-};
+}
 </script>

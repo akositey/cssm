@@ -23,7 +23,7 @@
             <img
               :src="'/'+feedback.commentsImgPath"
               alt=""
-            >
+            />
           </div>
           <div>
             <textarea-input
@@ -68,10 +68,10 @@
 </template>
 
 <script>
-import AppLayout from "~/Layouts/AppLayout";
-import PageSection from "~/Shared/Section";
-import LoadingButton from "~/Shared/LoadingButton";
-import TextareaInput from "~/Shared/TextareaInput";
+import AppLayout from '@/Layouts/AppLayout'
+import PageSection from '@/Shared/Section'
+import LoadingButton from '@/Shared/LoadingButton'
+import TextareaInput from '@/Shared/TextareaInput'
 
 export default {
   components: {
@@ -84,7 +84,7 @@ export default {
     errors: { type: Object, default: () => {} },
     feedback: { type: Object, default: () => {} },
   },
-  remember: "form",
+  remember: 'form',
   data() {
     return {
       sending: false,
@@ -93,20 +93,20 @@ export default {
         positiveComments: this.feedback.positiveComments,
         negativeComments: this.feedback.negativeComments,
       },
-    };
+    }
   },
   methods: {
     saveEmpty(){
-      this.form.positiveComments='--none--';
-      this.form.negativeComments='--none--';
-      this.submit();
+      this.form.positiveComments='--none--'
+      this.form.negativeComments='--none--'
+      this.submit()
     },
     submit() {
-      this.sending = true;
+      this.sending = true
       this.$inertia
-        .patch(this.route("feedback.update", this.feedback.id), this.form)
-        .then(() => (this.sending = false));
+        .patch(this.route('feedback.update', this.feedback.id), this.form)
+        .then(() => (this.sending = false))
     },
   },
-};
+}
 </script>

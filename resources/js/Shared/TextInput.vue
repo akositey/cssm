@@ -1,36 +1,61 @@
 <template>
   <div>
-    <label v-if="label" class="form-label" :for="id">{{ label }}:</label>
-    <input :id="id" ref="input" v-bind="$attrs" class="form-input" :class="{ error: error }" :type="type" :value="value" @input="$emit('input', $event.target.value)">
-    <div v-if="error" class="form-error">
+    <label
+      v-if="label"
+      class="form-label"
+      :for="id"
+    >{{ label }}:</label>
+    <input
+      :id="id"
+      ref="input"
+      class="form-input"
+      :class="{ error: error }"
+      :type="type"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
+    />
+    <div
+      v-if="error"
+      class="form-error"
+    >
       {{ error }}
     </div>
   </div>
 </template>
 
 <script>
+import {v4 as uuid} from 'uuid'
+import {useAttrs} from "vue";
+
 export default {
-  inheritAttrs: false,
   props: {
     id: {
       type: String,
       default() {
-        return `text-input-${this._uid}`
+        return `text-input-${uuid()}`
       },
     },
     type: {
       type: String,
       default: 'text',
     },
-    value:  {
-      type: String, default: ()=>{}
+    modelValue: {
+      type: String, default: () => {
+      },
     },
     label: {
-      type: String, default: ()=>{}
+      type: String, default: () => {
+      },
     },
     error: {
-      type: String, default: ()=>{}
+      type: String, default: () => {
+      },
     },
+  },
+  emits: ['update:modelValue'],
+  setup() {
+    const attrs = useAttrs();
+    return {attrs}
   },
   methods: {
     focus() {

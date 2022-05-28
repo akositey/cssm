@@ -1,6 +1,7 @@
 module.exports = {
-  plugins: [require("precss"), require("autoprefixer")],
-  // postcssOptions: {
-  //   plugins: [require("precss"), require("autoprefixer")],
-  // },
-};
+  plugins: {
+    'postcss-import': {},
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}

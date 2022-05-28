@@ -84,10 +84,10 @@
 </template>
 
 <script>
-import AppLayout from "./../../Layouts/AppLayout";
-import LoadingButton from "./../../Shared/LoadingButton";
-import SelectInput from "./../../Shared/SelectInput";
-import TextInput from "./../../Shared/TextInput";
+import AppLayout from './../../Layouts/AppLayout'
+import LoadingButton from './../../Shared/LoadingButton'
+import SelectInput from './../../Shared/SelectInput'
+import TextInput from './../../Shared/TextInput'
 
 export default {
   components: {
@@ -100,7 +100,7 @@ export default {
     errors: { type: Object, default: () => {} },
     offices: { type: Object, default: () => {} },
   },
-  remember: "form",
+  remember: 'form',
   data() {
     return {
       sending: false,
@@ -109,15 +109,15 @@ export default {
         is_required: null,
         type: null,
       },
-    };
+    }
   },
   methods: {
     submit() {
-      this.sending = true;
+      this.sending = true
       this.$inertia
-        .post(this.route("offices.store"), this.form)
-        .then(() => (this.sending = false));
+        .post(this.route('offices.store'), this.form)
+        .then(() => (this.sending = false))
     },
   },
-};
+}
 </script>

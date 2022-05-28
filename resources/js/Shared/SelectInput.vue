@@ -1,47 +1,63 @@
 <template>
   <div>
-    <label v-if="label" class="form-label" :for="id">{{ label }}:</label>
-    <select :id="id" ref="input" v-model="selectedOption" v-bind="$attrs" class="form-select" :class="{ error: error }">
+    <label
+      v-if="label"
+      class="form-label"
+      :for="id"
+    >{{ label }}:</label>
+    <select
+      :id="id"
+      ref="input"
+      :value="modelValue"
+      class="form-select"
+      :class="{ error: error }"
+      @change="$emit('update:modelValue', $event.target.value)"
+    >
       <slot />
     </select>
-    <div v-if="error" class="form-error">
+    <div
+      v-if="error"
+      class="form-error"
+    >
       {{ error }}
     </div>
   </div>
 </template>
 
 <script>
+import { v4 as uuid } from 'uuid'
+
 export default {
-  inheritAttrs: false,
   props: {
     id: {
       type: String,
       default() {
-        return `select-input-${this._uid}`
+        return `select-input-${uuid()}`
       },
     },
-    value: {
+    modelValue: {
       type: [String, Number, Boolean],
-      default: () => {} 
+      default: () => {},
     },
     label: {
-      type: [String, Boolean], default: null
+      type: [String, Boolean], default: null,
     },
     error: {
-      type: [String, Boolean], default: null
+      type: [String, Boolean], default: null,
     },
   },
+  emits: ['input'],
   data() {
     return {
-      selected: this.value,
+      selected: this.modelValue,
     }
   },
-  computed: {
-    selectedOption: {
-      get() { return this.value},
-      set(selectedOption) { this.$emit('input', selectedOption)}
-    }
-  },
+  // computed: {
+  //   selectedOption: {
+  //     get() { return this.modelValue},
+  //     set(selectedOption) { this.$emit('update:modelValue', selectedOption)},
+  //   },
+  // },
   methods: {
     focus() {
       this.$refs.input.focus()

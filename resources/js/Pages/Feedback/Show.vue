@@ -39,37 +39,37 @@
             <img
               :src="'/'+feedback.signatureImgPath"
               alt=""
-            >
+            />
           </div>
         </div>
       </page-section>
       <page-section
-        class=""
         v-for="(set,type) of answers"
         :key="type"
+        class=""
       >
         <h2 class="section-header">
           {{ type }}
         </h2>
         <div
-          class="grid grid-cols-3"
           v-for="(answer,x) of set"
           :key="x"
+          class="grid grid-cols-3"
         >
           <div class="col-span-2">
             {{ x+1 }}. {{ answer.question }}
           </div>
           <div
-            class="col-span-1 m-auto "
             v-if="type==='Mandatory'"
+            class="col-span-1 m-auto "
           >
             <star-rating :rating="+answer.answer" />
           </div>
         </div>
       </page-section>
       <page-section
-        class=""
         v-if="feedback.commentsImgPath"
+        class=""
       >
         <h2 class="section-header">
           Additional Comments / Suggestions
@@ -78,7 +78,7 @@
           <img
             :src="'/'+feedback.commentsImgPath"
             alt=""
-          >
+          />
         </div>
         <div class="w-full text-right">
           <div
@@ -114,9 +114,9 @@
 </template>
 
 <script>
-import AppLayout from "~/Layouts/AppLayout";
-import PageSection from "~/Shared/Section";
-import StarRating from "~/Shared/StarRating";
+import AppLayout from '@/Layouts/AppLayout'
+import PageSection from '@/Shared/Section'
+import StarRating from '@/Shared/StarRating'
 export default {
   components: {
     AppLayout,
@@ -133,5 +133,5 @@ export default {
       default: () => {},
     },
   },
-};
+}
 </script>

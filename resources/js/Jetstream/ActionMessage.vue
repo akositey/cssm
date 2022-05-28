@@ -1,15 +1,22 @@
-<template>
-    <div>
-        <transition leave-active-class="transition ease-in duration-1000" leave-class="opacity-100" leave-to-class="opacity-0">
-            <div v-show="on" class="text-sm text-gray-600">
-                <slot />
-            </div>
-        </transition>
-    </div>
-</template>
-
-<script>
-    export default {
-        props: ['on'],
-    }
+<script setup>
+defineProps({
+  on: Boolean,
+})
 </script>
+
+<template>
+  <div>
+    <transition
+      leaveActiveClass="transition ease-in duration-1000"
+      leaveFromClass="opacity-100"
+      leaveToClass="opacity-0"
+    >
+      <div
+        v-show="on"
+        class="text-sm text-gray-600"
+      >
+        <slot />
+      </div>
+    </transition>
+  </div>
+</template>

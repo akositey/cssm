@@ -8,83 +8,85 @@
             <!-- Logo -->
             <div class="flex items-center flex-shrink-0">
               <inertia-link :href="route('dashboard')">
-                <logo class="block w-auto h-10" />
+                <Logo class="block w-auto h-10" />
               </inertia-link>
             </div>
 
             <!-- Navigation Links -->
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-              <jet-nav-link
+              <JetNavLink
                 :href="route('dashboard')"
-                :active="$page.props.currentRouteName == 'dashboard'"
+                :active="route().current() === 'dashboard'"
               >
                 Dashboard
-              </jet-nav-link>
+              </JetNavLink>
             </div>
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-              <jet-nav-link
+              <JetNavLink
                 :href="route('feedback.index')"
-                :active="$page.props.currentRouteName == 'feedback.index'"
+                :active="route().current() === 'feedback.index'"
               >
                 Feedback
-              </jet-nav-link>
+              </JetNavLink>
             </div>
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-              <jet-nav-link
+              <JetNavLink
                 :href="route('offices.index')"
-                :active="$page.props.currentRouteName == 'offices.index'"
+                :active="route().current() === 'offices.index'"
               >
                 Offices
-              </jet-nav-link>
+              </JetNavLink>
             </div>
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-              <jet-nav-link
+              <JetNavLink
                 :href="route('services.index')"
-                :active="$page.props.currentRouteName == 'services.index'"
+                :active="route().current() === 'services.index'"
               >
                 Services
-              </jet-nav-link>
+              </JetNavLink>
             </div>
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-              <jet-nav-link
+              <JetNavLink
                 :href="route('questions.index')"
-                :active="$page.props.currentRouteName == 'questions.index'"
+                :active="route().current() === 'questions.index'"
               >
                 Questions
-              </jet-nav-link>
+              </JetNavLink>
             </div>
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-              <jet-nav-link
+              <JetNavLink
                 :href="route('reports.index')"
-                :active="$page.props.currentRouteName == 'reports.index'"
+                :active="route().current() === 'reports.index'"
               >
                 Reports
-              </jet-nav-link>
+              </JetNavLink>
             </div>
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-              <jet-nav-link
+              <JetNavLink
                 :href="route('signatories.index')"
-                :active="$page.props.currentRouteName == 'signatories.index'"
+                :active="route().current() === 'signatories.index'"
               >
                 Signatories
-              </jet-nav-link>
+              </JetNavLink>
             </div>
           </div>
 
           <!-- Settings Dropdown -->
           <div class="hidden sm:flex sm:items-center sm:ml-6">
             <div class="relative ml-3">
-              <jet-dropdown
+              <JetDropdown
                 align="right"
                 width="48"
               >
                 <template #trigger>
-                  <button class="flex text-sm transition duration-150 ease-in-out border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300">
+                  <button
+                    class="flex text-sm transition duration-150 ease-in-out border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300"
+                  >
                     <img
                       class="object-cover w-8 h-8 rounded-full"
                       :src="$page.props.user.profile_photo_url"
                       :alt="$page.props.user.name"
-                    >
+                    />
                   </button>
                 </template>
 
@@ -94,35 +96,35 @@
                     Manage Account
                   </div>
 
-                  <jet-dropdown-link href="/user/profile">
+                  <JetDropdownLink href="/user/profile">
                     Profile
-                  </jet-dropdown-link>
+                  </JetDropdownLink>
 
-                  <jet-dropdown-link
-                    href="/user/api-tokens"
+                  <JetDropdownLink
                     v-if="$page.props.jetstream.hasApiFeatures"
+                    href="/user/api-tokens"
                   >
                     API Tokens
-                  </jet-dropdown-link>
+                  </JetDropdownLink>
 
                   <div class="border-t border-gray-100" />
 
                   <!-- Authentication -->
                   <form @submit.prevent="logout">
-                    <jet-dropdown-link as="button">
+                    <JetDropdownLink as="button">
                       Logout
-                    </jet-dropdown-link>
+                    </JetDropdownLink>
                   </form>
                 </template>
-              </jet-dropdown>
+              </JetDropdown>
             </div>
           </div>
 
           <!-- Hamburger -->
           <div class="flex items-center -mr-2 sm:hidden">
             <button
-              @click="showingNavigationDropdown = ! showingNavigationDropdown"
               class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
+              @click="showingNavigationDropdown = !showingNavigationDropdown"
             >
               <svg
                 class="w-6 h-6"
@@ -131,14 +133,20 @@
                 viewBox="0 0 24 24"
               >
                 <path
-                  :class="{'hidden': showingNavigationDropdown, 'inline-flex': ! showingNavigationDropdown }"
+                  :class="{
+                    hidden: showingNavigationDropdown,
+                    'inline-flex': !showingNavigationDropdown,
+                  }"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
                   d="M4 6h16M4 12h16M4 18h16"
                 />
                 <path
-                  :class="{'hidden': ! showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }"
+                  :class="{
+                    hidden: !showingNavigationDropdown,
+                    'inline-flex': showingNavigationDropdown,
+                  }"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
@@ -152,16 +160,19 @@
 
       <!-- Responsive Navigation Menu -->
       <div
-        :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}"
+        :class="{
+          block: showingNavigationDropdown,
+          hidden: !showingNavigationDropdown,
+        }"
         class="sm:hidden"
       >
         <div class="pt-2 pb-3 space-y-1">
-          <jet-responsive-nav-link
+          <JetResponsiveNavLink
             :href="route('dashboard')"
-            :active="$page.props.currentRouteName == 'dashboard'"
+            :active="route().current() === 'dashboard'"
           >
             Dashboard
-          </jet-responsive-nav-link>
+          </JetResponsiveNavLink>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -172,7 +183,7 @@
                 class="w-10 h-10 rounded-full"
                 :src="$page.props.user.profile_photo_url"
                 :alt="$page.props.user.name"
-              >
+              />
             </div>
 
             <div class="ml-3">
@@ -186,29 +197,29 @@
           </div>
 
           <div class="mt-3 space-y-1">
-            <jet-responsive-nav-link
+            <JetResponsiveNavLink
               href="/user/profile"
-              :active="$page.props.currentRouteName == 'profile.show'"
+              :active="route().current() === 'profile.show'"
             >
               Profile
-            </jet-responsive-nav-link>
+            </JetResponsiveNavLink>
 
-            <jet-responsive-nav-link
-              href="/user/api-tokens"
-              :active="$page.props.currentRouteName == 'api-tokens.index'"
+            <JetResponsiveNavLink
               v-if="$page.props.jetstream.hasApiFeatures"
+              href="/user/api-tokens"
+              :active="route().current() === 'api-tokens.index'"
             >
               API Tokens
-            </jet-responsive-nav-link>
+            </JetResponsiveNavLink>
 
             <!-- Authentication -->
             <form
               method="POST"
               @submit.prevent="logout"
             >
-              <jet-responsive-nav-link as="button">
+              <JetResponsiveNavLink as="button">
                 Logout
-              </jet-responsive-nav-link>
+              </JetResponsiveNavLink>
             </form>
 
             <!-- Team Management -->
@@ -220,19 +231,19 @@
               </div>
 
               <!-- Team Settings -->
-              <jet-responsive-nav-link
+              <JetResponsiveNavLink
                 :href="'/teams/' + $page.props.user.current_team.id"
-                :active="$page.props.currentRouteName == 'teams.show'"
+                :active="route().current() === 'teams.show'"
               >
                 Team Settings
-              </jet-responsive-nav-link>
+              </JetResponsiveNavLink>
 
-              <jet-responsive-nav-link
+              <JetResponsiveNavLink
                 href="/teams/create"
-                :active="$page.props.currentRouteName == 'teams.create'"
+                :active="route().current() === 'teams.create'"
               >
                 Create New Team
-              </jet-responsive-nav-link>
+              </JetResponsiveNavLink>
 
               <div class="border-t border-gray-200" />
 
@@ -241,15 +252,17 @@
                 Switch Teams
               </div>
 
-              <template v-for="team in $page.props.user.all_teams">
+              <template
+                v-for="team in $page.props.user.all_teams"
+                :key="team.id"
+              >
                 <form
                   @submit.prevent="switchToTeam(team)"
-                  :key="team.id"
                 >
-                  <jet-responsive-nav-link as="button">
+                  <JetResponsiveNavLink as="button">
                     <div class="flex items-center">
                       <svg
-                        v-if="team.id == $page.props.user.current_team_id"
+                        v-if="team.id === $page.props.user.current_team_id"
                         class="w-5 h-5 mr-2 text-green-400"
                         fill="none"
                         stroke-linecap="round"
@@ -258,11 +271,13 @@
                         stroke="currentColor"
                         viewBox="0 0 24 24"
                       >
-                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <path
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
                       </svg>
                       <div>{{ team.name }}</div>
                     </div>
-                  </jet-responsive-nav-link>
+                  </JetResponsiveNavLink>
                 </form>
               </template>
             </template>
@@ -283,38 +298,34 @@
             <slot name="header" />
           </h1>
         </header>
-
-        <flash-messages />
-        <error-boundary>
-          <div>
-            <slot />
-          </div>
-        </error-boundary>
+        <!--        <pre>-->
+        <!--        {{ $page }}-->
+        <!--        </pre>-->
+        <FlashMessages />
+        <!--        <ErrorBoundary>-->
+        <div>
+          <slot />
+        </div>
+        <!--        </ErrorBoundary>-->
       </div>
     </main>
 
     <!-- Modal Portal -->
-    <portal-target
-      name="modal"
-      multiple
-    />
+    <div id="modal" />
 
     <!-- Dropdown Portal -->
-    <portal-target
-      name="dropdown"
-      slim
-    />
+    <div id="dropdown" />
   </div>
 </template>
 
 <script>
-import Logo from "~/Shared/DefaultLogo";
-import JetDropdown from "~/Jetstream/Dropdown";
-import JetDropdownLink from "~/Jetstream/DropdownLink";
-import JetNavLink from "~/Jetstream/NavLink";
-import JetResponsiveNavLink from "~/Jetstream/ResponsiveNavLink";
-import FlashMessages from "~/Shared/FlashMessages";
-import ErrorBoundary from "~/Shared/ErrorBoundary";
+import Logo from '@/Shared/DefaultLogo.vue'
+import JetDropdown from '@/Jetstream/Dropdown.vue'
+import JetDropdownLink from '@/Jetstream/DropdownLink.vue'
+import JetNavLink from '@/Jetstream/NavLink.vue'
+import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue'
+import FlashMessages from '@/Shared/FlashMessages.vue'
+import ErrorBoundary from '@/Shared/ErrorBoundary.vue'
 
 export default {
   components: {
@@ -330,31 +341,31 @@ export default {
   data() {
     return {
       showingNavigationDropdown: false,
-    };
+    }
+  },
+
+  computed: {
+    path() {
+      return window.location.pathname
+    },
   },
 
   methods: {
     switchToTeam(team) {
       this.$inertia.put(
-        "/current-team",
+        '/current-team',
         {
           team_id: team.id,
         },
         {
           preserveState: false,
-        }
-      );
+        },
+      )
     },
 
     logout() {
-      this.$inertia.post(this.route("logout"));
+      this.$inertia.post(this.route('logout'))
     },
   },
-
-  computed: {
-    path() {
-      return window.location.pathname;
-    },
-  },
-};
+}
 </script>

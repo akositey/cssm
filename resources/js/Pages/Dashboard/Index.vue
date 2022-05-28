@@ -1,17 +1,18 @@
 <template>
-  <app-layout>
+  <AppLayout>
     <template #header>
-      Dashboard
+      <div>Dashboard</div>
     </template>
 
+    <!-- Date filter form  -->
     <div class="flex justify-between">
       <form @submit.prevent="filter">
         <div class="grid grid-cols-5">
-          <date-input
+          <DateInput
+            v-model="filterForm.month"
             type="month"
             format="YYYY-MM"
-            v-model="filterForm.month"
-            class="pr-6 "
+            class="pr-6"
             label="Month"
           />
           <div class="flex items-end">
@@ -25,6 +26,7 @@
         </div>
       </form>
     </div>
+
     <div class="flex justify-between my-4">
       <div class="grid w-full grid-cols-3">
         <div class="col-span-1">
@@ -47,10 +49,12 @@
               </div>
             </div>
             <div
-              class="flex bg-white border-t border-l cursor-pointer"
-              :class="{'text-white bg-indigo-600':chartForm.office===row.id}"
-              v-for="(row,i) in mostFeedback"
+              v-for="(row, i) in mostFeedback"
               :key="i"
+              class="flex bg-white border-t border-l cursor-pointer"
+              :class="{
+                'text-white bg-indigo-600': chartForm.office === row.id,
+              }"
               @click="selectOffice(row.id)"
             >
               <div class="w-1/12 px-2 py-1 border-b border-r">
@@ -66,23 +70,21 @@
           </div>
         </div>
         <div class="col-span-2">
-          <line-chart
-            v-show="chartLoaded"
+          <LineChart
+            v-if="chartLoaded"
             :chartData="chartData"
-            :options="chartOptions"
           />
         </div>
       </div>
     </div>
-  </app-layout>
+  </AppLayout>
 </template>
 
 <script>
-import AppLayout from "~/Layouts/AppLayout";
-import DateInput from "~/Shared/DateInput";
-import LineChart from "./LineChart";
-import axios from "axios";
-import {CHART_COLORS} from "../../Shared/colors";
+import AppLayout from '@/Layouts/AppLayout'
+import DateInput from '@/Shared/DateInput'
+import LineChart from '@/Shared/Charts/LineChart'
+import axios from 'axios'
 
 export default {
   components: {
@@ -93,18 +95,20 @@ export default {
   props: {
     mostFeedback: {
       type: Array,
-      default: () => {
-      },
+      default: () => {},
     },
     filters: {
-      type: [Object, Array], default: () => {
-      }
+      type: [Object, Array],
+      default: () => {},
     },
-    // chartData: {
-    //   type: Object,
-    //   default: null,
-    // },
   },
+  // setup(props){
+  //   const filterForm = useForm({
+  //     month: props.filters.month,
+  //   })
+  //
+  //   return {filterForm}
+  // },
   data() {
     return {
       filterForm: {
@@ -116,84 +120,53 @@ export default {
       },
       chartLoaded: false,
       chartData: null,
-      chartOptions: null,
-      chartGradients: [],
-    };
+    }
   },
-  watch: {},
-  mounted() {
-    // this.$nextTick(function () {
-    // });
-  },
-  computed: {
-    borderColors(){
-      return Object.keys(CHART_COLORS);
+  watch:{
+    filterForm(){
+      console.log(this.filterForm)
+    },
+    filters(){
+      console.log(this.filters)
     },
   },
   methods: {
     filter() {
-      this.$inertia.replace(this.route("dashboard"), {
-        data: this.filterForm,
-      });
+      console.log(this.filterForm)
+
+      this.$inertia.get(this.route('dashboard'), this.filterForm, {replace: true})
     },
     selectOffice(id) {
-      this.chartForm.month = this.filterForm.month;
-      this.chartForm.office = id;
+      this.chartForm.month = this.filterForm.month
+      this.chartForm.office = id
+
+      // this.$inertia.post(this.route('dashboard'), this.chartForm, {
+      //   onSuccess: (page) => {
+      //
+      //   },
+      // })
 
       axios
-        .post(this.route("dashboard.office"), this.chartForm, {
+        .post(this.route('dashboard.office'), this.chartForm, {
           headers: {
-            "X-CSRF-TOKEN": document.head.querySelector(
-              'meta[name="csrf-token"]'
+            'X-CSRF-TOKEN': document.head.querySelector(
+              'meta[name="csrf-token"]',
             ).content,
-            "X-Requested-With": "XMLHttpRequest",
+            'X-Requested-With': 'XMLHttpRequest',
           },
         })
         .then((response) => {
-          this.sending = false;
-          this.chartLoaded = true;
-          if (this.chartGradients.length === 0) {
-            this.applyGradient();
-          }
+          this.sending = false
+          this.chartLoaded = true
 
-          const datasets = response.data.datasets.map((set, i) => {
-            return {
-              ...set,
-              backgroundColor: this.chartGradients[i],
-              borderColor: this.borderColors[i],
-              pointBackgroundColor: "white",
-            }
-          });
-
-          (this.chartData = {
-            labels: response.data.labels,
-            datasets: datasets
-          }),
-            (this.chartOptions = {
-              responsive: true,
-              maintainAspectRatio: false,
-            });
+          this.chartData = response.data
         })
         .catch((e) => {
-          this.sending = false;
-          console.log("error", e);
-          console.log("error.response", e.response);
-        });
-    },
-    applyGradient() {
-      Object.values(CHART_COLORS).map((colorStops) => {
-        let chartGradient = document
-          .querySelector("canvas")
-          .getContext("2d")
-          .createLinearGradient(0, 0, 0, 450);
-
-        for (let i = 0; i < colorStops.length; i++) {
-          chartGradient.addColorStop((i/colorStops.length), colorStops[i]);
-        }
-
-        this.chartGradients.push(chartGradient)
-      });
+          this.sending = false
+          console.log('error', e)
+          console.log('error.response', e.response)
+        })
     },
   },
-};
+}
 </script>

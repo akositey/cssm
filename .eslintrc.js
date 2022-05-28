@@ -4,40 +4,51 @@ module.exports = {
     node: true,
   },
   extends: [
-    "eslint:recommended",
-    "plugin:vue/strongly-recommended", //needs eslint-plugin-vue,
-    // "plugin:prettier-vue/recommended", //needs eslint-config-prettier,eslint-plugin-prettier-vue
-    // "prettier/vue" // use prettier for <template> block
+    'eslint:recommended',
+    'plugin:vue/vue3-recommended',
   ],
   parserOptions: {
-    parser: "babel-eslint", //needs babel-eslint
-    ecmaVersion: 2019,
-    sourceType: "module",
-    allowImportExportEverywhere: true,
+    ecmaVersion: 2020,
+    sourceType: 'module',
+    // allowImportExportEverywhere: true,
   },
-  plugins: ["vue"],
+  plugins: ['vue'],
   rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
-    "vue/max-attributes-per-line": [
-      2,
-      {
-        singleline: 20,
-        multiline: {
-          max: 1,
-          allowFirstLine: false,
-        },
-      },
+    indent: ['error', 2],
+    quotes: ['warn', 'single'],
+    semi: ['warn', 'never'],
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-unused-vars': ['error', { vars: 'all', args: 'after-used', ignoreRestSiblings: true }],
+    'comma-dangle': ['warn', 'always-multiline'],
+    'vue/max-attributes-per-line': [2, {
+      singleline: { max: 1},
+      multiline: { max: 1},
+    },
     ],
-    "vue/attribute-hyphenation": [
-      "error",
-      "never",
+    'vue/attribute-hyphenation': [
+      'error',
+      'never',
       {
         ignore: [],
       },
     ],
+    'vue/html-self-closing': [
+      'warn',
+      {
+        html: {
+          void: 'always',
+          normal: 'always',
+          component: 'always',
+        },
+      },
+    ],
+    'vue/multi-word-component-names': 'off',
   },
   settings: {
-    "import/resolver": "webpack.mix.js", //needs eslint-import-resolver-webpack
+    'import/resolver': 'webpack.mix.js', //needs eslint-import-resolver-webpack
   },
-};
+  globals: {
+    'route': 'writable'
+  }
+}

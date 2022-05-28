@@ -26,9 +26,9 @@
           <div class="w-1/4 h-5 m-auto bg-gray-300 rounded animate-pulse" />
         </td>
         <td
-          class="px-2 py-1 border "
           v-for="y in 5"
           :key="'dummy'+y+Math.random()"
+          class="px-2 py-1 border "
         >
           <div class="h-5 bg-gray-300 rounded animate-pulse" />
         </td>
@@ -44,9 +44,9 @@
           <div class="w-3/4 h-5 bg-gray-300 rounded animate-pulse" />
         </td>
         <td
-          class="px-2 py-1 border"
           v-for="y in 5"
           :key="'dummy2'+y+Math.random()"
+          class="px-2 py-1 border"
         >
           <div class="h-5 bg-gray-300 rounded animate-pulse" />
         </td>
@@ -56,9 +56,9 @@
           <div class="w-11/12 h-5 bg-gray-300 rounded animate-pulse" />
         </td>
         <td
-          class="px-2 py-1 border border-l-0 border-r-0 border-black"
           v-for="y in 5"
           :key="'dummy2'+y+Math.random()"
+          class="px-2 py-1 border border-l-0 border-r-0 border-black"
         >
           <div class="h-5 bg-gray-300 rounded animate-pulse" />
         </td>
@@ -94,21 +94,21 @@
   </table>
 </template>
 <script>
-import TableHead from './TableHead';
+import TableHead from './TableHead'
 export default {
   components:{
-    TableHead
+    TableHead,
   },
   props: {
     rows: {
       type: Number,
-      default: 1
-    }
+      default: 1,
+    },
   },
   methods: {
     randomWidthClass(){
-      return 'w-'+(Math.floor(Math.random() * (12 - 3 + 1)) + 3)+'/12';
-    }
+      return 'w-'+(Math.floor(Math.random() * (12 - 3 + 1)) + 3)+'/12'
+    },
   },
 }
 </script>

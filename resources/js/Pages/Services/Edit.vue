@@ -80,11 +80,11 @@
 </template>
 
 <script>
-import AppLayout from "~/Layouts/AppLayout";
-import LoadingButton from "~/Shared/LoadingButton";
-import SelectInput from "~/Shared/SelectInput";
-import TextInput from "~/Shared/TextInput";
-import TrashedMessage from "~/Shared/TrashedMessage";
+import AppLayout from '@/Layouts/AppLayout'
+import LoadingButton from '@/Shared/LoadingButton'
+import SelectInput from '@/Shared/SelectInput'
+import TextInput from '@/Shared/TextInput'
+import TrashedMessage from '@/Shared/TrashedMessage'
 
 export default {
   components: {
@@ -99,7 +99,7 @@ export default {
     service: { type: Object, default: () => {} },
     offices: { type: Array, default: () => [] },
   },
-  remember: "form",
+  remember: 'form',
   data() {
     return {
       sending: false,
@@ -108,20 +108,20 @@ export default {
         office_id: this.service.office_id,
         is_active: this.service.is_active,
       },
-    };
+    }
   },
   methods: {
     submit() {
-      this.sending = true;
+      this.sending = true
       this.$inertia
-        .patch(this.route("services.update", this.service.id), this.form)
-        .then(() => (this.sending = false));
+        .patch(this.route('services.update', this.service.id), this.form)
+        .then(() => (this.sending = false))
     },
     destroy() {
-      if (confirm("Are you sure you want to delete this service?")) {
-        this.$inertia.delete(this.route("services.destroy", this.service.id));
+      if (confirm('Are you sure you want to delete this service?')) {
+        this.$inertia.delete(this.route('services.destroy', this.service.id))
       }
     },
   },
-};
+}
 </script>

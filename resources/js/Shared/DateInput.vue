@@ -5,17 +5,17 @@
       class="form-label"
       :for="id"
     >{{ label }}:</label>
-    <date-picker
+    <DatePicker
       :id="id"
       ref="input"
       v-bind="$attrs"
+      v-model:value="chosen"
       class="w-full"
       inputClass="form-input"
       valueType="format"
       :class="{ error: error }"
       :type="type"
       :inputAttr="{ required: isRequired}"
-      v-model="chosen"
     />
     <div
       v-if="error"
@@ -27,7 +27,10 @@
 </template>
 
 <script>
-import DatePicker from "vue2-datepicker";
+import DatePicker from 'vue-datepicker-next'
+import 'vue-datepicker-next/index.css'
+import { v4 as uuid } from 'uuid'
+
 export default {
   components: {
     DatePicker,
@@ -36,14 +39,14 @@ export default {
     id: {
       type: String,
       default() {
-        return `date-${this._uid}`;
+        return `date-${uuid()}`
       },
     },
     type: {
       type: String,
-      default: "date",
+      default: 'date',
     },
-    value: {
+    modelValue: {
       type: [String, Boolean],
       default: null,
     },
@@ -56,21 +59,22 @@ export default {
       default: null,
     },
   },
+  emits: ['update:modelValue'],
   data() {
     return {
-      chosen: this.value,
-      isRequired: this.$attrs.hasOwnProperty("required") ? true : false,
-    };
+      chosen: this.modelValue,
+      isRequired: this.$attrs.hasOwnProperty('required'),
+    }
   },
   watch: {
     chosen(chosen) {
-      this.$emit("input", chosen);
+      this.$emit('update:modelValue', chosen)
     },
   },
   methods: {
     focus() {
-      this.$refs.input.focus();
+      this.$refs.input.focus()
     },
   },
-};
+}
 </script>
